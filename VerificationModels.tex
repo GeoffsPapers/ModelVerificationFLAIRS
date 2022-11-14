@@ -1,0 +1,169 @@
+\documentclass[letterpaper]{article}
+\usepackage{flairs}%aaai
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+\frenchspacing
+\setlength{\pdfpagewidth}{8.5in}
+\setlength{\pdfpageheight}{11in}
+\pdfinfo{
+/Title (Verification and Visualization of Models in Logic)
+/Author (Geoff Sutcliffe, Alexander Steen, Pascal Fontaine, Jack McKeown)}
+\setcounter{secnumdepth}{2}  
+ \begin{document}
+% This file is an adoption of the style file for AAAI Press 
+% proceedings, working notes, and technical reports.  This file is made 
+% with minimal changes by explicit permission from AAAI.
+
+\title{Verification and Visualization of Models in Logic}
+\author{Anon One\\
+Some where\\
+Some place\\
+Some country\\
+\And
+Anon One\\
+Some where\\
+Some place\\
+Some country\\
+\And
+Anon One\\
+Some where\\
+Some place\\
+Some country\\
+\And
+Anon One\\
+Some where\\
+Some place\\
+Some country}
+
+\maketitle
+\begin{abstract}
+\begin{quote}
+FLAIRS asks that all papers in the publication have a uniform appearance, authors must adhere to the following instructions. 
+\end{quote}
+\end{abstract}
+
+%------------------------------------------------------------------------------
+\section{Formatting Requirements in Brief}
+
+\cite{Sut17}.
+
+
+%------------------------------------------------------------------------------
+\bibliographystyle{flairs}
+\bibliography{Bibliography.bib}
+%------------------------------------------------------------------------------
+\end{document}
+%------------------------------------------------------------------------------
+%% \section{Formatting Requirements in Brief}
+%% We need source and PDF files that can be used in a variety of ways and can be output on a variety of devices. FLAIRS imposes some requirements on your source and PDF files that must be followed. Most of these requirements are based on our efforts to standardize conference manuscript properties and layout. These requirements are as follows, and all papers submitted to FLAIRS for publication must comply:
+%% 
+%% \begin{itemize}
+%% \item Your .tex file must compile in PDF\LaTeX{} --- \textbf{ no .ps or .eps figure files.}
+%% \item All fonts must be embedded in the PDF file --- \textbf{ this includes your figures.}
+%% \item Modifications to the style sheet (or your document) in an effort to avoid extra page  are NOT allowed.
+%% \item No type 3 fonts may be used (even in illustrations).
+%% \item Your title must follow US capitalization rules.
+%% \item \LaTeX{} documents must use the Times or Nimbus font package (do not use Computer Modern for the text of your paper).
+%% \item Fonts that require non-English language support (CID and Identity-H) must be converted to outlines or removed from the document (even if they are in a graphics file embedded in the document). 
+%% \item Two-column format is required for all papers.
+%% \item The paper size for final submission must be US letter. No exceptions.
+%% \item The source file must exactly match the PDF.
+%% \item The document margins must be as specified in the formatting instructions.
+%% \item The number of pages and the file size must be as specified for your event.
+%% \item No document may be password protected.
+%% \item Neither the PDFs nor the source may contain any embedded links or bookmarks.
+%% \item Your source and PDF must not have any page numbers, footers, or headers.
+%% \item Your PDF must be compatible with Acrobat 5 or higher.
+%% \item Your \LaTeX{} source file (excluding references) must consist of a \textbf{single} file (use of the ``input" command is not allowed.
+%% \item Your graphics must be sized appropriately outside of \LaTeX{} (do not use the ``clip" command) .
+%% \end{itemize}
+%% 
+%% If you do not follow the above requirements, it is likely that we will be unable to publish your paper.
+%% 
+%% \section{What Files to Submit}
+%% You must submit the following items to ensure that your paper is published:
+%% \begin{itemize}
+%% \item A fully-compliant PDF file.
+%% \item Your  \LaTeX{}  source file submitted as a \textbf{single} .tex file (do not use the ``input" command to include sections of your paper --- every section must be in the single source file). The only exception is the bibliography, which you may include separately. Your source must compile on our system, which includes the standard \LaTeX{} support files.
+%% \item All your graphics files.
+%% \item The \LaTeX{}-generated files (e.g. .aux and .bib file, etc.) for your compiled source.
+%% \item All the nonstandard style files (ones not commonly found in standard \LaTeX{} installations) used in your document (including, for example, old algorithm style files). If in doubt, include it.
+%% \end{itemize}
+%% 
+%% Your \LaTeX{} source will be reviewed and recompiled on our system (if it does not compile, you may incur late fees).   \textbf{Do not submit your source in multiple text files.} Your single \LaTeX{} source file must include all your text, your bibliography (formatted using flairs.bst), and any custom macros. Accompanying this source file, you must also supply any nonstandard (or older) referenced style files and all your referenced graphics files. 
+%% 
+%% Your files should work without any supporting files (other than the program itself) on any computer with a standard \LaTeX{} distribution. Place your PDF and source files in a single tar, zipped, gzipped, stuffed, or compressed archive. Name your source file with your last (family) name.
+%% 
+%% \textbf{Do not send files that are not actually used in the paper.} We don't want you to send us any files not needed for compiling your paper, including, for example, this instructions file, unused graphics files, and so forth.  
+%% 
+%% \section{Using \LaTeX{} to Format Your Paper}
+%% 
+%% The latest version of the FLAIRS style file is available on FLAIRS's website. Download this file and place it in a file named ``flairs.sty" in the \TeX\ search path. Placing it in the same directory as the paper should also work. You must download the latest version.
+%% 
+%% The following packages are incompatible with flairs.sty and/or flairs.bst and must not be used (this list is not exhaustive --- there are others as well):
+%% \begin{itemize}
+%% \item hyperref
+%% \item natbib
+%% \item geometry
+%% \item titlesec
+%% \item layout
+%% \item caption
+%% \item titlesec
+%% \item T1 fontenc package (install the CM super fonts package instead)
+%% \end{itemize}
+%% 
+%% \subsection{Illegal Commands}
+%% The following commands may not be used in your paper:
+%% \begin{itemize}
+%% \item \textbackslash input
+%% \item \textbackslash vspace (when used before or after a section or subsection)
+%% \item \textbackslash addtolength 
+%% \item \textbackslash columnsep
+%% \item \textbackslash top margin (or text height or addsidemargin or even side margin)
+%% \end{itemize}
+%% 
+%% \subsection{Paper Size, Margins, and Column Width}
+%% Papers must be formatted to print in two-column format on 8.5 x 11 inch US letter-sized paper. The margins must be exactly as follows: 
+%% \begin{itemize}
+%% \item Top margin: .75 inches
+%% \item Left margin: .75 inches
+%% \item Right margin: .75 inches
+%% \item Bottom margin: 1.25 inches
+%% \end{itemize} 
+%% 
+%% 
+%% The default paper size in most installations of \LaTeX{} is A4. However, because we require that your electronic paper be formatted in US letter size, you will need to alter the default for this paper to US letter size. Assuming you are using the 2e version of \LaTeX{}, you can do this by including the [letterpaper] option at the beginning of your file: 
+%% \textbackslash documentclass[letterpaper]{article}. 
+%% 
+%% This command is usually sufficient to change the format. Sometimes, however, it may not work. Use PDF\LaTeX{} and include
+%% \textbackslash setlength\{\textbackslash pdfpagewidth\}\{8.5in\}
+%% \textbackslash setlength\{\textbackslash pdfpageheight\}\{11in\}
+%% in your preamble. 
+%% 
+%% \textbf{Do not use the Geometry package to alter the page size.} Use of this style file alters flairs.sty and will result in your paper being rejected. 
+%% 
+%% 
+%% \subsubsection{Column Width and Margins.}
+%% To ensure maximum readability, your paper must include two columns. Each column should be 3.3 inches wide (slightly more than 3.25 inches), with a .375 inch (.952 cm) gutter of white space between the two columns. The flairs.sty file will automatically create these columns for you. 
+%% 
+%% \subsection{Overlength Papers}
+%% If your paper is too long, turn on \textbackslash frenchspacing, which will reduce the space after periods. Next,  shrink the size of your graphics. Use \textbackslash centering instead of \textbackslash begin\{center\} in your figure environment. If these two methods don't work, you may minimally use the following. For floats (tables and figures), you may minimally reduce \textbackslash floatsep, \textbackslash textfloatsep, \textbackslash abovecaptionskip, and \textbackslash belowcaptionskip. For mathematical environments, you may minimally reduce \textbackslash abovedisplayskip, \textbackslash belowdisplayskip, and \textbackslash arraycolsep. You may also alter the size of your bibliography by inserting \textbackslash fontsize\{9.5pt\}\{10.5pt\} \textbackslash selectfont
+%% right before the bibliography. 
+%% 
+%% Commands that alter page layout are forbidden. These include \textbackslash columnsep, \textbackslash topmargin, \textbackslash topskip, \textbackslash textheight, \textbackslash textwidth, \textbackslash oddsidemargin, and \textbackslash evensizemargin (this list is not exhaustive). If you alter page layout, you will be required to pay the page fee \textit{plus} a reformatting fee. Other commands that are questionable and may cause your paper to be rejected include  \textbackslash parindent, and \textbackslash parskip. Commands that alter the space between sections are also questionable. The title sec package is not allowed. Regardless of the above, if your paper is obviously ``squeezed" it is not going to to be accepted. Before using every trick you know to make your paper a certain length, try reducing the size of your graphics or cutting text instead.
+%% 
+%% \subsection{Credits}
+%% Any credits to a sponsoring agency should appear in the acknowledgments section, unless the agency requires different placement. If it is necessary to include this information on the front page, use
+%% \textbackslash thanks in either the \textbackslash author or \textbackslash title commands.
+%% For example:
+%% \begin{quote}
+%% \begin{small}
+%% \textbackslash title\{Very Important Results in AI\textbackslash thanks\{This work is
+%%  supported by everybody.\}\}
+%% \end{small}
+%% \end{quote}
+%% Multiple \textbackslash thanks commands can be given. Each will result in a separate footnote indication in the author or title with the corresponding text at the botton of the first column of the document. Note that the \textbackslash thanks command is fragile. You will need to use \textbackslash protect.
+%% 
+%% Please do not include \textbackslash pubnote commands in your document.
+%% 
