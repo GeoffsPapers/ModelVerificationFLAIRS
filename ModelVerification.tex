@@ -39,22 +39,73 @@ Some country}
 \maketitle
 \begin{abstract}
 \begin{quote}
-FLAIRS asks that all papers in the publication have a uniform appearance, authors must adhere to the following instructions. 
 \end{quote}
 \end{abstract}
+%--------------------------------------------------------------------------------------------------
+\section{Background}
 
-%------------------------------------------------------------------------------
-\section{Formatting Requirements in Brief}
+Automated Reasoning (AR), and Automated Theorem Proving (ATP) in particular, has largely focussed
+on the task of proving theorems from axioms - the derivation of conclusions that follow inevitably 
+from known facts \cite{RV01-HAR}.
+The axioms and conjecture to be proved (and hence become a theorem) are written in an 
+appropriately expressive logic, and the proofs that are found are often similarly written in
+logic \cite{SS+06}.
+In this work we consider first-order \cite{Men87}, higher-order \cite{And86}, and some 
+non-classical \cite{Pri08} logics, whose expressive power is sufficient for a wide range of 
+topics \cite{Sut17}.
+In the last two decades the converse task of disproving conjectures, i.e., proving that a 
+conjecture is not a theorem of the axioms, has become increasingly important.
+The proof is in the form of a countermodel that provides an example interpretation of the
+formulae that makes the axioms {\em true} but the conjecture {\em false}.
+A salient application area that harnesses this form of ATP is verification \cite{DKW08}
+where countermodels are used to pinpoint the reason why a proof obligation fails, and
+correspondingly point to the location of the fault in the system being verified.
+Other applications include checking the consistency of an axiomatization \cite{SS+17}, and
+finding a solution to a problem that is coded as a model finding problem \cite{Win82}
+In addition to the ATP systems that find proofs, e.g., Vampire \cite{KV13}, Leo-III \cite{SB18},
+nanoCop-M \cite{Ott21}, and the ATP systems that find (counter)models, e.g., Paradox \cite{CS03},
+Nipick \cite{BN10-ITP}, WHATFORNONCLASSICAL \cite{}, there is a need for tools that support use of
+the proofs and models that are output by the ATP systems.
+This papers examines the tasks of verifying and visualizing models, and describes new tools for
+these tasks.
 
-\cite{Sut17}.
+TPTP World \cite{Sut17}.
 
+Model verification related work by Giles? Other? Pascal - know any from SMT?
 
-%------------------------------------------------------------------------------
+Visualization.
+No related work. Alex - know any (other than your student)?
+
+Paper structure.
+
+%--------------------------------------------------------------------------------------------------
+\section{TPTP Language}
+\label{TPTPLanguage}
+
+TXF language. Also can use THF, but all examples in TXF here.
+
+%--------------------------------------------------------------------------------------------------
+\section{Classical Interpretations}
+\label{Classical}
+
+%--------------------------------------------------------------------------------------------------
+\section{Kripke Interpretations}
+\label{Kripke}
+
+%--------------------------------------------------------------------------------------------------
+\section{Model Verification}
+\label{Verification}
+
+%--------------------------------------------------------------------------------------------------
+\section{Interpretation Visualization}
+\label{Visualization}
+
+%--------------------------------------------------------------------------------------------------
 \bibliographystyle{flairs}
 \bibliography{Bibliography.bib}
-%------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------
 \end{document}
-%------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------
 %% \section{Formatting Requirements in Brief}
 %% We need source and PDF files that can be used in a variety of ways and can be output on a variety of devices. FLAIRS imposes some requirements on your source and PDF files that must be followed. Most of these requirements are based on our efforts to standardize conference manuscript properties and layout. These requirements are as follows, and all papers submitted to FLAIRS for publication must comply:
 %% 
