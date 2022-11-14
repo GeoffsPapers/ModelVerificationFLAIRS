@@ -3,6 +3,8 @@
 \usepackage{times}
 \usepackage{helvet}
 \usepackage{courier}
+\usepackage{graphicx}
+\usepackage{setspace}
 \frenchspacing
 \setlength{\pdfpagewidth}{8.5in}
 \setlength{\pdfpageheight}{11in}
@@ -50,27 +52,31 @@ from known facts \cite{RV01-HAR}.
 The axioms and conjecture to be proved (and hence become a theorem) are written in an 
 appropriately expressive logic, and the proofs that are found are often similarly written in
 logic \cite{SS+06}.
-In this work we consider first-order \cite{Men87}, higher-order \cite{And86}, and some 
-non-classical \cite{Pri08} logics, whose expressive power is sufficient for a wide range of 
-topics \cite{Sut17}.
+In this work we consider typed first-order logic in the form of \cite{Wal83,Sch85,Coh87},
+%  higher-order \cite{And86}, and some 
+% on-classical \cite{Pri08} logics, 
+whose expressive power is sufficient for a wide range of topics \cite{Sut17}.
 In the last two decades the converse task of disproving conjectures, i.e., proving that a 
 conjecture is not a theorem of the axioms, has become increasingly important.
-The proof is in the form of a countermodel that provides an example interpretation of the
-formulae that makes the axioms {\em true} but the conjecture {\em false}.
+The proof is in the form of a countermodel that provides an interpretation of the formulae that 
+makes the axioms {\em true} but the conjecture {\em false}.
 A salient application area that harnesses this form of ATP is verification \cite{DKW08}
 where countermodels are used to pinpoint the reason why a proof obligation fails, and
 correspondingly point to the location of the fault in the system being verified.
 Other applications include checking the consistency of an axiomatization \cite{SS+17}, and
 finding a solution to a problem that is coded as a model finding problem \cite{Win82}
-In addition to the ATP systems that find proofs, e.g., Vampire \cite{KV13}, Leo-III \cite{SB18},
-nanoCop-M \cite{Ott21}, and the ATP systems that find (counter)models, e.g., Paradox \cite{CS03},
-Nipick \cite{BN10-ITP}, WHATFORNONCLASSICAL \cite{}, there is a need for tools that support use of
-the proofs and models that are output by the ATP systems.
+
+In addition to ATP systems that find proofs, e.g., Vampire \cite{KV13}, Leo-III \cite{SB18},
+% nanoCop-M \cite{Ott21}, 
+and ATP systems that find (counter)models, e.g., Paradox \cite{CS03}, FM-Darwin \cite{BF+09},
+% Nipick \cite{BN10-ITP}, WHATFORNONCLASSICAL \cite{}, 
+there is a need for tools that support use of the proofs and models that are output by the 
+ATP systems.
 This papers examines the tasks of verifying and visualizing models, and describes new tools for
 these tasks.
 
+Related work is sparse:
 Model verification related work by Giles? Other? Pascal - know any from SMT?
-
 Visualization.
 No related work. Alex - know any (other than your student)?
 
@@ -89,28 +95,378 @@ Section~\ref{Conclusion} concludes and discusses plans for future work.
 \section{The TPTP World and Language}
 \label{TPTP}
 
-TPTP World \cite{Sut17}.
+The TPTP World \cite{Sut17} is a well established infrastructure that supports research, 
+development, and deployment of Automated Theorem Proving (ATP) systems.
+The TPTP World includes the TPTP problem library,
+% \cite{Sut09}, 
+the TSTP solution library,
+% \cite{Sut10}, 
+standards for writing ATP problems and reporting ATP solutions,
+% \cite{SS+06,Sut08-KEAPPA}, 
+tools and services for processing ATP problems and solutions,
+% \cite{Sut10}, 
+and it supports the CADE ATP System Competition (CASC).
+% \cite{Sut16}.
+Various parts of the TPTP World have been deployed in a range of applications,
+in both academia and industry.
+% Since the first release of the TPTP problem library in 1993, many researchers have used the 
+% TPTP World as an appropriate and convenient basis for ATP system research and development. 
+% Over the years the TPTP World has provided a platform upon which ATP users have presented their 
+% needs to ATP system developers, who have then adapted their ATP systems to the users’ needs.
+The web page {\tt https://www.tptp.org} provides access to all 
+components.
 
-TXF language. Also can use THF, but all examples in TXF here.
+The TPTP languages \cite{Sut22-IGPL} are one of the keys to the success of the TPTP World.
+The languages are used for writing both TPTP problems and TSTP solutions, which enables convenient 
+communication between different systems and researchers. 
+It also enables tool exchange, tool integration, and comparable experimental results.
+Originally the TPTP World supported only first-order clause normal form (CNF).
+% \cite{SS98-JAR}.
+Over the years full first-order form (FOF),
+% \cite{Sut09}, 
+typed first-order form (TFF).
+% \cite{SS+12,BP13-TFF1}, 
+typed extended first-order form (TXF),
+% \cite{SK18}, 
+typed higher-order form (THF),
+% \cite{SB10,KSR16}, 
+and non-classical forms (NTF),
+% \footnote{%
+% There are many ``non-classical logics'', including multi-valued logics \cite{Aug17},
+% paraconsistent logics \cite{Pri02}, relevance logics \cite{AB75}, etc.
+% In this work we are interested in those that admit Kripke interpretation \cite{Kri63},
+% e.g., modal logics \cite{BBW06}.}
+% \cite{SF+22} 
+have been added.
+% A general principle of the TPTP language is ``we provide the syntax, you provide the semantics''.
+% As such, there is no a priori commitment to any semantics for the languages, although in almost 
+% all cases the intended logic and semantics are well known.
+All the typed languages include constructs for arithmetic.
+This work applies to all the languages; TF0 (the monomorphic form of TFF) \cite{SS+12} 
+% and NX0 \cite{SF+22} forms are 
+is used as the examplar.
+
+The top level building blocks of the TPTP language are {\em annotated
+formulae}.
+An annotated formula has the form:\\
+\hspace*{0.5cm}{\em language}{\tt (}{\em name}{\tt ,}
+{\em role}{\tt ,}
+{\em formula}{\tt ,}
+{\em source}{\tt ,}
+{\em useful\_info}{\tt ).}\\
+The {\em language}s supported are clause normal form ({\tt cnf}), first-order form ({\tt fof}), 
+typed first-order form ({\tt tff}), and typed higher-order form ({\tt thf}).
+These are used by the corresponding languages, with TXF inheriting {\tt tff} and the non-classical 
+languages their corresponding underlying languages.
+The {\em role}, e.g., {\tt axiom}, {\tt lemma}, {\tt conjecture},
+defines the use of the formula in an ATP system.
+In the {\em formula}, terms and atoms follow Prolog conventions.
+%  --
+% functions and predicates start with a lowercase letter or are {\tt '}single quoted{\tt '}, and 
+% variables start with an uppercase letter.
+The TPTP language also supports interpreted symbols, which either start with a
+{\tt \$}, or are composed of non-alphanumeric characters, e.g., the truth
+constants {\tt \$true} and {\tt \$false}, and integer/rational/real
+numbers such as 27, 43/92, -99.66.
+The basic logical connectives are
+{\tt !}, {\tt ?}, {\tt \verb|~|}, {\tt |}, {\tt \&}, {\tt =>}, {\tt <=},
+{\tt <=>}, and {\tt <\verb|~|>},
+for
+$\forall$, $\exists$, $\neg$, $\vee$, $\wedge$, $\Rightarrow$, $\Leftarrow$,
+$\Leftrightarrow$, and $\oplus$ respectively.
+Equality and inequality are expressed as the infix operators {\tt =} and
+{\tt !=}.
+The {\em source} and {\em useful\_info} are optional.
+Examples problems using TF0 annotated formulae can be seen in 
+Figures~\ref{TF0FiniteProblem},~\ref{TF0InfiniteProblem}, and~\ref{TF0InfiniteVerification}.
+% An example annotated first-order formula, supplied from a file, is:
+% \[
+% \begin{minipage}{\textwidth}
+% \begin{verbatim}
+%     fof(union,axiom,
+%         ( ! [X,A,B] :
+%             ( member(X,union(A,B))
+%           <=> ( member(X,A)
+%               | member(X,B) ) )
+%         file('SET006+0.ax',union),
+%         [description('Defn of union')]).
+% \end{verbatim}
+% \end{minipage}
+% \]
+% In typical mathematical logic notation the formula is \\
+% \hspace*{0.5cm}$\forall X\;\forall A\;\forall B\;(\;(X \in A\;\cup\;B) \Leftrightarrow (X \in A\;\wedge\;X \in B)\;)$
+
+%--------------------------------------------------------------------------------------------------
+\subsection{The TF0 Language}
+\label{TF0}
+
+% is a typed first-order language extended with FOOL logic constructs.
+TF0 is is a typed first-order language.
+Every function and predicate symbol is declared before its use, with a type signature that 
+specifies the types of the symbol’s arguments and result.
+The TX0 types are 
+(i)~the predefined types {\tt \$i} for individuals and {\tt \$o} for booleans; 
+(ii)~the predefined arithmetic types {\tt \$int}, {\tt \$rat}, and {\tt \$real}; 
+(iii)~user-defined types that have been declared to be of the kind {\tt \$tType}.
+TF0 type signatures are 
+(i)~individual types;
+(ii)~function types from non-boolean argument types to result types;
+(iii)~predicate types from non-boolean argument types to boolean.
+The equality predicates {\tt =} and {\tt !=} are ad hoc polymorphic over all types, and the types 
+of arithmetic predicates and functions are ad hoc polymorphic over the arithmetic types.
+% TX0 formulae are those of first-order logic, extended to allow boolean variables and terms.
+% TX0 additionally supports tuples, conditional expressions, and let expressions, but they are
+% not used in this paper (see \cite{SK18} for the details).
+Figure~\ref{TF0FiniteProblem} is a problem in TF0 (which has a finite countermodel - see 
+Section~\ref{Interpretations}), and Figure~\ref{TF0InfiniteProblem} is another problem 
+in TF0 (which has an model with an infinite domain - see Section~\ref{Interpretations}).
+% not using any of the extended language features
+% (those feature will come into play later).
+
+\begin{figure}[htbp]
+\scriptsize
+\setstretch{0.8}
+\begin{verbatim}
+%-------------------------------------------------------
+tff(man_type,type,           man: $tType ).
+tff(grade_type,type,         grade: $tType ).
+tff(john_decl,type,          john: man ).
+tff(a_decl,type,             a: grade ).
+tff(f_decl,type,             f: grade ).
+tff(grade_of_decl,type,      grade_of: man > grade ).
+tff(created_equal_decl,type, 
+    created_equal: ( man * man ) > $o ).
+
+tff(all_created_equal,axiom,
+    ! [H1: man,H2: man] : created_equal(H1,H2) ).
+
+tff(john_failed,axiom,
+    grade_of(john) = f ).
+
+tff(someone_got_an_a,axiom,
+    ? [H: man] : grade_of(H) = a ).
+
+tff(distinct_grades,axiom,
+    a != f ).
+
+tff(equality_lost,conjecture,
+    ! [H1: man,H2: man] :
+      ( created_equal(H1,H2)
+    <=> ( H1 = H2 ) ) ).
+%-------------------------------------------------------
+\end{verbatim}
+\caption{A TF0 problem (with a finite countermodel)}
+\label{TF0FiniteProblem}
+\end{figure}
+
+\begin{figure}[htbp]
+\scriptsize
+\setstretch{0.8}
+\begin{verbatim}
+%-------------------------------------------------------
+tff(person_type,type,        person: $tType ).
+tff(bob_decl,type,           bob: person ).
+tff(child_of_decl,type,      child_of: person > person ).
+tff(is_descendant_decl,type, 
+    is_descendant: ( person * person ) > $o ).
+
+tff(descendents_different,axiom,
+    ! [A: person,D: person] : 
+      ( is_descendant(A,D) => A != D ) ).
+
+tff(descendent_transitive,axiom,
+    ! [A: person,C: person,G: person] :
+      ( ( is_descendant(A,C) & is_descendant(C,G) ) 
+     => is_descendant(A,G) ) ).
+
+tff(child_is_descendant,axiom,
+    ! [P: person] : is_descendant(P,child_of(P)) ).
+
+tff(all_have_child,axiom,
+    ! [P: person] : ? [C: person] : C = child_of(P) ).
+%-------------------------------------------------------
+\end{verbatim}
+\caption{A TF0 problem (with an infinite model)}
+\label{TF0InfiniteProblem}
+\end{figure}
+
+%--------------------------------------------------------------------------------------------------
+% \subsection{The NXF Language}
+% \label{NXF}
 
 %--------------------------------------------------------------------------------------------------
 \section{Representing Interpretations}
 \label{Interpretations}
 
-%--------------------------------------------------------------------------------------------------
-\subsection{Representing Interpretations}
-\label{Classical}
+An interpretation of a formulae in a classical logic consists of domains (one for each type -
+just one domain in the case of untyped logic), and interpretation of the symbols of the 
+formulae wrt the domains \cite{Hun96}.
+The domains may be finite or infinite.
+% A Kripke interpretation of a formulae in a non-classical logic consists of a set or worlds,
+% an accessibility relation between those worlds, and a classical logic interpretation within each
+% world \cite{}.
+% The set of worlds may be finite or infinite.
+In earlier work \cite{SS+06} a TPTP format for interpretations with finite domains was defined,
+and has been adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
+More recently the need for a format for classical logic interpretations with infinite domains,
+and for a format for Kripke interpretations \cite{Kri63} of formulae written in the NTF language, 
+has led to the development of a new format for interpretations using the TPTP languages.
+
+Figure~\ref{TF0FiniteInterpretation} is an interpretation with a finite domain - it is a 
+countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
+
+\begin{figure}[htbp]
+\scriptsize
+\setstretch{0.8}
+\begin{verbatim}
+%-------------------------------------------------------
+tff(man_type,type,           man: $tType ).
+tff(grade_type,type,         grade: $tType ).
+tff(john_decl,type,          john: man ).
+tff(a_decl,type,             a: grade ).
+tff(f_decl,type,             f: grade ).
+tff(grade_of_decl,type,      grade_of: man > grade ).
+tff(created_equal_decl,type, 
+    created_equal: ( man * man ) > $o ).
+
+tff(d2man_type,type,         d2man: $tType).
+tff(d_grade_type,type,       d_grade: $tType).
+tff(d2man_decl,type,      d2man: d2man > man ).
+tff(d_grade_decl,type,    
+    d_grade: d_grade > grade ).
+
+tff(d_john_decl,type,        d_john: d2man ).
+tff(d_gotA_decl,type,       d_gotA: d2man ).
+tff(d_a_decl,type,           d_a: d_grade ).
+tff(d_f_decl,type,           d_f: d_grade ).
+
+tff(equality_lost,interpretation,
+%----Man domain elements are d_john and d_gotA
+    ( ( ! [X: d2man] : ( X = d_john | X = d_gotA )
+      & $distinct(d_john,d_gotA)
+%----The type promoter is a bijection 
+      & ! [X: d2man,Y: d2man] : 
+          ( d2man(X) = d2man(Y) => X = Y )
+      & ! [X: man] : ? [DX: d2man] : d2man(DX) = X
+%----Grade domain elements are d_a and d_f
+      & ! [X: d_grade]: ( X = d_a | X = d_f )
+      & $distinct(d_a,d_f)
+%----The type promoter is a bijection 
+      & ! [X: d_grade,Y: d_grade] : 
+          ( d_grade(X) = d_grade(Y) => X = Y )
+      & ! [X: grade] : 
+        ? [DX: d_grade] : d_grade(DX) = X )
+%----Interpret terms via the type-promoted domain
+    & ( a = d_grade(d_a)
+      & f = d_grade(d_f)
+      & john = d2man(d_john)
+      & grade_of(d2man(d_john)) = d_grade(d_f)
+      & grade_of(d2man(d_gotA)) = d_grade(d_a) )
+%----Interpret atoms as true of false
+    & ( created_equal(d2man(d_john),d2man(d_john))
+      & created_equal(d2man(d_john),d2man(d_gotA))
+      & created_equal(d2man(d_gotA),d2man(d_john))
+      & created_equal(d2man(d_gotA),d2man(d_gotA)) ) 
+    ) ).
+%----If John was not equal to the man who got an A:
+%----& ~ created_equal(d2man(d_john),d2man(d_gotA))
+%----& ~ created_equal(d2man(d_gotA),d2man(d_john))
+%-------------------------------------------------------
+\end{verbatim}
+\caption{A TF0 interpretation with a finite domain}
+\label{TF0FiniteInterpretation}
+\end{figure}
+
+Figure~\ref{TF0InfiniteInterpretation} is an interpretation with a finite domain - it is a 
+countermodel for the problem in Figure~\ref{TF0InfiniteProblem}.
+
+\begin{figure}[htbp]
+\scriptsize
+\setstretch{0.8}
+\begin{verbatim}
+%-------------------------------------------------------
+tff(person_type,type,        person: $tType ).
+tff(bob_decl,type,           bob: person ).
+tff(child_of_decl,type,      child_of: person > person ).
+tff(is_descendant_decl,type, 
+    is_descendant: ( person * person ) > $o ).
+
+tff(int2person_decl,type, int2person: $int > person ).
+
+tff(people,interpretation,
+%----Domain for type person is the integers
+    ( ! [P: person] : ? [I: $int] : int2person(I) = P
+%----The type promoter is a bijection
+    & ! [I1: $int,I2: $int] : 
+        ( int2person(I1) = int2person(I2) 
+       => I1 = I2 )
+%----Mapping people to integers. 
+    & bob = int2person(0)
+    & ! [I: $int] : 
+        child_of(int2person(I)) = int2person($sum(I,1))
+%----Interpretation of descendancy
+    & ! [A: $int,D: $int] : 
+        ( is_descendant(int2person(A),int2person(D)) 
+      <=> $less(A,D) ) ) ).
+%-------------------------------------------------------
+\end{verbatim}
+\caption{A TF0 interpretation with an infinite domain}
+\label{TF0InfiniteInterpretation}
+\end{figure}
 
 %--------------------------------------------------------------------------------------------------
-\subsection{Kripke Interpretations}
-\label{Kripke}
+% \subsection{Kripke Interpretations}
+% \label{Kripke}
 
 %--------------------------------------------------------------------------------------------------
 \section{Model Verification}
 \label{Verification}
 
+Figure~\ref{TF0InfiniteVerification} is an interpretation with a finite domain - it is a
+countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
+
+\begin{figure}[htbp]
+\scriptsize
+\setstretch{0.8}
+\begin{verbatim}
+%-------------------------------------------------------
+tff(person_type,type,        person: $tType ).
+tff(bob_decl,type,           bob: person ).
+tff(child_of_decl,type,      child_of: person > person ).
+tff(is_descendant_decl,type, 
+    is_descendant: ( person * person ) > $o ).
+
+tff(int2person_decl,type,   int2person: $int > person ).
+
+tff(people,axiom,
+    ( ( ! [P: person] : ? [I: $int] : int2person(I) = P
+      & ! [I1: $int,I2: $int] : 
+          ( int2person(I1) = int2person(I2) 
+         => I1 = I2 ) )
+    & bob = int2person(0)
+    & ! [I: $int] : 
+        child_of(int2person(I)) = int2person($sum(I,1))
+    & ! [A: $int,D: $int] : 
+        ( is_descendant(int2person(A),int2person(D)) 
+      <=> $less(A,D) ) ) ).
+
+tff(prove_formulae,conjecture,
+    ( ! [A: person,D: person] : 
+        ( is_descendant(A,D) => A != D )
+    & ! [A: person,C: person,G: person] :
+        ( ( is_descendant(A,C) & is_descendant(C,G) )
+       => is_descendant(A,G) )
+    & ! [P: person] : is_descendant(P,child_of(P))
+    & ! [P: person] : ? [C: person] : C = child_of(P) 
+    ) ).
+%-------------------------------------------------------
+\end{verbatim}
+\caption{A TF0 verification problem for a countermodel with an infinite domain}
+\label{TF0InfiniteVerification}
+\end{figure}
 %--------------------------------------------------------------------------------------------------
 \section{Interpretation Visualization}
+\label{Visualization}
 
 %--------------------------------------------------------------------------------------------------
 \section{Conclusion}
