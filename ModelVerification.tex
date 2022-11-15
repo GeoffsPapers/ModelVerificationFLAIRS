@@ -217,12 +217,13 @@ of arithmetic predicates and functions are ad hoc polymorphic over the arithmeti
 % TX0 formulae are those of first-order logic, extended to allow boolean variables and terms.
 % TX0 additionally supports tuples, conditional expressions, and let expressions, but they are
 % not used in this paper (see \cite{SK18} for the details).
-Figure~\ref{TF0FiniteProblem} is a problem in TF0\footenote{%
-} that has a finite countermodel - see Section~\ref{Interpretations}. 
+Figure~\ref{TF0FiniteProblem} is a problem in TF0\footnote{%
+{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Finite.p}}}
+that has a finite countermodel - see Section~\ref{Interpretations}. 
 Figure~\ref{TF0InfiniteProblem} is a problem 
 in TF0\footnote{%
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/Model Verification/main/TFF\_Infinite.p}}.}
-} that has an model with an infinite domain - see Section~\ref{Interpretations}.
+{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Infinite.p}}}
+that has an model with an infinite domain - see Section~\ref{Interpretations}.
 % not using any of the extended language features
 % (those feature will come into play later).
 
@@ -230,7 +231,7 @@ in TF0\footnote{%
 \scriptsize
 \setstretch{0.8}
 \begin{verbatim}
-%-------------------------------------------------------
+%--------------------------------------------------------
 tff(man_type,type,           man: $tType ).
 tff(grade_type,type,         grade: $tType ).
 tff(john_decl,type,          john: man ).
@@ -256,7 +257,7 @@ tff(equality_lost,conjecture,
     ! [H1: man,H2: man] :
       ( created_equal(H1,H2)
     <=> ( H1 = H2 ) ) ).
-%-------------------------------------------------------
+%--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 problem (with a finite countermodel)}
 \label{TF0FiniteProblem}
@@ -266,7 +267,7 @@ tff(equality_lost,conjecture,
 \scriptsize
 \setstretch{0.8}
 \begin{verbatim}
-%-------------------------------------------------------
+%--------------------------------------------------------
 tff(person_type,type,        person: $tType ).
 tff(bob_decl,type,           bob: person ).
 tff(child_of_decl,type,      child_of: person > person ).
@@ -287,7 +288,7 @@ tff(child_is_descendant,axiom,
 
 tff(all_have_child,axiom,
     ! [P: person] : ? [C: person] : C = child_of(P) ).
-%-------------------------------------------------------
+%--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 problem (with an infinite model)}
 \label{TF0InfiniteProblem}
@@ -316,18 +317,18 @@ and for a format for Kripke interpretations \cite{Kri63} of formulae written in 
 \cite{SF+22}, has led to the development of a new format for interpretations using the TPTP 
 languages.
 
-New role {\tt interpretation}.
+New role {\small {\tt interpretation}}.
 Multiple interpretations in one file.
 
-Figure~\ref{TF0FiniteInterpretation} is an interpretation with a finite domain - it is a 
-countermodel for the problem in Figure~\ref{TF0FiniteProblem}.\footnote{%
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/Model Verification/main/TFF\_Finite.s}}.}
+Figure~\ref{TF0FiniteInterpretation} is an interpretation with a finite domain\footnote{%
+{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Finite.s}}}
+- it is a countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
 
 \begin{figure}[htbp]
 \scriptsize
 \setstretch{0.8}
 \begin{verbatim}
-%-------------------------------------------------------
+%--------------------------------------------------------
 tff(man_type,type,           man: $tType ).
 tff(grade_type,type,         grade: $tType ).
 tff(john_decl,type,          john: man ).
@@ -379,21 +380,21 @@ tff(equality_lost,interpretation,
 %----If John was not equal to the man who got an A:
 %----& ~ created_equal(d2man(d_john),d2man(d_gotA))
 %----& ~ created_equal(d2man(d_gotA),d2man(d_john))
-%-------------------------------------------------------
+%--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 interpretation with a finite domain}
 \label{TF0FiniteInterpretation}
 \end{figure}
 
-Figure~\ref{TF0InfiniteInterpretation} is an interpretation with a infinite domain - it is a 
-countermodel for the problem in Figure~\ref{TF0InfiniteProblem}.\footnote{%
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/Model Verification/main/TFF\_Infinite.s}}.}
+Figure~\ref{TF0InfiniteInterpretation} is an interpretation with a infinite domain \footnote{%
+{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Infinite.s}}}
+- it is a model for the problem in Figure~\ref{TF0InfiniteProblem}.
 
 \begin{figure}[htbp]
 \scriptsize
 \setstretch{0.8}
 \begin{verbatim}
-%-------------------------------------------------------
+%--------------------------------------------------------
 tff(person_type,type,        person: $tType ).
 tff(bob_decl,type,           bob: person ).
 tff(child_of_decl,type,      child_of: person > person ).
@@ -417,7 +418,7 @@ tff(people,interpretation,
     & ! [A: $int,D: $int] : 
         ( is_descendant(int2person(A),int2person(D)) 
       <=> $less(A,D) ) ) ).
-%-------------------------------------------------------
+%--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 interpretation with an infinite domain}
 \label{TF0InfiniteInterpretation}
@@ -431,14 +432,16 @@ tff(people,interpretation,
 \section{Model Verification}
 \label{Verification}
 
-Figure~\ref{TF0InfiniteVerification} is an interpretation with a finite domain - it is a
-countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
+Figure~\ref{TF0InfiniteVerification} is the verification problem\footnote{%
+{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Infinite.s.p}}}
+for the problem in Figure~\ref{TF0InfiniteProblem} and its model in 
+Figure~\ref{TF0InfiniteInterpretation}.
 
 \begin{figure}[htbp]
 \scriptsize
 \setstretch{0.8}
 \begin{verbatim}
-%-------------------------------------------------------
+%--------------------------------------------------------
 tff(person_type,type,        person: $tType ).
 tff(bob_decl,type,           bob: person ).
 tff(child_of_decl,type,      child_of: person > person ).
@@ -468,7 +471,7 @@ tff(prove_formulae,conjecture,
     & ! [P: person] : is_descendant(P,child_of(P))
     & ! [P: person] : ? [C: person] : C = child_of(P) 
     ) ).
-%-------------------------------------------------------
+%--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 verification problem for a countermodel with an infinite domain}
 \label{TF0InfiniteVerification}
@@ -493,7 +496,7 @@ of difference symbols by hovering over the oval nodes.
 Details of the annotated formulae used to represent each node in the input to IIV are available 
 in the ``Node Information'' box (which is to the left in reality, placed below here).
 This interactive visualization is available in the IIV tool in SystemOnTSTP \cite{Sut07-CSR}, using 
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/Model Verification/main/TFF\_Finite.s.IDV}}
+{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Finite.s.IDV}}
 as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and clicking the
 ``Process Solution'' button.
 
