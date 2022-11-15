@@ -217,9 +217,12 @@ of arithmetic predicates and functions are ad hoc polymorphic over the arithmeti
 % TX0 formulae are those of first-order logic, extended to allow boolean variables and terms.
 % TX0 additionally supports tuples, conditional expressions, and let expressions, but they are
 % not used in this paper (see \cite{SK18} for the details).
-Figure~\ref{TF0FiniteProblem} is a problem in TF0 (which has a finite countermodel - see 
-Section~\ref{Interpretations}), and Figure~\ref{TF0InfiniteProblem} is another problem 
-in TF0 (which has an model with an infinite domain - see Section~\ref{Interpretations}).
+Figure~\ref{TF0FiniteProblem} is a problem in TF0\footenote{%
+} that has a finite countermodel - see Section~\ref{Interpretations}. 
+Figure~\ref{TF0InfiniteProblem} is a problem 
+in TF0\footnote{%
+{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/Model Verification/main/TFF\_Infinite.p}}.}
+} that has an model with an infinite domain - see Section~\ref{Interpretations}.
 % not using any of the extended language features
 % (those feature will come into play later).
 
@@ -317,7 +320,8 @@ New role {\tt interpretation}.
 Multiple interpretations in one file.
 
 Figure~\ref{TF0FiniteInterpretation} is an interpretation with a finite domain - it is a 
-countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
+countermodel for the problem in Figure~\ref{TF0FiniteProblem}.\footnote{%
+{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/Model Verification/main/TFF\_Finite.s}}.}
 
 \begin{figure}[htbp]
 \scriptsize
@@ -381,8 +385,9 @@ tff(equality_lost,interpretation,
 \label{TF0FiniteInterpretation}
 \end{figure}
 
-Figure~\ref{TF0InfiniteInterpretation} is an interpretation with a finite domain - it is a 
-countermodel for the problem in Figure~\ref{TF0InfiniteProblem}.
+Figure~\ref{TF0InfiniteInterpretation} is an interpretation with a infinite domain - it is a 
+countermodel for the problem in Figure~\ref{TF0InfiniteProblem}.\footnote{%
+{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/Model Verification/main/TFF\_Infinite.s}}.}
 
 \begin{figure}[htbp]
 \scriptsize
@@ -488,7 +493,7 @@ of difference symbols by hovering over the oval nodes.
 Details of the annotated formulae used to represent each node in the input to IIV are available 
 in the ``Node Information'' box (which is to the left in reality, placed below here).
 This interactive visualization is available in the IIV tool in SystemOnTSTP \cite{Sut07-CSR}, using 
-{\scriptsize {\tt https://github.com/GeoffsPapers/ModelVerification/raw/ main/TFF\_Finite.s.IDV}}
+{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/Model Verification/main/TFF\_Finite.s.IDV}}
 as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and clicking the
 ``Process Solution'' button.
 
