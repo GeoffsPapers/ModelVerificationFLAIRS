@@ -475,10 +475,26 @@ tff(prove_formulae,conjecture,
 
 Figure~\ref{TF0FiniteIIV} is a visualization of the countermodel shown in 
 Figure~\ref{TF0FiniteInterpretation}.
+It show the situation with the cursor hovering over the lower {\tt d\_john} node on the path
+from {\tt created\_equal} to {\tt \$true}.
+The nodes above are increasingly darker red (grey if printed) up to the type node {\tt \$o} that
+is the result type of {\tt created\_equal}, and of increasingly darker blue down to the type 
+node {\tt \$o} that is the type of {\tt \$true}.
+This interactive highlighting allows a user to quickly identify the interpretations for symbols
+of the language by overing over the inverted house nodes, to quickly find what symbols applied to
+what domain elements are interpreted as which domain elements and boolean values by hovering over
+the house and box nodes, and to quickly see how different domain elements affect the interpretation
+of difference symbols by hovering over the oval nodes.
+Details of the annotated formulae used to represent each node in the input to IIV are available 
+in the ``Node Information'' box (which is to the left in reality, placed below here).
+This interactive visualization is available in the IIV tool in SystemOnTSTP \cite{Sut07-CSR}, using 
+{\scriptsize {\tt https://github.com/GeoffsPapers/ModelVerification/raw/ main/TFF\_Finite.s.IDV}}
+as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and clicking the
+``Process Solution'' button.
 
 \begin{figure}[htbp]
 \includegraphics[width=\columnwidth]{IIV.pdf}
-\caption{A visualization of an interpretation with a finite domain}
+\caption{Visualization of an interpretation with two finite domains}
 \label{TF0FiniteIIV}
 \end{figure}
 
