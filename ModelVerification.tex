@@ -60,8 +60,8 @@ In the last two decades the converse task of disproving conjectures, i.e., provi
 conjecture is not a theorem of the axioms, has become increasingly important.
 The proof is in the form of a countermodel that provides an interpretation of the formulae that 
 makes the axioms {\em true} but the conjecture {\em false}.
-A salient application area that harnesses this form of ATP is verification \cite{DKW08}
-where countermodels are used to pinpoint the reason why a proof obligation fails, and
+A salient application area that harnesses this form of ATP is verification \cite{DKW08},
+where a countermodel is used to pinpoint the reason why a proof obligation fails, and
 correspondingly point to the location of the fault in the system being verified.
 Other applications include checking the consistency of an axiomatization \cite{SS+17}, and
 finding a solution to a problem that is coded as a model finding problem \cite{Win82}
@@ -83,8 +83,9 @@ No related work. Alex - know any (other than your student)?
 This paper is organized as follows:
 Section~\ref{TPTP} introduces the TPTP World which provides the framework and languages used
 in this research.
-Section~\ref{Interpretations} describes the new representation of interpretations (models being
-interpretations that make certain formulae {\em true}) using the TPTP languages.
+Section~\ref{Interpretations} discusses the nature of interpretations (noting that models are
+interpretations that make certain formulae {\em true}), and describes the new 
+representation of interpretations using a TPTP language.
 Section~\ref{Verification} provides the theory for verifying models, and describes the
 implementation of that theory in a model verification tool.
 Section~\ref{Visualization} introduces a novel way of visualizing interpretations, and
@@ -113,8 +114,7 @@ in both academia and industry.
 % TPTP World as an appropriate and convenient basis for ATP system research and development. 
 % Over the years the TPTP World has provided a platform upon which ATP users have presented their 
 % needs to ATP system developers, who have then adapted their ATP systems to the users’ needs.
-The web page {\tt https://www.tptp.org} provides access to all 
-components.
+The web page {\small {\tt https://www.tptp.org}} provides access to all components.
 
 The TPTP languages \cite{Sut22-IGPL} are one of the keys to the success of the TPTP World.
 The languages are used for writing both TPTP problems and TSTP solutions, which enables convenient 
@@ -201,7 +201,7 @@ Figures~\ref{TF0FiniteProblem},~\ref{TF0InfiniteProblem}, and~\ref{TF0InfiniteVe
 \label{TF0}
 
 % is a typed first-order language extended with FOOL logic constructs.
-TF0 is is a typed first-order language.
+TF0 is a typed first-order language.
 Every function and predicate symbol is declared before its use, with a type signature that 
 specifies the types of the symbol’s arguments and result.
 The TX0 types are 
@@ -219,11 +219,10 @@ of arithmetic predicates and functions are ad hoc polymorphic over the arithmeti
 % not used in this paper (see \cite{SK18} for the details).
 Figure~\ref{TF0FiniteProblem} is a problem in TF0\footnote{%
 {\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Finite.p}}}
-that has a finite countermodel - see Section~\ref{Interpretations}. 
-Figure~\ref{TF0InfiniteProblem} is a problem 
-in TF0\footnote{%
+that has a finite countermodel, and Figure~\ref{TF0InfiniteProblem} is a problem in TF0\footnote{%
 {\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Infinite.p}}}
-that has an model with an infinite domain - see Section~\ref{Interpretations}.
+that has an model with an infinite domain.
+See Section~\ref{Interpretations} for details of those models.
 % not using any of the extended language features
 % (those feature will come into play later).
 
@@ -299,17 +298,32 @@ tff(all_have_child,axiom,
 % \label{NXF}
 
 %--------------------------------------------------------------------------------------------------
-\section{Representing Interpretations}
+\section{Interpretations}
 \label{Interpretations}
 
-An interpretation of a formulae in a classical logic consists of domains (one for each type -
+An interpretation of formulae in a classical logic consists of domains (one for each type -
 just one domain in the case of untyped logic), and interpretation of the symbols of the 
 formulae wrt the domains \cite{Hun96}.
-The domains may be finite or infinite.
+An interpretation that makes certain formulae {\em true} is a model of those formulae.
+
+A domain of an interpretation may be finite or infinite.
+Interpretations with only finite domains are called {\em finite interpretations}, and
+interpretations with one of more infinite domains are called {\em infinite interpretations}.
+Finite domains are commonly explicitly enumerated, but can also take other forms, e.g., the 
+finite Herbrand Universe of a Herbrand interpretation \cite{}.
+Infinite domains can take several forms, including explicitly specified, e.g., the integers,
+explicitly generated, e.g., closed terms representing Peano numbers, algebraic numbers (real
+closed fields), and the ininite Herbrand Universe of a Herbrand interpretation.
+
 % A Kripke interpretation of a formulae in a non-classical logic consists of a set or worlds,
 % an accessibility relation between those worlds, and a classical logic interpretation within each
 % world \cite{}.
 % The set of worlds may be finite or infinite.
+ 
+%--------------------------------------------------------------------------------------------------
+\subsection{Representing Interpretations in TF0}
+\label{InterpretationsTF0}
+
 In earlier work \cite{SS+06} a TPTP format for interpretations with finite domains was defined,
 and has been adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
 More recently the need for a format for classical logic interpretations with infinite domains,
