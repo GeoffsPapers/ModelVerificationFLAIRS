@@ -178,24 +178,8 @@ $\Leftrightarrow$, and $\oplus$ respectively.
 Equality and inequality are expressed as the infix operators {\tt =} and
 {\tt !=}.
 The {\em source} and {\em useful\_info} are optional.
-Examples problems using TF0 annotated formulae can be seen in 
-Figures~\ref{TF0FiniteProblem},~\ref{TF0InfiniteProblem}, and~\ref{TF0InfiniteVerification}.
-% An example annotated first-order formula, supplied from a file, is:
-% \[
-% \begin{minipage}{\textwidth}
-% \begin{verbatim}
-%     fof(union,axiom,
-%         ( ! [X,A,B] :
-%             ( member(X,union(A,B))
-%           <=> ( member(X,A)
-%               | member(X,B) ) )
-%         file('SET006+0.ax',union),
-%         [description('Defn of union')]).
-% \end{verbatim}
-% \end{minipage}
-% \]
-% In typical mathematical logic notation the formula is \\
-% \hspace*{0.5cm}$\forall X\;\forall A\;\forall B\;(\;(X \in A\;\cup\;B) \Leftrightarrow (X \in A\;\wedge\;X \in B)\;)$
+Annotated formulae (using TF0, as described in Section~\ref{TF0}) can be seen in 
+Figures~\ref{TF0FiniteProblem}-\ref{TF0InfiniteVerification}.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{The TF0 Language}
@@ -446,6 +430,14 @@ tff(people,interpretation,
 %--------------------------------------------------------------------------------------------------
 \section{Model Verification}
 \label{Verification}
+
+Proof
+
+Implementation.
+Interpretation as axiom.
+Problem's axioms and negated conjecture as conjectures (TPTP standard says can do separately,
+but ATP systems take them as a disjunction to make them into one big conjunction - that's
+harder to verify of course).
 
 Figure~\ref{TF0InfiniteVerification} is the verification problem\footnote{%
 {\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Infinite.s.p}}}
