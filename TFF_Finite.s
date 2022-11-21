@@ -18,31 +18,34 @@ tff(d_a_decl,type,           d_a: d_grade ).
 tff(d_f_decl,type,           d_f: d_grade ).
 
 tff(equality_lost,interpretation,
-%----The two man domain elements are d_john and d_got_A
-    ( ( ! [X: d_man] : ( X = d_john | X = d_got_A )
+%----The domain for man is d_man
+    ( ( ! [M: man] : ? [DM: d_man] : M = d2man(DM)
+%----The d_man elements are d_john and d_got_A
+      & ! [DM: d_man] : ( DM = d_john | DM = d_got_A )
       & $distinct(d_john,d_got_A)
-%----The type promoter is a bijection (injective and surjective)
-      & ! [X: d_man,Y: d_man] : ( d_to_man(X) = d_to_man(Y) => X = Y )
-      & ! [X: man] : ? [DX: d_man] : d_to_man(DX) = X
-%----The two grade domain elements are d_a and d_f
-      & ! [X: d_grade]: ( X = d_a | X = d_f )
+%----The type promoter is a bijection 
+      & ! [DM1: d_man,DM2: d_man] :
+          ( d2man(DM1) = d2man(DM2) => DM1 = DM2 )
+%----The domain for grade is d_grade
+      & ! [G: grade] : ? [DG: d_grade] : G = d2grade(DG)
+%----The d_grade elements are d_a and d_f
+      & ! [DG: d_grade]: ( DG = d_a | DG = d_f )
       & $distinct(d_a,d_f)
-%----The type promoter is a bijection (injective and surjective)
-      & ! [X: d_grade,Y: d_grade] : ( d_to_grade(X) = d_to_grade(Y) => X = Y )
-      & ! [X: grade] : ? [DX: d_grade] : d_to_grade(DX) = X )
-%----Interpret terms via the type-promoted domain elements
-    & ( a = d_to_grade(d_a)
-      & f = d_to_grade(d_f)
-      & john = d_to_man(d_john)
-      & grade_of(d_to_man(d_john)) = d_to_grade(d_f)
-      & grade_of(d_to_man(d_got_A)) = d_to_grade(d_a) )
-%----Interpret atoms as true of false
-    & ( created_equal(d_to_man(d_john),d_to_man(d_john))
-      & created_equal(d_to_man(d_john),d_to_man(d_got_A))
-      & created_equal(d_to_man(d_got_A),d_to_man(d_john))
-      & created_equal(d_to_man(d_got_A),d_to_man(d_got_A)) ) ) ).
-%----To clarify, if John was not equal to the man who got an A, it would be
-%----     & ~ created_equal(d_to_man(d_john),d_to_man(d_got_A))
-%----     & ~ created_equal(d_to_man(d_got_A),d_to_man(d_john))
-
+%----The type promoter is a bijection
+      & ! [DG1: d_grade,DG2: d_grade] : 
+          ( d2grade(DG1) = d2grade(DG2) => DG1 = DG2 ) )
+%----Interpret terms via the type-promoted domain
+    & ( a = d2grade(d_a)
+      & f = d2grade(d_f)
+      & john = d2man(d_john)
+      & grade_of(d2man(d_john)) = d2grade(d_f)
+      & grade_of(d2man(d_got_A)) = d2grade(d_a) )
+%----Interpret atoms as true or false
+    & ( created_equal(d2man(d_john),d2man(d_john))
+      & created_equal(d2man(d_john),d2man(d_got_A))
+      & created_equal(d2man(d_got_A),d2man(d_john))
+      & created_equal(d2man(d_got_A),d2man(d_got_A)) ) ) ).
+%----If John was not equal to the man who got an A:
+%---- & ~ created_equal(d2man(d_john),d2man(d_got_A))
+%---- & ~ created_equal(d2man(d_got_A),d2man(d_john))
 %------------------------------------------------------------------------------

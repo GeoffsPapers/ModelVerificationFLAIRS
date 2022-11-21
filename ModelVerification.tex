@@ -13,6 +13,18 @@
 /Author (Geoff Sutcliffe, Alexander Steen, Pascal Fontaine, Jack McKeown)}
 \setcounter{secnumdepth}{2}  
 \newcommand{\smalltt}[1]{\small \texttt{#1}}
+\newenvironment{packed_itemize}{
+\vspace*{-0.5em}
+\begin{itemize}
+\setlength{\partopsep}{0pt}
+\setlength{\itemsep}{1pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+}{\end{itemize}}
+\renewcommand{\floatpagefraction}{0.9}
+\renewcommand{\textfloatsep}{2.0ex}
+\renewcommand{\dbltextfloatsep}{2.0ex}
+
 
 \begin{document}
 % This file is an adoption of the style file for AAAI Press 
@@ -59,45 +71,62 @@ In this work we consider typed first-order logic in the form of \cite{Wal83,Sch8
 %  higher-order \cite{And86}, and some 
 % on-classical \cite{Pri08} logics, 
 whose expressive power is sufficient for a wide range of topics \cite{Sut17}.
+(This work is also applicable to untyped first-order logic where terms have the type $\iota$ 
+and formulae have the type $o$, and can also be generalized to higher-order logics.)
+
 In the last two decades the converse task of disproving conjectures, i.e., proving that a 
 conjecture is not a theorem of the axioms, has become increasingly important.
-The proof is in the form of a countermodel that provides an interpretation of the formulae that 
-makes the axioms {\em true} but the conjecture {\em false}.
+This process is depends on finding an {\em interpretation} of the formulae, i.e., structures that
+map expressions written in the language of the formulae to domain elements and truth values.
+In most cases the interpretation is a {\em model} of certain formulae, i.e., it maps the those
+formulae to {\em true}.
+A disproof of a conjecture is a countermodel that provides an interpretation of the formulae 
+that is a model of the axioms, but maps the conjecture to {\em false}.
 A salient application area that harnesses this form of ATP is verification \cite{DKW08},
 where a countermodel is used to pinpoint the reason why a proof obligation fails, and
 correspondingly point to the location of the fault in the system being verified.
-Other applications include checking the consistency of an axiomatization \cite{SS+17}, and
-finding a solution to a problem that is coded as a model finding problem \cite{Win82}
+Other applications of model finding include checking the consistency of an axiomatization 
+\cite{SS+17}, and finding a solution to a problem that is coded as a model finding problem 
+\cite{Win82}.
+This work describes a (new) format for representing interpretations using a TPTP language -
+Sections~\ref{TPTP}~and~\ref{Interpretations}.
 
-In addition to ATP systems that find proofs, e.g., Vampire \cite{KV13}, Leo-III \cite{SB18},
-% nanoCop-M \cite{Ott21}, 
-and ATP systems that find (counter)models, e.g., Paradox \cite{CS03}, FM-Darwin \cite{BF+09},
-% Nipick \cite{BN10-ITP}, WHATFORNONCLASSICAL \cite{}, 
-there is a need for tools that support use of the proofs and models that are output by the 
-ATP systems.
-This papers examines the tasks of verifying and visualizing models, and describes new tools for
-these tasks.
+In addition to ATP systems that produce interpretations (typically models),
+% proofs, e.g., Vampire \cite{KV13}, Leo-III \cite{SB18},
+% % nanoCop-M \cite{Ott21}, 
+% and ATP systems that find 
+e.g., Paradox \cite{CS03}, FM-Darwin \cite{BF+09}, Nipick \cite{BN10-ITP},
+there is a need for tools that support examination and use of the interpretations.
+This papers examines the tasks of verifying models and visualizing interpretations, and describes 
+new tools for these tasks - Sections~\ref{Verification}~and~\ref{Visualization}.
 
-In earlier work \cite{SS+06} a TPTP format for interpretations with finite domains was defined,
-and has been adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
+\paragraph{Related Work:}
+In \cite{SS+06} a TPTP format for interpretations with finite domains was defined, and has been 
+adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
 Other formats for interpretations include the SMT format PASCAL TO FILL IN, and ad hoc formats
 used by model finding systems, e.g., TO BE FILLED IN BY ALL.
++++
+Nikolaj says ...
+Z3 It produces models that define functions by expressions. For example a model of succ is 
+Succ(x) =X+ 1
+Works when domain is integer. Currently z3 does not implement infinite models for uninterpreted sorts. I would probablybsupport infinite sorts by creating injection into annalgebraic datatype and then support models that can be expressed over ADT.
+See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
++++
 Related work on verification and visualization of interpretations is sparse:
 Model verification related work by Giles? Other? Pascal - know any from SMT?
 Visualization.
 No related work. Alex - know any (other than your student)?
 
-This paper is organized as follows:
-Section~\ref{TPTP} introduces the TPTP World which provides the framework and languages used
-in this research.
-Section~\ref{Interpretations} discusses the nature of interpretations (noting that models are
-interpretations that make certain formulae {\em true}), and describes the new 
-representation of interpretations using a TPTP language.
-Section~\ref{Verification} provides the theory for verifying models, and describes the
-implementation of that theory in a model verification tool.
-Section~\ref{Visualization} introduces a novel way of visualizing interpretations, and
-proposes a tool for automating the visualization of interpretations written in the TPTP language.
-Section~\ref{Conclusion} concludes and discusses plans for future work.
+% This paper is organized as follows:
+% Section~\ref{TPTP} introduces the TPTP World which provides the framework and languages used
+% in this research.
+% Section~\ref{Interpretations} discusses the nature of interpretations, and describes the new 
+% representation of interpretations using a TPTP language.
+% Section~\ref{Verification} provides the theory for verifying models, and describes the
+% implementation of that theory in a model verification tool.
+% Section~\ref{Visualization} introduces a novel way of visualizing interpretations, and
+% proposes a tool for automating the visualization of interpretations written in the TPTP language.
+% Section~\ref{Conclusion} concludes and discusses plans for future work.
 
 %--------------------------------------------------------------------------------------------------
 \section{The TPTP World and Languages}
@@ -209,12 +238,8 @@ of arithmetic predicates and functions are ad hoc polymorphic over the arithmeti
 % TX0 formulae are those of first-order logic, extended to allow boolean variables and terms.
 % TX0 additionally supports tuples, conditional expressions, and let expressions, but they are
 % not used in this paper (see \cite{SK18} for the details).
-Figure~\ref{TF0FiniteProblem} shows a problem in TF0 that has a finite countermodel, and 
-Figure~\ref{TF0InfiniteProblem} shows a problem in TF0
-that has an model with an infinite domain.
-See Section~\ref{Interpretations} for details of those models.
-% not using any of the extended language features
-% (those feature will come into play later).
+Figures~\ref{TF0FiniteProblem}~and~\ref{TF0InfiniteProblem} are examples of problems in TF0
+(whose associated (counter)models are discussed in Section~\ref{Interpretations}).
 
 \begin{figure}[htbp]
 \scriptsize
@@ -295,12 +320,13 @@ ModelVerification/main/TFF\_Infinite.p}}}
 \section{Interpretations}
 \label{Interpretations}
 
-A Tarskian-style \cite{TV56} interpretation of formulae in a classical logic consists of non-empty 
-domains (one for each type - just one domain in the case of untyped logic), and interpretation of 
-the symbols (of the language induced by the formulae) wrt the domains \cite{Hun96}.
-An interpretation of given formulae can interpret all terms and formulae that can be written in 
-the language induced by the given formulae.
-An interpretation that makes certain formulae {\em true} is a model of those formulae.
+A Tarskian-style \cite{TV56} interpretation of formulae in a classical typed logic consists of 
+non-empty domains (one for each type - just one domain in the case of untyped logic), and 
+interpretation of the symbols (of the language induced by the formulae) wrt the domains 
+\cite{Hun96}.
+An interpretation of given formulae can normally interpret all terms and formulae that can be 
+written in the language induced by the given formulae, but in some circumstances an interpretation 
+is able to interpret only (at least) the given formulae.
 
 The domains of an interpretation may be finite or infinite.
 Interpretations with only finite domains are called {\em finite interpretations}, and
@@ -309,20 +335,20 @@ Finite domains are commonly explicitly enumerated, but can also take other forms
 finite Herbrand Universe of a Herbrand interpretation \cite{Her30}.
 Infinite domains can take several forms, including explicitly specified, e.g., the integers,
 explicitly generated, e.g., closed terms representing Peano numbers, algebraic numbers (real
-closed fields), and the ininite Herbrand Universe of a Herbrand interpretation.
+closed fields), and the infinite Herbrand Universe of a Herbrand interpretation.
 
-It is noted that in addition to Tarskian-style interpretations, a Herbrand model of clausal 
-formulae can also be embodied in a saturation \cite{BG+01}, i.e., a fixed point for a set of 
-clauses at which further application of a complete set of inference rules does not generate 
-any new clauses.
+It is noted that in addition to Tarskian-style interpretations that provide an explicit
+interpretation of the symbols, a Herbrand model of clausal formulae can also be embodied in a 
+saturation \cite{BG+01}, i.e., a fixed point for a set of clauses at which further application 
+of a complete inference system does not generate any new clauses.
 Indeed, this approach is adopted in saturation-based ATP systems such as E \cite{SCV19}, 
 Prover9 \cite{McC-Prover9-URL}, Vampire, Zipperposition \cite{VB+21}.
 Unfortunately, a saturation tells you only that models exist, and very little about what they 
 might look like. 
-Saturations are pretty much impossible to interpret explicitly in a way that can be used 
-constructively by users, and are thus hardly a useful form of interpretation.
-This work thus considers the representation, verification, and visualization of only 
-Tarskian-style interpretations.
+Saturations are difficult to interpret explicitly in a way that can be used constructively by 
+users, and are thus a less useful form of interpretation.
+This work considers the representation, verification, and visualization of only Tarskian-style 
+interpretations with explicit symbol interpretation.
 
 % A Kripke interpretation of a formulae in a non-classical logic consists of a set or worlds,
 % an accessibility relation between those worlds, and a classical logic interpretation within each
@@ -343,26 +369,44 @@ of typed logics share type declarations.
 The underlying principle in unchanged: interpretations are represented using the same logic
 as used by the formulae that are interpreted.
 This provides the basis for verification of models, as explained in Section~\ref{Verification}.
-The format for untyped logics is simply a degenerated version of the format for typed logics, 
-and the latter is used here for exposition.
 
 The new format for an interpretation uses a single annotated formula with the role 
 \smalltt{interpretation}, preceded by any necessary type declarations for typed logics.
-The type declarations are those of the formulae being interpreted, and type declarations for
-(i)~the types of the domains (unless already defined in the language, e.g., the type
-\smalltt{\$int});
-(ii)~the types of type-promotion functions that promote the types of the domains to 
-the types of the terms;
-(iii)~the types of the domain elements.
-The \smalltt{interpretation} formula defines 
-(i)~the domain elements, either by explicit enumeration or implicitly for the types of the 
-formulae symbols,with the domain elements specified to be distinct; 
-(ii)~interpretation of the formulae symbols.
-Additionally the type-promote functions are specified to be bijections.
+In order for the interpretation formula to be well-typed (as a formula of the logic), a
+{\em type-promotion} function is declared, which 
+The type declarations are those of the formulae being interpreted, and declarations for:
+\begin{packed_itemize}
+\item the types of the domains (unless already defined in the language, e.g., the type
+      \smalltt{\$int});
+\item the types of type-promotion functions that promote the types of the domains to the types 
+      of the terms in the formulae;
+\item the types of the domain elements.
+\end{packed_itemize}
+\vspace*{-0.4em}
+The \smalltt{interpretation} formula specifies 
+\begin{packed_itemize}
+\item the domain for each type in the formulae, including explicit or implicit specification
+      of the distinct domain elements;
+\item constraints making (in conjunction with the domain specifications) the type-promotion 
+      functions into bijections;
+\item interpretation of the formulae symbols.
+\end{packed_itemize}
 
 Figure~\ref{TF0FiniteInterpretation} is an interpretation with a finite domain - it is a 
 countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
-Explain the components.
+The comments show which parts of the formula specify what aspects of the interpretation, per
+the list above.
+Note how:
+\begin{packed_itemize}
+\item the type-promotion functions are used to specify the domains;
+\item the TPTP language's \smalltt{\$distinct} predicate makes the domain elements distinct;
+\item the domain specifications make the type-promotion functions surjective, which along
+      with the constraint of injectivity makes the functions bijective;
+\item functions applied to domain elements are interpreted by equating them to domain elements
+      via appropriate type-promotion function, thus making the terms well-typed;
+\item predicates applied to domain elements are interpreted directly by asserting them or their
+      negation.
+\end{packed_itemize}
 
 \begin{figure}[htbp]
 \scriptsize
@@ -378,48 +422,50 @@ tff(grade_of_decl,type,      grade_of: man > grade ).
 tff(created_equal_decl,type, 
     created_equal: ( man * man ) > $o ).
 
+%----Types of the domains
 tff(d_man_type,type,         d_man: $tType).
 tff(d_grade_type,type,       d_grade: $tType).
+%----Types of the promotion functions
 tff(d2man_decl,type,         d2man: d_man > man ).
 tff(d2grade_decl,type,       d2grade: d_grade > grade ).
-
+%----Types of the domain elements
 tff(d_john_decl,type,        d_john: d_man ).
-tff(d_got_A_decl,type,       d_got_A: d_man ).
+tff(d_gotA_decl,type,        d_gotA: d_man ).
 tff(d_a_decl,type,           d_a: d_grade ).
 tff(d_f_decl,type,           d_f: d_grade ).
 
 tff(equality_lost,interpretation,
-%----The two man domain elements are d_john and d_got_A
-    ( ( ! [X: d_man] : ( X = d_john | X = d_got_A )
-      & $distinct(d_john,d_got_A)
+%----The domain for man is d_man
+    ( ( ! [M: man] : ? [DM: d_man] : M = d2man(DM)
+%----The d_man elements are d_john and d_gotA
+      & ! [DM: d_man] : ( DM = d_john | DM = d_gotA )
+      & $distinct(d_john,d_gotA)
 %----The type promoter is a bijection
-      & ! [X: d_man,Y: d_man] : 
-          ( d2man(X) = d2man(Y) => X = Y )
-      & ! [X: man] : ? [DX: d_man] : d2man(DX) = X
-%----The two grade domain elements are d_a and d_f
-      & ! [X: d_grade]: ( X = d_a | X = d_f )
+      & ! [DM1: d_man,DM2: d_man] :
+          ( d2man(DM1) = d2man(DM2) => DM1 = DM2 )
+%----The domain for grade is d_grade
+      & ! [G: grade] : ? [DG: d_grade] : G = d2grade(DG)
+%----The d_grade elements are d_a and d_f
+      & ! [DG: d_grade]: ( DG = d_a | DG = d_f )
       & $distinct(d_a,d_f)
 %----The type promoter is a bijection
-      & ! [X: d_grade,Y: d_grade] : 
-          ( d2grade(X) = d2grade(Y) => X = Y )
-      & ! [X: grade] : 
-        ? [DX: d_grade] : d2grade(DX) = X )
-%----Interpret terms via the type-promoted domain 
+      & ! [DG1: d_grade,DG2: d_grade] :
+          ( d2grade(DG1) = d2grade(DG2) => DG1 = DG2 ) )
+%----Interpret terms via the type-promoted domain
     & ( a = d2grade(d_a)
       & f = d2grade(d_f)
       & john = d2man(d_john)
       & grade_of(d2man(d_john)) = d2grade(d_f)
-      & grade_of(d2man(d_got_A)) = d2grade(d_a) )
+      & grade_of(d2man(d_gotA)) = d2grade(d_a) )
 %----Interpret atoms as true of false
     & ( created_equal(d2man(d_john),d2man(d_john))
-      & created_equal(d2man(d_john),d2man(d_got_A))
-      & created_equal(d2man(d_got_A),d2man(d_john))
-      & created_equal(d2man(d_got_A),d2man(d_got_A)) ) 
+      & created_equal(d2man(d_john),d2man(d_gotA))
+      & created_equal(d2man(d_gotA),d2man(d_john))
+      & created_equal(d2man(d_gotA),d2man(d_gotA)) ) 
     ) ).
 %----If John was not equal to the man who got an A:
-%----& ~ created_equal(d2man(d_john),d2man(d_got_A))
-%----& ~ created_equal(d2man(d_got_A),d2man(d_john))
-%----& ~ created_equal(d2man(d_gotA),d2man(d_john))
+%---- & ~ created_equal(d2man(d_john),d2man(d_gotA))
+%---- & ~ created_equal(d2man(d_gotA),d2man(d_john))
 %--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 interpretation with a finite domain \\
@@ -430,6 +476,15 @@ ModelVerification/main/TFF\_Finite.s}}}
 
 Figure~\ref{TF0InfiniteInterpretation} is an interpretation with a infinite domain - it is a model 
 for the problem in Figure~\ref{TF0InfiniteProblem}.
+The components are very much the same as for Figure~\ref{TF0FiniteInterpretation}, noting how:
+\begin{packed_itemize}
+\item the domain declaration uses the defined arithmetic type \smalltt{\$int};
+\item there is no specification of the domain elements because the type is defined;
+\item universal quantification is used to specify the interpretation of functions and predicates
+      for an infinite number of domain element argument tuples;
+\item for argument tuples with negative integer arguments, the interpretations of 
+      functions and predicates is not specified - this is discussed more below.
+\end{packed_itemize}
 
 \begin{figure}[htbp]
 \scriptsize
@@ -445,7 +500,6 @@ tff(is_descendant_decl,type,
 tff(int2person_decl,type,    int2person: $int > person ).
 
 tff(people,interpretation,
-ZZZZZZZ this is WRONG - TO BE FIXED ON MONDAY
 %----Domain for type person is the integers
     ( ! [P: person] : ? [I: $int] : int2person(I) = P
 %----The type promoter is a bijection
@@ -541,7 +595,7 @@ The nodes above are increasingly darker red (grey if printed) up to the type nod
 is the result type of {\tt created\_equal}, and of increasingly darker blue down to the type 
 node {\tt \$o} that is the type of {\tt \$true}.
 This interactive highlighting allows a user to quickly identify the interpretations for symbols
-of the language by overing over the inverted house nodes, to quickly find what symbols applied to
+of the language by hovering over the inverted house nodes, to quickly find what symbols applied to
 what domain elements are interpreted as which domain elements and boolean values by hovering over
 the house and box nodes, and to quickly see how different domain elements affect the interpretation
 of difference symbols by hovering over the oval nodes.
