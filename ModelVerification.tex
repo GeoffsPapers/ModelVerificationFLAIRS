@@ -21,10 +21,8 @@
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
 }{\end{itemize}}
-\renewcommand{\floatpagefraction}{0.9}
-\renewcommand{\textfloatsep}{2.0ex}
-\renewcommand{\dbltextfloatsep}{2.0ex}
-
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\topfraction}{0.9}
 
 \begin{document}
 % This file is an adoption of the style file for AAAI Press 
@@ -103,8 +101,8 @@ new tools for these tasks - Sections~\ref{Verification}~and~\ref{Visualization}.
 \paragraph{Related Work:}
 In \cite{SS+06} a TPTP format for interpretations with finite domains was defined, and has been 
 adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
-Other formats for interpretations include the SMT format PASCAL TO FILL IN, and ad hoc formats
-used by model finding systems, e.g., TO BE FILLED IN BY ALL.
+Other formats for interpretations include the SMT format PASCAL TO FILL IN, the DIMACS format,
+and ad hoc formats used by model finding systems, e.g., TO BE FILLED IN BY ALL.
 +++
 Nikolaj says ...
 Z3 It produces models that define functions by expressions. For example a model of succ is 
@@ -326,7 +324,8 @@ interpretation of the symbols (of the language induced by the formulae) wrt the 
 \cite{Hun96}.
 An interpretation of given formulae can normally interpret all terms and formulae that can be 
 written in the language induced by the given formulae, but in some circumstances an interpretation 
-is able to interpret only (at least) the given formulae.
+can interpret only (at least) the given formulae; such an interpretation is a {\em partial
+interpretation}.
 
 The domains of an interpretation may be finite or infinite.
 Interpretations with only finite domains are called {\em finite interpretations}, and
@@ -349,6 +348,10 @@ Saturations are difficult to interpret explicitly in a way that can be used cons
 users, and are thus a less useful form of interpretation.
 This work considers the representation, verification, and visualization of only Tarskian-style 
 interpretations with explicit symbol interpretation.
+
+The notions of interpretations, models, partial interpretations, finite interpretations,
+Herbrand interpretations, etc., are captured in the SZS ontologies \cite{Sut08-KEAPPA}, as
+updated at \smalltt{https://www.tptp.org/cgi-bin/SeeTPTP? Category=Documents\&File=SZSOntology}
 
 % A Kripke interpretation of a formulae in a non-classical logic consists of a set or worlds,
 % an accessibility relation between those worlds, and a classical logic interpretation within each
@@ -399,7 +402,8 @@ the list above.
 Note how:
 \begin{packed_itemize}
 \item the type-promotion functions are used to specify the domains;
-\item the TPTP language's \smalltt{\$distinct} predicate makes the domain elements distinct;
+\item the TPTP language's \smalltt{\$distinct} predicate makes the domain elements unequal to
+      each other;
 \item the domain specifications make the type-promotion functions surjective, which along
       with the constraint of injectivity makes the functions bijective;
 \item functions applied to domain elements are interpreted by equating them to domain elements
@@ -479,11 +483,12 @@ for the problem in Figure~\ref{TF0InfiniteProblem}.
 The components are very much the same as for Figure~\ref{TF0FiniteInterpretation}, noting how:
 \begin{packed_itemize}
 \item the domain declaration uses the defined arithmetic type \smalltt{\$int};
-\item there is no specification of the domain elements because the type is defined;
+\item there is no specification of the types of the domain elements or their inequality because 
+      the type is defined;
 \item universal quantification is used to specify the interpretation of functions and predicates
       for an infinite number of domain element argument tuples;
-\item for argument tuples with negative integer arguments, the interpretations of 
-      functions and predicates is not specified - this is discussed more below.
+\item the interpretations of functions and predicates is not specified for argument tuples with 
+      negative integer arguments - this is an example of a partial interpretation.
 \end{packed_itemize}
 
 \begin{figure}[htbp]
