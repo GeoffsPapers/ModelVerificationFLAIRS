@@ -542,17 +542,19 @@ sound.
 Inferences of logical consequence can be checked by forming a proof obligation whose axioms
 are the parents of the inference and whose conjecture is the conclusion of the inference,
 then discharging the obligation using a trusted ATP system. 
-This is the approach take in, e.g., SPASS \cite{WF+09} and in GDV \cite{Sut06}.
-The same approach can be taken to verify a model of given formulae - prove each of the given 
-formulae using the model formula as an axiom.
-The soundness of this approach relies the fact that if a given formula can be proven from
-the model formula, then the given formula is interpreted as {\em true} by the model represented
-by the model formula.
+This ``semantic'' approach is taken in, e.g., SPASS \cite{WF+09} and in GDV \cite{Sut06}.
+The same approach can be taken to verify that an interpretation is a model of given formulae, 
+by proving each of the given formulae is a logical consequence of the interpretation formula.
+The interpretation formula is supplied as an axiom, and each of the given formulae is proven
+as a conjecture (or their conjunction can be proven).
+The soundness of this approach relies the fact that if a given formula is a logical consequence 
+of the interpretation formula, then the given formula is interpreted as {\em true} by the model 
+represented by the interpretation formula.
+The proof is this follows.
 
 Proof
 
 Implementation.
-Interpretation as axiom.
 Problem's axioms and negated conjecture as conjectures (TPTP standard says can do separately,
 but ATP systems take them as a disjunction to make them into one big conjunction - that's
 harder to verify of course).
@@ -596,7 +598,8 @@ tff(prove_formulae,conjecture,
     ) ).
 %--------------------------------------------------------
 \end{verbatim}
-\caption{A TF0 verification problem for a countermodel with an infinite domain\\
+\caption{The TF0 verification problem for 
+Figures~\ref{TF0InfiniteProblem}~and~\ref{TF0InfiniteInterpretation}\\
 {\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/\\
 ModelVerification/main/TFF\_Infinite.s.p}}}
 \label{TF0InfiniteVerification}
