@@ -1,0 +1,118 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}[lemma]{Theorem}
+
+\begin{document}
+
+Let $\Sigma = (F_\Sigma, P_\Sigma)$ be a first-order signature, where
+\begin{enumerate}
+  \item $F_\Sigma$ is a set of function symbols with arity, and
+  \item $P_\Sigma$ is a set of predicate symbols with arity.
+\end{enumerate}
+Let $V$ be an infinte set of variable symbols.
+The set of first-order formulas over signature $\Sigma$, denoted $\mathcal{F}(\Sigma)$, is defined as usual. 
+
+Let $I = (\mathcal{D}_I, F_I, R_I)$ be a $\Sigma$-interpretation (i.e., $F_I$ and $R_I$ are maps from domain $F_\Sigma$ resp.\ $P_\Sigma$), defined just as Geoff said. 
+Given a $\Sigma$-interpretation $I$, we define an augmented signature $\Sigma^I$, called the \emph{verbalization signature of $I$}, as follows:
+\begin{enumerate}
+  \item $F_{\Sigma^I} = F_\Sigma \cup \{ \mathrm{rep}_d \mid d \in \mathcal{D}_I \}$, and
+  \item $P_{\Sigma^I} = P_\Sigma$,
+\end{enumerate}
+where each $\mathrm{rep}_d$ is a fresh symbol.
+Intuitively, $\mathrm{rep}_d$ is syntactic name for domain element $d \in \mathcal{D}_I$. Note that $\Sigma \subseteq \Sigma^I$.
+
+Let $\varphi_I \in \mathcal{F}(\Sigma^I)$ be the \emph{(external) description of $I$}, defined as follows:
+\begin{equation*}
+ \varphi_I := \varphi_\mathcal{D} \land \varphi_F \land \varphi_{R^+} \land \varphi_{R^-},
+\end{equation*}
+where ...
+\begin{equation*}\begin{split}
+  \varphi_\mathcal{D} &= \forall X.\, \bigvee_{d \in \mathcal{D}_I} \left( X = \mathrm{rep}_d \right) \\
+  \varphi_F &= \bigwedge_{\substack{f/n \in \mathcal{F}_\Sigma\\ (\overline{d_i},d) \in F^*(f/n)}} \left( f(\overline{\mathrm{rep}_{d_i}}) = \mathrm{rep}_d \right) \\
+  \varphi_{R^+} &= \bigwedge_{\substack{p/n \in \mathcal{P}_\Sigma\\ \overline{d_i} \in R^*_+(p/n)}} p(\overline{\mathrm{rep}_{d_i}})  \\
+  \varphi_{R^-} &= \bigwedge_{\substack{p/n \in \mathcal{P}_\Sigma\\ \overline{d_i} \in R^*_-(p/n)}} \neg p(\overline{\mathrm{rep}_{d_i}})  
+\end{split}\end{equation*}
+with
+\begin{equation*}\begin{split}
+  F^*(f/n) &:= \{ (\overline{d_i}, d) \in \mathcal{D}_I^{n+1} \mid F_I(\overline{d_i}) = d \} \\
+  R^*_+(p/n) &:= \{ \overline{d_i} \in \mathcal{D}_I^{n} \mid R_I(\overline{d_i}) = \mathit{TRUE} \} \\
+  R^*_-(p/n) &:= \{ \overline{d_i} \in \mathcal{D}_I^{n} \mid R_I(\overline{d_i}) = \mathit{FALSE} \} 
+\end{split}\end{equation*}
+(Note that we don't need that the $\mathrm{rep}_d$ are pair-wise distinct
+so far, because our $I^\prime$ does this. For the backwards direction of the Theorem, we might need this.)
+
+We extend $I$ to an $\Sigma^I$-interpretation $I^\prime$ to interpret the $\mathrm{rep}_d$ accordingly. Let $I^\prime = (\mathcal{D}_{I^\prime}, F_{I^\prime}, R_{I^\prime})$ where
+\begin{enumerate}
+  \item $\mathcal{D}_{I^\prime} = \mathcal{D}_I$, 
+  \item $F_{I^\prime} = x \mapsto \begin{cases} d & \text{ if } x = \mathrm{rep}_d \text{ for some } d \in \mathcal{D}_I \\ F_I(x) & \text{ otherwise} \end{cases}$, and
+  \item $R_{I^\prime} = R_I$.
+\end{enumerate}
+
+\begin{lemma} \label{lemma1}
+$I^\prime \models \varphi_I$
+\end{lemma}
+\begin{proof}
+$I^\prime \models \varphi_I$ iff $I^\prime \models \varphi_\mathcal{D}$ and
+$I^\prime \models \varphi_F$ and $I^\prime \models \varphi_R^+$ and $I^\prime \models \varphi_R^-$.
+\begin{enumerate}
+  \item $I^\prime \models \varphi_\mathcal{D}$: Let $x \in \mathcal{D}$.
+        $F_{I^\prime}(\mathrm{rep}_d) = x$ iff $x = d \in \mathcal{D}_I$.
+        Then $\bigvee_{d \in \mathcal{D}_I} \left( X = \mathrm{rep}_d \right)$ holds.
+  \item $I^\prime \models \varphi_F$: Holds by definition of $F^*$ and the fact that $F_{I^\prime}(\mathrm{rep}_d) = d$ for every $d \in \mathcal{D}_{I^\prime}$.
+  \item $I^\prime \models \varphi_R^+$: Analogously with $R^*_+$.
+  \item $I^\prime \models \varphi_R^-$: Analogously with $R^*_-$.
+\end{enumerate}
+\end{proof}
+
+\begin{lemma} \label{lemma2}
+$I \models \Phi$ iff $I^\prime \models \Phi$ for every formula $\Phi \in \mathcal{F}(\Sigma)$, i.e., any formula not containing symbols from $\Sigma^I \setminus \Sigma$.
+\end{lemma}
+\begin{proof}
+By definition of $I^\prime$.
+\end{proof}
+
+\begin{theorem}
+Let $\Phi \in \mathcal{F}(\Sigma)$ be a closed formula, and let $I$ be a $\Sigma$-interpretation. If $\varphi_I \models \Phi$ then $I \models \Phi$.
+\end{theorem}
+\begin{proof}
+Assume $\varphi_I \models \Phi$. 
+Note that $\Phi$ is also a well-formed $\Sigma^I$-formula.
+Then, by assumption, 
+if $J \models \varphi_I$ it follows that $J \models \Phi$ for every
+$\Sigma^I$-interpretation $J$.
+Let $I^\prime$ be the extended $\Sigma^I$-interpretation as defined above.
+By Lemma~\ref{lemma1} it holds that $I^\prime \models \varphi_I$, and hence
+$I^\prime \models \Phi$ by assumption.
+Since $\Phi$ does not contain any symbol from $\Sigma^I \setminus \Sigma$, it follows that $I \models \Phi$ by Lemma~\ref{lemma2}.
+\end{proof}
+
+\paragraph{Thoughts:}
+Wouldn't it be more convincing it we wouldn't need an extended interpretation $I^\prime$ and it we could just use $I$ itself? Of course, the TPTP representation gets a bit less nice, but we don't change the vocabulary ...
+
+We can do this, I think, by not defining new names (identifiers) for the domain elements of $I$, but instead use existentials:
+
+Let $\psi_I \in \mathcal{F}(\Sigma)$ be the \emph{internal description of $I$}, where $n = |\mathcal{D}_I|$, defined as follows:
+\begin{equation*}
+ \psi_I := \exists \overline{X_i}^n.\, \psi_\mathcal{D} \land \psi_F \land \psi_{R^+} \land \psi_{R^-},
+\end{equation*}
+where ...
+\begin{equation*}\begin{split}
+  \psi_\mathcal{D} &= \forall X.\, \left(\bigvee_{0 < i \leq n} \left( X = X_i \right) \right) \land \bigwedge_{i \neq j} (X_i \neq X_j)\\
+  \psi_F &= \bigwedge_{\substack{f/n \in \mathcal{F}_\Sigma\\ (\overline{d_i},d) \in F^*(f/n)}} \left( f(\overline{X_{\#{d_i}}}) = X_{\#d} \right) \\
+  \psi_{R^+} &= \bigwedge_{\substack{p/n \in \mathcal{P}_\Sigma\\ \overline{d_i} \in R^*_+(p/n)}} p(\overline{X_{\#{d_i}}})  \\
+  \psi_{R^-} &= \bigwedge_{\substack{p/n \in \mathcal{P}_\Sigma\\ \overline{d_i} \in R^*_-(p/n)}} \neg p(\overline{X_{\#{d_i}}})  
+\end{split}\end{equation*}
+such that
+$X_1, \ldots, X_n$ is some enumeration of $\mathcal{D}_I$, and
+$\#d$ is the position of $d \in \mathcal{D}_I$ in that enumeration.
+\end{document}
