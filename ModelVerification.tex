@@ -151,7 +151,7 @@ in both academia and industry.
 % TPTP World as an appropriate and convenient basis for ATP system research and development. 
 % Over the years the TPTP World has provided a platform upon which ATP users have presented their 
 % needs to ATP system developers, who have then adapted their ATP systems to the users’ needs.
-The web page \smalltt{https://www.tptp.org} provides access to all components.
+The web page {\smalltt{https://www.tptp.org}} provides access to all components.
 
 The TPTP languages \cite{Sut22-IGPL} are one of the keys to the success of the TPTP World.
 The languages are used for writing both TPTP problems and TSTP solutions, which enables convenient 
@@ -181,7 +181,7 @@ have been added.
 All the typed languages include constructs for arithmetic.
 This work applies to all the languages; TF0 (the monomorphic form of TFF) \cite{SS+12} 
 % and NX0 \cite{SF+22} forms are 
-is used as the examplar.
+is used as the example.
 
 The top level building blocks of the TPTP language are {\em annotated
 formulae}.
@@ -226,7 +226,8 @@ Figures~\ref{TF0FiniteProblem}-\ref{TF0InfiniteVerification}.
 TF0 is a typed first-order language.
 Every function and predicate symbol is declared before its use, with a type signature that 
 specifies the types of the symbol’s arguments and result.
-The TX0 types are 
+The TX0 types are
+\marginpar{PF: TX0: is this intentional or a typo for TF0?}
 (i)~the predefined types \smalltt{\$i} for individuals and \smalltt{\$o} for booleans; 
 (ii)~the predefined arithmetic types \smalltt{\$int}, \smalltt{\$rat}, and \smalltt{\$real}; 
 (iii)~user-defined types that have been declared to be of the kind \smalltt{\$tType}.
@@ -239,8 +240,7 @@ of arithmetic predicates and functions are ad hoc polymorphic over the arithmeti
 % TX0 formulae are those of first-order logic, extended to allow boolean variables and terms.
 % TX0 additionally supports tuples, conditional expressions, and let expressions, but they are
 % not used in this paper (see \cite{SK18} for the details).
-Figures~\ref{TF0FiniteProblem}~and~\ref{TF0InfiniteProblem} are examples of problems in TF0
-(whose associated (counter)models are discussed in Section~\ref{Interpretations}).
+Figures~\ref{TF0FiniteProblem}~and~\ref{TF0InfiniteProblem} are examples of problems in TF0.  Their associated (counter)models are discussed in Section~\ref{Interpretations}.
 
 \begin{figure}[htbp]
 \scriptsize
