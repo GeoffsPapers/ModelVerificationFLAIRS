@@ -323,7 +323,7 @@ ModelVerification/main/TFF\_Infinite.p}}}
 
 A Tarskian-style \cite{TV56} interpretation of formulae in a classical typed logic consists of 
 non-empty domains (one for each type - just one domain in the case of untyped logic), and 
-interpretation of the symbols (of the language induced by the formulae) wrt the domains 
+interpretations of the symbols (of the language induced by the formulae) with respect to the domains 
 \cite{Hun96}.
 An interpretation of given formulae can normally interpret all terms and formulae that can be 
 written in the language induced by the given formulae, but in some circumstances an interpretation 
@@ -344,7 +344,7 @@ interpretation of the symbols, a Herbrand model of clausal formulae can also be 
 saturation \cite{BG+01}, i.e., a fixed point for a set of clauses at which further application 
 of a complete inference system does not generate any new clauses.
 Indeed, this approach is adopted in saturation-based ATP systems such as E \cite{SCV19}, 
-Prover9 \cite{McC-Prover9-URL}, Vampire, Zipperposition \cite{VB+21}.
+Prover9 \cite{McC-Prover9-URL}, Vampire, and Zipperposition \cite{VB+21}.
 Unfortunately, a saturation tells you only that models exist, and very little about what they 
 might look like. 
 Saturations are difficult to interpret explicitly in a way that can be used constructively by 
@@ -370,8 +370,8 @@ has previously been defined \cite{SS+06}, and has been adopted by some ATP syste
 Recently the need for a format for interpretations with infinite domains, and for a format for 
 Kripke interpretations \cite{Kri63} of formulae written in the NTF language \cite{SF+22}, has 
 led to the development of a new format for interpretations using the TPTP languages.
-The changes allow for multiple interpretations to be given in a single file, which in the case
-of typed logics share type declarations.
+The changes allow for multiple interpretations to be given in a single file, which, in the case
+of typed logics, share type declarations.
 The underlying principle in unchanged: interpretations are represented using the same logic
 as used by the formulae that are interpreted.
 This provides the basis for verification of models, as explained in Section~\ref{Verification}.
@@ -379,7 +379,7 @@ This provides the basis for verification of models, as explained in Section~\ref
 The new format for an interpretation uses a single annotated formula with the role 
 \smalltt{interpretation}, preceded by any necessary type declarations for typed logics.
 In order for the interpretation formula to be well-typed (as a formula of the logic), a
-{\em type-promotion} function is declared, which 
+{\em type-promotion} function is declared, which \marginpar{PF: I guess the previous incomplete sentence must be deleted: there is info about promotion below}
 The type declarations are those of the formulae being interpreted, and declarations for:
 \begin{packed_itemize}
 \item the types of the domains (unless already defined in the language, e.g., the type
@@ -481,7 +481,7 @@ ModelVerification/main/TFF\_Finite.s}}}
 \label{TF0FiniteInterpretation}
 \end{figure}
 
-Figure~\ref{TF0InfiniteInterpretation} is an interpretation with a infinite domain - it is a model 
+Figure~\ref{TF0InfiniteInterpretation} is an interpretation with an infinite domain - it is a model 
 for the problem in Figure~\ref{TF0InfiniteProblem}.
 The components are very much the same as for Figure~\ref{TF0FiniteInterpretation}, noting how:
 \begin{packed_itemize}
@@ -542,17 +542,16 @@ One way to verifying proofs output by ATP systems is to verify that each inferen
 implemented calculus is performed correctly; if the calculus is sound then the proof is
 sound.
 Inferences of logical consequence can be checked by forming a proof obligation whose axioms
-are the parents of the inference and whose conjecture is the conclusion of the inference,
+are the parents\marginpar{PF:hypotheses?} of the inference and whose conjecture is the conclusion of the inference,
 then discharging the obligation using a trusted ATP system. 
 This ``semantic'' approach is taken in, e.g., SPASS \cite{WF+09} and in GDV \cite{Sut06}.
 The same approach can be taken to verify that an interpretation is a model of given formulae, 
 by proving each of the given formulae is a logical consequence of the interpretation formula.
 The interpretation formula is supplied as an axiom, and each of the given formulae is proven
 as a conjecture (or their conjunction can be proven).
-The soundness of this approach relies the fact that if a given formula is a logical consequence 
+The soundness of this approach relies on the fact that if a given formula is a logical consequence 
 of the interpretation formula, then the given formula is interpreted as {\em true} by the model 
 represented by the interpretation formula.
-The proof is this follows.
 
 Proof
 
