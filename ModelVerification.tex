@@ -60,7 +60,7 @@ Some country}
 \section{Introduction}
 \label{Introduction}
 
-Automated Reasoning (AR), and Automated Theorem Proving (ATP) in particular, has largely focussed
+Automated Reasoning (AR), and Automated Theorem Proving (ATP) in particular, has largely focused
 on the task of proving theorems from axioms - the derivation of conclusions that follow inevitably 
 from known facts \cite{RV01-HAR}.
 The axioms and conjecture to be proved (and hence become a theorem) are written in an 
@@ -75,15 +75,15 @@ and formulae have the type $o$, and can also be generalized to higher-order logi
 
 In the last two decades the converse task of disproving conjectures, i.e., proving that a 
 conjecture is not a theorem of the axioms, has become increasingly important.
-This process is depends on finding an {\em interpretation} of the formulae, i.e., structures that
-map expressions written in the language of the formulae to domain elements and truth values.
-In most cases the interpretation is a {\em model} of certain formulae, i.e., it maps the those
+This process depends on finding an {\em interpretation} of the formulae, i.e., a structure that
+maps expressions written in the language of the formulae to domain elements and truth values.
+In most cases the interpretation is a {\em model} of certain formulae, i.e., it maps those
 formulae to {\em true}.
 A disproof of a conjecture is a countermodel that provides an interpretation of the formulae 
 that is a model of the axioms, but maps the conjecture to {\em false}.
 A salient application area that harnesses this form of ATP is verification \cite{DKW08},
 where a countermodel is used to pinpoint the reason why a proof obligation fails, and
-correspondingly point to the location of the fault in the system being verified.
+correspondingly points to the location of the fault in the system being verified.
 Other applications of model finding include checking the consistency of an axiomatization 
 \cite{SS+17}, and finding a solution to a problem that is coded as a model finding problem 
 \cite{Win82}.
@@ -96,23 +96,25 @@ In addition to ATP systems that produce interpretations (typically models),
 % and ATP systems that find 
 e.g., Paradox \cite{CS03}, FM-Darwin \cite{BF+09}, Nipick \cite{BN10-ITP},
 there is a need for tools that support examination and use of the interpretations.
-This papers examines the tasks of verifying models and visualizing interpretations, and describes 
+This paper examines the tasks of verifying models and visualizing interpretations, and describes 
 new tools for these tasks - Sections~\ref{Verification}~and~\ref{Visualization}.
+
+PF2ALL: application of visualization: understand the essence of a model, pedagogy in logic courses and formal methods.
 
 \paragraph{Related Work:}
 In \cite{SS+06} a TPTP format for interpretations with finite domains was defined, and has been 
 adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
-Other formats for interpretations include the SMT format PASCAL TO FILL IN, the DIMACS format,
+Other formats for interpretations include the SMT-LIB format PASCAL TO FILL IN, the DIMACS format,
 and ad hoc formats used by model finding systems, e.g., TO BE FILLED IN BY ALL.
 +++
 Nikolaj says ...
 Z3 It produces models that define functions by expressions. For example a model of succ is 
 Succ(x) =X+ 1
-Works when domain is integer. Currently z3 does not implement infinite models for uninterpreted sorts. I would probablybsupport infinite sorts by creating injection into annalgebraic datatype and then support models that can be expressed over ADT.
+Works when domain is integer. Currently z3 does not implement infinite models for uninterpreted sorts. I would probably support infinite sorts by creating injection into an algebraic datatype and then support models that can be expressed over ADT.
 See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
 +++
 Related work on verification and visualization of interpretations is sparse:
-Model verification related work by Giles? Other? Pascal - know any from SMT?
+Model verification related work by Giles? Other? Pascal - know any from SMT? PF: no, to my best knowledge.
 Visualization.
 No related work. Alex - know any (other than your student)?
 
