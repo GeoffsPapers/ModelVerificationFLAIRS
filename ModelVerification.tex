@@ -104,7 +104,9 @@ PF2ALL: application of visualization: understand the essence of a model, pedagog
 \paragraph{Related Work:}
 In \cite{SS+06} a TPTP format for interpretations with finite domains was defined, and has been 
 adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
-The SMT-LIB format~\cite{BFT17} provides facilities to inspect or output models.  SAT solvers generally output models as specified by the SAT competitions, in a simple format similar to the DIMACS input format.
+The SMT-LIB format \cite{BFT17} provides facilities to inspect or output models.  
+SAT solvers generally output models as specified by the SAT competitions, in a simple format 
+similar to the DIMACS input format.
 Ad hoc formats are used by model finding systems, e.g., TO BE FILLED IN BY ALL.
 +++
 Nikolaj says ...
@@ -227,8 +229,7 @@ Figures~\ref{TF0FiniteProblem}-\ref{TF0InfiniteVerification}.
 TF0 is a typed first-order language.
 Every function and predicate symbol is declared before its use, with a type signature that 
 specifies the types of the symbol’s arguments and result.
-The TX0 types are
-\marginpar{PF: TX0: is this intentional or a typo for TF0?}
+The TF0 types are
 (i)~the predefined types \smalltt{\$i} for individuals and \smalltt{\$o} for booleans; 
 (ii)~the predefined arithmetic types \smalltt{\$int}, \smalltt{\$rat}, and \smalltt{\$real}; 
 (iii)~user-defined types that have been declared to be of the kind \smalltt{\$tType}.
@@ -379,14 +380,13 @@ This provides the basis for verification of models, as explained in Section~\ref
 
 The new format for an interpretation uses a single annotated formula with the role 
 \smalltt{interpretation}, preceded by any necessary type declarations for typed logics.
-In order for the interpretation formula to be well-typed (as a formula of the logic), a
-{\em type-promotion} function is declared, which \marginpar{PF: I guess the previous incomplete sentence must be deleted: there is info about promotion below}
 The type declarations are those of the formulae being interpreted, and declarations for:
 \begin{packed_itemize}
 \item the types of the domains (unless already defined in the language, e.g., the type
       \smalltt{\$int});
 \item the types of type-promotion functions that promote the types of the domains to the types 
-      of the terms in the formulae;
+      of the formulae; type-promotion is required to make the terms and formulae of the
+      interpretation formula well-typed;
 \item the types of the domain elements.
 \end{packed_itemize}
 \vspace*{-0.4em}
