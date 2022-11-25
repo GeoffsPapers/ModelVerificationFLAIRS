@@ -9,7 +9,7 @@
 \setlength{\pdfpagewidth}{8.5in}
 \setlength{\pdfpageheight}{11in}
 \pdfinfo{
-/Title (Representation, Verification, and Visualization of Interpretations in Classical First-order Logic)
+/Title (Representation, Verification, and Visualization of Classical Interpretations for First-order Logic)
 /Author (Geoff Sutcliffe, Alexander Steen, Pascal Fontaine, Jack McKeown)}
 \setcounter{secnumdepth}{2}  
 \newcommand{\smalltt}[1]{\small \texttt{#1}}
@@ -29,8 +29,8 @@
 % proceedings, working notes, and technical reports.  This file is made 
 % with minimal changes by explicit permission from AAAI.
 
-\title{Representation, Verification, and Visualization of Interpretations\\
-in Classical First-order Logic}
+\title{Representation, Verification, and Visualization of\\
+Classical Interpretations for First-order Logic}
 \author{Anon One\\
 Some where\\
 Some place\\
@@ -543,7 +543,7 @@ One way to verifying proofs output by ATP systems is to verify that each inferen
 implemented calculus is performed correctly; if the calculus is sound then the proof is
 sound.
 Inferences of logical consequence can be checked by forming a proof obligation whose axioms
-are the parents\marginpar{PF:hypotheses?} of the inference and whose conjecture is the conclusion of the inference,
+are the parents of the inference and whose conjecture is the conclusion of the inference,
 then discharging the obligation using a trusted ATP system. 
 This ``semantic'' approach is taken in, e.g., SPASS \cite{WF+09} and in GDV \cite{Sut06}.
 The same approach can be taken to verify that an interpretation is a model of given formulae, 
@@ -611,13 +611,39 @@ ModelVerification/main/TFF\_Infinite.s.p}}}
 \section{Interpretation Visualization}
 \label{Visualization}
 
-Figure~\ref{TF0FiniteIIV} is a visualization of the countermodel shown in 
+Proof visualization is well-established, with several tools available, e.g., 
+JACK TO INVESTIGATE.
+Treehehe {\smalltt{https://chelsea.lol/Resources/COMP5209\_BattellC\_report.pdf}},
+Evonne {\smalltt{https://lat.inf.tu-dresden.de/research/papers/2022/ALBABODAKOME-IJCAR22.pdf}},
+ProofTree,
+Anything from Dedukti?,
+IDV \cite{TPS07}.
+However, interpretation visualization has (to the knowledge of the authors) not been investigated.
+JACK TO INVESTIGATE.
+A way of visualizing finite interpretations for TFO formulae has been designed in this work, and 
+a prototype implementation is available online as the IIV tool in the SystemOnTSTP 
+\cite{Sut07-CSR} web interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
+
+Figure~\ref{TF0FiniteIIV} is the visualization of the countermodel in 
 Figure~\ref{TF0FiniteInterpretation}.
-It shows the situation with the cursor hovering over the lower {\tt d\_john} node on the path
-from {\tt created\_equal} to {\tt \$true}.
-The nodes above are increasingly darker red (grey if printed) up to the type node {\tt \$o} that
-is the result type of {\tt created\_equal}, and of increasingly darker blue down to the type 
-node {\tt \$o} that is the type of {\tt \$true}.
+The top row of inverted triangles are the types used in the given formulae,
+while the bottom row of inverted triangles are the types of the domains in the interpretation
+formula.
+The row of inverted houses are the function and predicate symbols in the given formulae,
+and the successive rows of ovals are the successive arguments for the symbols as used in the
+specification of their interpretation.
+Finally, the row of houses and boxes are the interpretations of the symbols applied to those
+arguments; houses for functions and boxes for predicates.
+For example, in the given formulae the type of {\smalltt{grade\_of}} is {\smalltt{grade}},
+and {\smalltt{grade\_of(d\_john)}} is interpreted as {\smalltt{d\_f}}, which is of type
+{\smalltt{d\_grade}} in the interpretation formula.
+
+IIV provides some interactive features: Figure~\ref{TF0FiniteIIV} shows the situation with 
+the cursor hovering over the lower {\smalltt{d\_john}} node on the path from 
+{\smalltt{created\_equal}} to {\smalltt{\$true}}.
+The nodes above are increasingly darker red (grey if printed) up to the type node {\smalltt{\$o}} 
+that is the result type of {\smalltt{created\_equal}}, and of increasingly darker blue down to 
+the type node {\smalltt{\$o}} that is the type of {\smalltt{\$true}}.
 This interactive highlighting allows a user to quickly identify the interpretations for symbols
 of the language by hovering over the inverted house nodes, to quickly find what symbols applied to
 what domain elements are interpreted as which domain elements and boolean values by hovering over
@@ -625,18 +651,20 @@ the house and box nodes, and to quickly see how different domain elements affect
 of difference symbols by hovering over the oval nodes.
 Details of the annotated formulae used to represent each node in the input to IIV are available 
 in the ``Node Information'' box (which is to the left in reality, placed below here).
-This interactive visualization is available in the IIV tool in SystemOnTSTP \cite{Sut07-CSR}, using 
+This interactive visualization is available in the IIV tool in SystemOnTSTP, using 
 {\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Finite.s.IDV}}
 as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and clicking the
 ``Process Solution'' button.
 
 \begin{figure}[htbp]
 \includegraphics[width=\columnwidth]{IIV.pdf}
-\caption{Visualization of an interpretation with two finite domains}
+\caption{Visualization of an interpretation}
 \label{TF0FiniteIIV}
 \end{figure}
 
-What about infinite domains?
+At this stage the implementation is prototype in the sense that an interpretation formula
+has to be manually translated into the input format for IIV.
+Further inspiration is needed to design a visualization for infinite interpretations.
 
 %--------------------------------------------------------------------------------------------------
 \section{Conclusion}
