@@ -45,7 +45,7 @@ tff(equality_lost,interpretation,
       & created_equal(d2man(d_john),d2man(d_got_A))
       & created_equal(d2man(d_got_A),d2man(d_john))
       & created_equal(d2man(d_got_A),d2man(d_got_A)) ) ) ).
-%----If John was not equal to the man who got an A:
+%----If John was not created equal to the person who got an A:
 %---- & ~ created_equal(d2man(d_john),d2man(d_got_A))
 %---- & ~ created_equal(d2man(d_got_A),d2man(d_john))
 %------------------------------------------------------------------------------

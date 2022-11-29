@@ -36,17 +36,17 @@ Some where\\
 Some place\\
 Some country\\
 \And
-Anon One\\
+Anon Two\\
 Some where\\
 Some place\\
 Some country\\
 \And
-Anon One\\
+Anon Three\\
 Some where\\
 Some place\\
 Some country\\
 \And
-Anon One\\
+Anon Four\\
 Some where\\
 Some place\\
 Some country}
@@ -471,7 +471,7 @@ tff(equality_lost,interpretation,
       & created_equal(d2man(d_gotA),d2man(d_john))
       & created_equal(d2man(d_gotA),d2man(d_gotA)) ) 
     ) ).
-%----If John was not equal to the man who got an A:
+%----If John was not equal to the person who got an A:
 %---- & ~ created_equal(d2man(d_john),d2man(d_gotA))
 %---- & ~ created_equal(d2man(d_gotA),d2man(d_john))
 %--------------------------------------------------------
@@ -625,7 +625,8 @@ a prototype implementation is available online as the IIV tool in the SystemOnTS
 \cite{Sut07-CSR} web interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
 
 Figure~\ref{TF0FiniteIIV} is the visualization of the countermodel in 
-Figure~\ref{TF0FiniteInterpretation}.
+Figure~\ref{TF0FiniteInterpretation}, with {\smalltt{john}} not created equal to the person
+who got an {\smalltt{A}}.
 The top row of inverted triangles are the types used in the given formulae,
 while the bottom row of inverted triangles are the types of the domains in the interpretation
 formula.
@@ -658,7 +659,7 @@ as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and cli
 
 \begin{figure}[htbp]
 \includegraphics[width=\columnwidth]{IIV.pdf}
-\caption{Visualization of an interpretation}
+\caption{Visualization of the interpretation in Figure~\ref{TF0FiniteInterpretation}}
 \label{TF0FiniteIIV}
 \end{figure}
 
