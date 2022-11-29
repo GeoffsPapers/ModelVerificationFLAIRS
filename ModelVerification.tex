@@ -624,7 +624,7 @@ A way of visualizing finite interpretations for TFO formulae has been designed i
 a prototype implementation is available online as the IIV tool in the SystemOnTSTP 
 \cite{Sut07-CSR} web interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
 
-Figure~\ref{TF0FiniteIIV} is the visualization of the countermodel in 
+Figure~\ref{TF0FiniteIIV} is the visualization of the finite countermodel in 
 Figure~\ref{TF0FiniteInterpretation}, with {\smalltt{john}} not created equal to the person
 who got an {\smalltt{A}}.
 The top row of inverted triangles are the types used in the given formulae,
@@ -650,6 +650,8 @@ of the language by hovering over the inverted house nodes, to quickly find what 
 what domain elements are interpreted as which domain elements and boolean values by hovering over
 the house and box nodes, and to quickly see how different domain elements affect the interpretation
 of difference symbols by hovering over the oval nodes.
+Here the cursor is hovering over a {\smalltt{d\_john}} node, showing how
+{\smalltt{created\_equal(d\_john,d\_john)}} is interpreted as {\smalltt{\$true}}.
 Details of the annotated formulae used to represent each node in the input to IIV are available 
 in the ``Node Information'' box (which is to the left in reality, placed below here).
 This interactive visualization is available in the IIV tool in SystemOnTSTP, using 
@@ -658,9 +660,25 @@ as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and cli
 ``Process Solution'' button.
 
 \begin{figure}[htbp]
-\includegraphics[width=\columnwidth]{IIV.pdf}
+\includegraphics[width=\columnwidth]{TFF_Finite.s.IIV.pdf}
 \caption{Visualization of the interpretation in Figure~\ref{TF0FiniteInterpretation}}
 \label{TF0FiniteIIV}
+\end{figure}
+
+Figure~\ref{TF0InfiniteIIV} is the visualization of the infinite model in 
+Figure~\ref{TF0InfiniteInterpretation}. 
+Here (universally quantified) variables are used to represent the infinite number of
+domain elements, and builtin arithmetic predicates used to compute the symbols' mappings.
+Here the cursor is hovering over the {\smalltt{X:\$int}} node, showing how 
+{\smalltt{child\_of(X)}} is interpreted as {\smalltt{\$sum(X,1)}}.
+This interactive visualization is available in the IIV tool using 
+{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Integer.s.IDV}}
+as the ``URL to fetch from''.
+
+\begin{figure}[htbp]
+\includegraphics[width=\columnwidth]{TFF_Integer.s.IIV.pdf}
+\caption{Visualization of the interpretation in Figure~\ref{TF0InfiniteInterpretation}}
+\label{TF0InfiniteIIV}
 \end{figure}
 
 At this stage the implementation is prototype in the sense that an interpretation formula
