@@ -542,6 +542,9 @@ ModelVerification/main/TFF\_Infinite.s}}}
 \section{Model Verification}
 \label{Verification}
 
+NEED TO TALK ABOUT CHECKING interpretation formula for consistency, using a trusted model
+finder.
+
 One way to verifying proofs output by ATP systems is to verify that each inference of the
 implemented calculus is performed correctly; if the calculus is sound then the proof is
 sound.
@@ -550,9 +553,10 @@ are the parents of the inference and whose conjecture is the conclusion of the i
 then discharging the obligation using a trusted ATP system. 
 This ``semantic'' approach is taken in, e.g., SPASS \cite{WF+09} and in GDV \cite{Sut06}.
 The same approach can be taken to verify that an interpretation is a model of given formulae, 
-by proving each of the given formulae is a logical consequence of the interpretation formula.
-The interpretation formula is supplied as an axiom, and each of the given formulae is proven
-as a conjecture (or their conjunction can be proven).
+by using a trusted theorem proving ATP system to prove each of the given formulae from the 
+interpretation formula.
+The interpretation formula is supplied as an axiom, and each of the given formulae (or their
+conjunction) is given as a conjecture to be proved.
 The soundness of this approach relies on the fact that if a given formula is a logical consequence 
 of the interpretation formula, then the given formula is interpreted as {\em true} by the model 
 represented by the interpretation formula.
@@ -621,9 +625,9 @@ Evonne {\smalltt{https://lat.inf.tu-dresden.de/research/papers/2022/ALBABODAKOME
 ProofTree,
 Anything from Dedukti?,
 IDV \cite{TPS07}.
-However, interpretation visualization has (to the knowledge of the authors) not been investigated.
-JACK TO INVESTIGATE.
-A way of visualizing finite interpretations for TFO formulae has been designed in this work, and 
+However, interpretation visualization has (to the knowledge of the authors) had minimal attention,
+as noted in Section~\ref{Introduction}. 
+A way of visualizing interpretations for TFO formulae has been designed in this work, and 
 a prototype implementation is available online as the IIV tool in the SystemOnTSTP 
 \cite{Sut07-CSR} web interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
 
