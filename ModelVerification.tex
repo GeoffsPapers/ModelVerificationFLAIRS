@@ -108,6 +108,7 @@ The SMT-LIB format \cite{BFT17} provides facilities to inspect or output models.
 SAT solvers generally output models as specified by the SAT competitions, in a simple format 
 similar to the DIMACS input format.
 Ad hoc formats are used by model finding systems, e.g., TO BE FILLED IN BY ALL.
+Nitpick \cite{BN10-ITP}.
 +++
 Nikolaj says ...
 Z3 It produces models that define functions by expressions. For example a model of succ is 
@@ -115,14 +116,18 @@ Succ(x) =X+ 1
 Works when domain is integer. Currently z3 does not implement infinite models for uninterpreted sorts. I would probably support infinite sorts by creating injection into an algebraic datatype and then support models that can be expressed over ADT.
 See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
 +++
+
 Related work on verification and visualization of interpretations is sparse:
 Model verification related work by Giles? Other?
 % Pascal - know any from SMT? PF: no, to my best knowledge, and after a quick check on Google.
-For visualization the only other work that has been found is \cite{Sch13-MS}.
-This provides a visualization of finite first-order interpretations, as
-produced by Paradox.
-The visualization is quite different from that described in this work.
-No related work. Alex - know any (other than your student)?
+For visualization, the Mace4 model finder \cite{McC03-MACE4-TR} outputs textual information about 
+the models it finds, including the interpretations for constants as integer domain elements, and 
+tables for the function and predicate symbols' interpretations. 
+The tables are naturally restricted to symbols of arity no greater than two.
+The only other graphical visualization that has been found is that descibed in \cite{Sch13-MS},
+which provides a visualization of finite first-order interpretations as produced by Paradox.
+The visualization is quite different from the one in this work.
+Alex - know any (other than your student)?
 
 % This paper is organized as follows:
 % Section~\ref{TPTP} introduces the TPTP World which provides the framework and languages used
