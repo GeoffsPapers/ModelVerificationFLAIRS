@@ -14,7 +14,7 @@
 \setcounter{secnumdepth}{2}  
 \newcommand{\smalltt}[1]{\small \texttt{#1}}
 \newenvironment{packed_itemize}{
-\vspace*{-0.5em}
+\vspace*{-0.2em}
 \begin{itemize}
 \setlength{\partopsep}{0pt}
 \setlength{\itemsep}{1pt}
@@ -397,32 +397,36 @@ The type declarations are those of the formulae being interpreted, and declarati
       interpretation formula well-typed;
 \item the types of the domain elements.
 \end{packed_itemize}
-\vspace*{-0.4em}
-The \smalltt{interpretation} formula specifies 
+% \vspace*{-0.4em}
+The \smalltt{interpretation} formula is a conjunction specifying: 
 \begin{packed_itemize}
-\item the domain for each type in the formulae, including explicit or implicit specification
-      of the distinct domain elements;
-\item constraints making (in conjunction with the domain specifications) the type-promotion 
-      functions into bijections;
-\item interpretation of the formulae symbols.
+\item for each type in the formulae:
+      \begin{packed_itemize}
+      \item the domain type, by a formula that makes the type-promotion function a surjection; 
+            this is omitted if the type of the domain is the same as the type in the formula
+            (e.g., when the formula type is \smalltt{\$int} and the domain type is naturally 
+            also \smalltt{\$int});
+      \item the domain elements as terms (unless implicit from their type), as a universally 
+            quantified disjunction of equalities whose righthand sides are the domain element
+            terms;
+      \item specification of the distinctness of the domain elements (unless implicit from their
+            type);
+      \item a formula making the type-promotion function a bijection (unless the type of the 
+            domain is the same as the type in the formula), which together with the surjectivity 
+            makes it a bijection;
+      \end{packed_itemize}
+\item interpretation of the formulae constant and function symbols, using equalities whose lefthand
+      sides are terms formed from symbols applied to type-promoted domain elements, and whose 
+      righthand sides are type-promoted domain elements;
+\item interpretation of the formulae predicate symbols, using literals formed from symbols applied
+      to type-promoted domain elements; positive literals are {\em true} and negative literals 
+      are {\em false}.
 \end{packed_itemize}
 
 Figure~\ref{TF0FiniteInterpretation} is an interpretation with a finite domain - it is a 
 countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
 The comments show which parts of the formula specify what aspects of the interpretation, per
 the list above.
-Note how:
-\begin{packed_itemize}
-\item the type-promotion functions are used to specify the domains;
-\item the TPTP language's \smalltt{\$distinct} predicate makes the domain elements unequal to
-      each other;
-\item the domain specifications make the type-promotion functions surjective, which along
-      with the constraint of injectivity makes the functions bijective;
-\item functions applied to domain elements are interpreted by equating them to domain elements
-      via appropriate type-promotion function, thus making the terms well-typed;
-\item predicates applied to domain elements are interpreted directly by asserting them or their
-      negation.
-\end{packed_itemize}
 
 \begin{figure}[htbp]
 \scriptsize
@@ -456,7 +460,7 @@ tff(equality_lost,interpretation,
 %----The d_man elements are d_john and d_gotA
       & ! [DM: d_man] : ( DM = d_john | DM = d_gotA )
       & $distinct(d_john,d_gotA)
-%----The type promoter is a bijection
+%----The type-promoter is a bijection
       & ! [DM1: d_man,DM2: d_man] :
           ( d2man(DM1) = d2man(DM2) => DM1 = DM2 )
 %----The domain for grade is d_grade
@@ -464,7 +468,7 @@ tff(equality_lost,interpretation,
 %----The d_grade elements are d_a and d_f
       & ! [DG: d_grade]: ( DG = d_a | DG = d_f )
       & $distinct(d_a,d_f)
-%----The type promoter is a bijection
+%----The type-promoter is a bijection
       & ! [DG1: d_grade,DG2: d_grade] :
           ( d2grade(DG1) = d2grade(DG2) => DG1 = DG2 ) )
 %----Interpret terms via the type-promoted domain
@@ -492,16 +496,13 @@ ModelVerification/main/TFF\_Finite.s}}}
 
 Figure~\ref{TF0InfiniteInterpretation} is an interpretation with an infinite domain - it is a model 
 for the problem in Figure~\ref{TF0InfiniteProblem}.
-The components are very much the same as for Figure~\ref{TF0FiniteInterpretation}, noting how:
-\begin{packed_itemize}
-\item the domain declaration uses the defined arithmetic type \smalltt{\$int};
-\item there is no specification of the types of the domain elements or their inequality because 
-      the type is defined;
-\item universal quantification is used to specify the interpretation of functions and predicates
-      for an infinite number of domain element argument tuples;
-\item the interpretations of functions and predicates is not specified for argument tuples with 
-      negative integer arguments - this is an example of a partial interpretation.
-\end{packed_itemize}
+Note how:
+$\bullet$~the defined type \smalltt{\$int} is the domain type for the formula type \smalltt{person},
+so that there is no specification of the domain elements and their distinctness;
+$\bullet$~universal quantification is used to specify the interpretation of function and predicate
+symbols for an infinite number of argument tuples;
+$\bullet$~the interpretations of function and predicate symbols is not specified for argument 
+tuples formed from negative integers - this is an example of a partial interpretation.
 
 \begin{figure}[htbp]
 \scriptsize
@@ -519,7 +520,7 @@ tff(int2person_decl,type,    int2person: $int > person ).
 tff(people,interpretation,
 %----Domain for type person is the integers
     ( ! [P: person] : ? [I: $int] : int2person(I) = P
-%----The type promoter is a bijection
+%----The type-promoter is a bijection
     & ! [I1: $int,I2: $int] : 
         ( int2person(I1) = int2person(I2) 
        => I1 = I2 )
