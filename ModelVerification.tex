@@ -54,6 +54,12 @@ Some country}
 \maketitle
 \begin{abstract}
 \begin{quote}
+This paper describes the new TPTP format for representing Tarskian-style interpretations for
+formula in classical typed first order logic, using the TPTP TH0 language.
+It goes on to describe a technique and implemented tool for verifying models using this
+representation, and a tool for visualizing interpretations.
+The paper thus contributes to the advancement of ATP technology for model finding, which has
+several applications, including verification.
 \end{quote}
 \end{abstract}
 %--------------------------------------------------------------------------------------------------
@@ -124,7 +130,7 @@ For visualization, the Mace4 model finder \cite{McC03-MACE4-TR} outputs textual 
 the models it finds, including the interpretations for constants as integer domain elements, and 
 tables for the function and predicate symbols' interpretations. 
 The tables are naturally restricted to symbols of arity no greater than two.
-The only other graphical visualization that has been found is that descibed in \cite{Sch13-MS},
+The only other graphical visualization that has been found is that described in \cite{Sch13-MS},
 which provides a visualization of finite first-order interpretations as produced by Paradox.
 The visualization is quite different from the one in this work.
 Alex - know any (other than your student)?
@@ -331,10 +337,10 @@ ModelVerification/main/TFF\_Infinite.p}}}
 \section{Interpretations}
 \label{Interpretations}
 
-A Tarskian-style \cite{TV56} interpretation of formulae in a classical typed logic consists of 
-non-empty domains (one for each type - just one domain in the case of untyped logic), and 
-interpretations of the symbols (of the language induced by the formulae) with respect to the domains 
-\cite{Hun96}.
+A Tarskian-style \cite{TV56} interpretation of formulae in classical typed first order logic 
+consists of non-empty domains (one for each type - just one domain in the case of untyped logic), 
+and interpretations of the function and predicate symbols (of the language induced by the 
+formulae) with respect to the domains \cite{Hun96}.
 An interpretation of given formulae can normally interpret all terms and formulae that can be 
 written in the language induced by the given formulae, but in some circumstances an interpretation 
 can interpret only (at least) the given formulae; such an interpretation is a {\em partial
@@ -407,7 +413,7 @@ The \smalltt{interpretation} formula is a conjunction specifying:
             (e.g., when the formula type is \smalltt{\$int} and the domain type is naturally 
             also \smalltt{\$int});
       \item the domain elements as terms (unless implicit from their type), as a universally 
-            quantified disjunction of equalities whose righthand sides are the domain element
+            quantified disjunction of equalities whose right-hand sides are the domain element
             terms;
       \item specification of the distinctness of the domain elements (unless implicit from their
             type);
@@ -415,9 +421,9 @@ The \smalltt{interpretation} formula is a conjunction specifying:
             domain is the same as the type in the formula), which together with the surjectivity 
             makes it a bijection;
       \end{packed_itemize}
-\item interpretation of the formulae constant and function symbols, using equalities whose lefthand
-      sides are terms formed from symbols applied to type-promoted domain elements, and whose 
-      righthand sides are type-promoted domain elements;
+\item interpretation of the formulae constant and function symbols, using equalities whose 
+      left-hand sides are terms formed from symbols applied to type-promoted domain elements, 
+      and whose right-hand sides are type-promoted domain elements;
 \item interpretation of the formulae predicate symbols, using literals formed from symbols applied
       to type-promoted domain elements; positive literals are {\em true} and negative literals 
       are {\em false}.
@@ -548,34 +554,55 @@ ModelVerification/main/TFF\_Infinite.s}}}
 \section{Model Verification}
 \label{Verification}
 
-NEED TO TALK ABOUT CHECKING interpretation formula for consistency, using a trusted model
-finder.
+ATP systems are complex pieces of software, implementing complex calculi, with the end goal
+being a sound implementation of a sound inference system whose output correctly corroborates the
+result obtained.
+The reality is that the complexity leads to incorrectness, and as such verification of ATP systems'
+outputs is necessary; for theorem proving this means verifying the proof output \cite{Sut06},
+and for model finding this means verifying the model output.
+In the context of this work the model verification applies to the type declarations and 
+the \small{interpretation} formula that represent the model found by the ATP system, and
+has at least the following aspects:
+\begin{enumerate}
+\item Are the type declarations and interpretation formula syntactically well-formed 
+      and semantically well-typed?
+\item Is the interpretation formula satisfiable?
+\item Does the interpretation formula correctly represent the model found by the ATP system?
+\item Does the interpretation formula interpret the given formulae as {\em true}?
+\end{enumerate}
+\noindent
+These questions are answered as follows:
+\begin{enumerate}
+\item This can be confirmed using standard parsing and type checking tools, e.g., \cite{VS06},
+      \cite{HR15}.
+\item This can be empirically confirmed using a trusted model finder (in the same way the GDV 
+      derivation verifier \cite{Sut06} uses the Otter system \cite{McC03-Otter} as a trusted 
+      theorem prover).
+      Note that confirming that the \small{interpretation} formula is satisfiable is almost
+      certainly much easier than finding the model itself, so the system used to check the
+      satisfiability can be weaker and more trusted than the ATP system that found the model.
+\item This cannot be confirmed, as that representation is internal to the ATP system that found
+      the model.
+\item In this work a ``semantic'' approach is taken, in which each given formula is proved from
+      the interpretation formula using a trusted theorem prover; the interpretation formula is 
+      supplied as an axiom, and each of the given formulae (or their conjunction) is given as a 
+      conjecture to be proved.
+      Figure~\ref{TF0InfiniteVerification} illustrates this, showing the verification 
+      problem for the problem in Figure~\ref{TF0InfiniteProblem} and its model in 
+      Figure~\ref{TF0InfiniteInterpretation}.
 
-One way to verifying proofs output by ATP systems is to verify that each inference of the
-implemented calculus is performed correctly; if the calculus is sound then the proof is
-sound.
-Inferences of logical consequence can be checked by forming a proof obligation whose axioms
-are the parents of the inference and whose conjecture is the conclusion of the inference,
-then discharging the obligation using a trusted ATP system. 
-This ``semantic'' approach is taken in, e.g., SPASS \cite{WF+09} and in GDV \cite{Sut06}.
-The same approach can be taken to verify that an interpretation is a model of given formulae, 
-by using a trusted theorem proving ATP system to prove each of the given formulae from the 
-interpretation formula.
-The interpretation formula is supplied as an axiom, and each of the given formulae (or their
-conjunction) is given as a conjecture to be proved.
-The soundness of this approach relies on the fact that if a given formula is a logical consequence 
-of the interpretation formula, then the given formula is interpreted as {\em true} by the model 
-represented by the interpretation formula.
+      The soundness of this approach relies on the fact that if a given formula is a logical 
+      consequence of the interpretation formula, then the given formula is interpreted as 
+      {\em true} by the model represented by the interpretation formula.
+      A proof of this is given below.
 
-Proof
+      An implementation of this approach is available online as the GMV tool in the SystemOnTSTP
+      \cite{Sut07-CSR} web interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
+      The tool input is the concatenation of the type declarations and formulae being modelled, 
+      with the type declarations and the interpretation formula.
+      In the current implementation DO I CONJOIN OR DO MULTIPLE PROOFS?
+\end{enumerate}
 
-Implementation.
-Problem's axioms and negated conjecture as conjectures (TPTP standard says can do separately,
-but ATP systems take them as a disjunction to make them into one big conjunction - that's
-harder to verify of course).
-
-Figure~\ref{TF0InfiniteVerification} is the verification problem for the problem in 
-Figure~\ref{TF0InfiniteProblem} and its model in Figure~\ref{TF0InfiniteInterpretation}.
 
 \begin{figure}[htbp]
 \scriptsize
@@ -619,6 +646,8 @@ Figures~\ref{TF0InfiniteProblem}~and~\ref{TF0InfiniteInterpretation}\\
 ModelVerification/main/TFF\_Infinite.s.p}}}
 \label{TF0InfiniteVerification}
 \end{figure}
+
+Proof
 
 %--------------------------------------------------------------------------------------------------
 \section{Interpretation Visualization}
@@ -702,6 +731,18 @@ complex infinite interpretations.
 %--------------------------------------------------------------------------------------------------
 \section{Conclusion}
 \label{Conclusion}
+
+This paper describes the new TPTP format for representing Tarskian-style interpretations for
+formula in classical typed first order logic, using the TPTP TH0 language.
+It goes on to describe a technique and implemented tool for verifying models using this 
+representation, and a tool for visualizing interpretations.
+The paper thus contributes to the advancement of ATP technology for model finding, which has
+several applications, including verification.
+
+Currently this work is being extended to Kripke interpretations for formula in non-classical 
+typed first order logic \cite{SF+22}, using the TPTP TX0 language \cite{Sut22-IGPL}.
+A tool to translate \smalltt{interpretation} formulae to the format required for input to the 
+IIV tool is being implemented.
 
 %--------------------------------------------------------------------------------------------------
 \bibliographystyle{flairs}
