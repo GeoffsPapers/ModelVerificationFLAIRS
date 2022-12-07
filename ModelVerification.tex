@@ -24,6 +24,11 @@
 \renewcommand{\textfraction}{0.07}
 \renewcommand{\topfraction}{0.9}
 
+%----For Alex's proof
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}[lemma]{Theorem}
+
 \begin{document}
 % This file is an adoption of the style file for AAAI Press 
 % proceedings, working notes, and technical reports.  This file is made 
@@ -55,7 +60,7 @@ Some country}
 \begin{abstract}
 \begin{quote}
 This paper describes the new TPTP format for representing Tarskian-style interpretations for
-formula in classical typed first order logic, using the TPTP TH0 language.
+formula in classical typed first order logic, using the TPTP TF0 language.
 It goes on to describe a technique and implemented tool for verifying models using this
 representation, and a tool for visualizing interpretations.
 The paper thus contributes to the advancement of ATP technology for model finding, which has
@@ -603,6 +608,128 @@ These questions are answered as follows:
       In the current implementation DO I CONJOIN OR DO MULTIPLE PROOFS?
 \end{enumerate}
 
+The proof of soundness is given here for a finite interpretation in untyped first-order logic, 
+where all terms in the given and interpretation formulae are of the same type -- ``individuals'', 
+thus obviating the need for type considerations.
+The proof for typed first-order logic follows exactly the same pattern, but is technically
+complicated due to the introduction of types, and also {\em type promotion functions} that are 
+needed to maintain the well-typedness of the interpretation formula where functions and 
+predicates of the given formula language are applied to terms from the interpretation domain.
+The extension to infinite domains is quite simple after that: if the domain is an infinite set
+of uninterpreted terms they are ``enumerated'' using existential quantification. and if the
+domain is defined in the TPTP language, e.g., \smalltt{\$int}, it is unnecessary to enumerate
+them.
+
+\paragraph{Proof}
+~\\
+~\\
+Let $\Sigma$ be an untyped first-order language:
+\begin{packed_itemize}
+\item $V_\Sigma$ - A infinite set of variable symbols, in the form $X$.
+\item $F_\Sigma$ - A set of function symbols with arity, in the form $f/n$.
+\item $P_\Sigma$ - A set of predicate symbols with arity, in the form $p/n$.
+\end{packed_itemize}
+The set of formulae over $\Sigma$, denoted $\mathcal{F}(\Sigma)$, is defined as usual. 
+
+\noindent
+Let $I$ be an interpretation for $\Sigma$:
+\begin{packed_itemize}
+\item $D_I$ - A finite set of domain elements
+\item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f^*: D_I^n \rightarrow D_I$
+\item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p^*: D_I^n \rightarrow \{true,false\}$
+\end{packed_itemize}
+
+\noindent
+In the TPTP language, an interpretation is represented by an {\em interpretation formula}
+$\varphi_I$.
+Let:
+\begin{packed_itemize}
+\item $D_{\varphi_I}$ be a set of fresh terms $d^I_i$, one for each $d_i \in D_I$
+\item $D_{I \rightarrow \varphi_I}$ be the corresponding mapping from $D_I$ to $D_{\varphi_I}$
+\item $D_{\varphi_I \rightarrow I}$ be the inverse mapping from $D_{\varphi_I}$ to $D_I$
+\end{packed_itemize}
+
+\noindent
+Let $\Sigma_{\varphi_I}$ be an untyped first-order language:
+\begin{packed_itemize}
+\item $V_{\Sigma_{\varphi_I}} = V_\Sigma$
+\item $F_{\Sigma_{\varphi_I}} = F_\Sigma \cup D_{\varphi_I}$
+\item $P_{\Sigma_{\varphi_I}} = P_\Sigma$
+\end{packed_itemize}
+
+\noindent
+The interpretation formula $\varphi_I \in \mathcal{F}(\Sigma_{\varphi_I}) = 
+D^\vee_{\varphi_I} \land F^\wedge_{\varphi_I} \land R^\wedge_{\varphi_I}$ consists of:
+\begin{equation*}
+\begin{split}
+D^\vee_{\varphi_I}   &= \forall X \bigvee_{d^I_i \in D_{\varphi_I}} \left(X = d^I_i \right) \\
+F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(d_i^n \rightarrow d) \in f^* \\ 
+                                             f^* \in F_I}} f({d^I_i}^n) = d^I) \\
+R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(d_i^n \rightarrow true) \in p^* \\
+                                             p^* \in P_I}} p({d^I_i}^n) \\
+                     &\bigwedge \bigwedge_{\substack{(d_i^n \rightarrow false) \in p^* \\
+                                             p^* \in P_I}} \neg p({d^I_i}^n)
+\end{split}
+\end{equation*}
+% (Note that we don't need that the $\mathrm{rep}_d$ are pair-wise distinct so far, because our 
+% $I^\prime$ does this. For the backwards direction of the Theorem, we might need this.)
+
+\noindent
+Let $I_{\varphi_I}$ be an interpretation for $\Sigma_{\varphi_I}$:
+\begin{packed_itemize}
+\item $D_{I_{\varphi_I}} = D_I$
+\item $F_{I_{\varphi_I}} = F_I \cup D_{\varphi_I \rightarrow I}$
+\item $R_{I_{\varphi_I}} = R_I$
+\end{packed_itemize}
+
+\begin{lemma} 
+\label{lemma1}
+$I_{\varphi_I} \vdash \varphi_I$
+\end{lemma}
+\begin{proof}
+$I_{\varphi_I} \vdash \varphi_I$ iff 
+$I_{\varphi_I} \vdash D^\vee_{\varphi_I}$ and
+$I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$ and
+$I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
+\begin{itemize}
+\item For all $d_i \in D_{I_{\varphi_I}}$, or equivalently $d_i \in D_I$,
+      \begin{packed_itemize}
+      \item $d^I_i \in D_{\varphi_I}$, and \\
+            $X = d^I_i$ is an element of the disjunction in $D^\vee_{\varphi_I}$
+      \item With $X$ set to $d_i$ \\
+            $I_{\varphi_I} \vdash d_i = d^I_i$ iff \\
+            $F_{I_{\varphi_I}}(d_i) = F_{I_{\varphi_I}}(d^I_i)$ iff \\
+            $F_{I_{\varphi_I}}(d_i) = D_{\varphi_I \rightarrow I}(d^I_i)$ iff \\
+            $d_i = d_i$
+      \item Thus an element of of the disjunction in $D^\vee_{\varphi_I}$ is $true$
+      \end{packed_itemize}
+      So for all $d_i \in D_{I_{\varphi_I}}$ an element of of the disjunction in 
+      $D^\vee_{\varphi_I}$ is $true$, i.e.,
+      $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$
+\end{itemize}
+\end{proof}
+
+\begin{lemma} \label{lemma2}
+$I \models \Phi$ iff $I^\prime \models \Phi$ for every formula $\Phi \in \mathcal{F}(\Sigma)$, i.e., any formula not containing symbols from $\Sigma^I \setminus \Sigma$.
+\end{lemma}
+\begin{proof}
+By definition of $I^\prime$.
+\end{proof}
+
+\begin{theorem}
+Let $\Phi \in \mathcal{F}(\Sigma)$ be a closed formula, and let $I$ be a $\Sigma$-interpretation. If $\varphi_I \models \Phi$ then $I \models \Phi$.
+\end{theorem}
+\begin{proof}
+Assume $\varphi_I \models \Phi$. 
+Note that $\Phi$ is also a well-formed $\Sigma^I$-formula.
+Then, by assumption, 
+if $J \models \varphi_I$ it follows that $J \models \Phi$ for every
+$\Sigma^I$-interpretation $J$.
+Let $I^\prime$ be the extended $\Sigma^I$-interpretation as defined above.
+By Lemma~\ref{lemma1} it holds that $I^\prime \models \varphi_I$, and hence
+$I^\prime \models \Phi$ by assumption.
+Since $\Phi$ does not contain any symbol from $\Sigma^I \setminus \Sigma$, it follows that $I \models \Phi$ by Lemma~\ref{lemma2}.
+\end{proof}
 
 \begin{figure}[htbp]
 \scriptsize
@@ -646,8 +773,6 @@ Figures~\ref{TF0InfiniteProblem}~and~\ref{TF0InfiniteInterpretation}\\
 ModelVerification/main/TFF\_Infinite.s.p}}}
 \label{TF0InfiniteVerification}
 \end{figure}
-
-Proof
 
 %--------------------------------------------------------------------------------------------------
 \section{Interpretation Visualization}
@@ -733,7 +858,7 @@ complex infinite interpretations.
 \label{Conclusion}
 
 This paper describes the new TPTP format for representing Tarskian-style interpretations for
-formula in classical typed first order logic, using the TPTP TH0 language.
+formula in classical typed first order logic, using the TPTP TF0 language.
 It goes on to describe a technique and implemented tool for verifying models using this 
 representation, and a tool for visualizing interpretations.
 The paper thus contributes to the advancement of ATP technology for model finding, which has
