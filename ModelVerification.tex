@@ -24,10 +24,9 @@
 \renewcommand{\textfraction}{0.07}
 \renewcommand{\topfraction}{0.9}
 
-%----For Alex's proof
 \usepackage{amsmath,amssymb,amsthm}
-\newtheorem{lemma}{Lemma}
-\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{theorem}{Theorem}
 
 \begin{document}
 % This file is an adoption of the style file for AAAI Press 
@@ -640,37 +639,33 @@ Let $I$ be an interpretation for $\Sigma$:
 \end{packed_itemize}
 
 \noindent
-In the TPTP language, an interpretation is represented by an {\em interpretation formula}
-$\varphi_I$.
+Recalling Section~\ref{InterpretationsTF0}, an interpretation is represented by an 
+{\em interpretation formula}, $\varphi_I$.
 Let:
 \begin{packed_itemize}
-\item $D_{\varphi_I}$ be a set of fresh terms $d^I_i$, one for each $d_i \in D_I$
-\item $D_{I \rightarrow \varphi_I}$ be the corresponding mapping from $D_I$ to $D_{\varphi_I}$
-\item $D_{\varphi_I \rightarrow I}$ be the inverse mapping from $D_{\varphi_I}$ to $D_I$
-\end{packed_itemize}
-
-\noindent
-Let $\Sigma_{\varphi_I}$ be an untyped first-order language:
-\begin{packed_itemize}
-\item $V_{\Sigma_{\varphi_I}} = V_\Sigma$
-\item $F_{\Sigma_{\varphi_I}} = F_\Sigma \cup D_{\varphi_I}$
-\item $P_{\Sigma_{\varphi_I}} = P_\Sigma$
-\end{packed_itemize}
-
-\noindent
-The interpretation formula $\varphi_I \in \mathcal{F}(\Sigma_{\varphi_I}) = 
+\item $D_{\varphi_I}$ be a set of fresh terms $d_{\varphi_I}$, one for each $d \in D_I$
+% \item $D_{I \rightarrow \varphi_I}$ be the corresponding mapping from $D_I$ to $D_{\varphi_I}$
+\item $D_{\varphi_I \rightarrow I}$ be the corresponding mapping from $D_{\varphi_I}$ to $D_I$
+\item $\Sigma_{\varphi_I}$ be an untyped first-order language:
+      \begin{packed_itemize}
+      \item $V_{\Sigma_{\varphi_I}} = V_\Sigma$
+      \item $F_{\Sigma_{\varphi_I}} = F_\Sigma \cup D_{\varphi_I}$
+      \item $P_{\Sigma_{\varphi_I}} = P_\Sigma$
+      \end{packed_itemize}
+\item $\varphi_I \in \mathcal{F}(\Sigma_{\varphi_I}) = 
 D^\vee_{\varphi_I} \land F^\wedge_{\varphi_I} \land R^\wedge_{\varphi_I}$ consists of:
 \begin{equation*}
 \begin{split}
-D^\vee_{\varphi_I}   &= \forall X \bigvee_{d^I_i \in D_{\varphi_I}} \left(X = d^I_i \right) \\
-F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(d_i^n \rightarrow d) \in f^* \\ 
-                                             f^* \in F_I}} f({d^I_i}^n) = d^I) \\
-R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(d_i^n \rightarrow true) \in p^* \\
-                                             p^* \in P_I}} p({d^I_i}^n) \\
-                     &\bigwedge \bigwedge_{\substack{(d_i^n \rightarrow false) \in p^* \\
-                                             p^* \in P_I}} \neg p({d^I_i}^n)
+D^\vee_{\varphi_I}   &= \forall X \bigvee_{d_{\varphi_I} \in D_{\varphi_I}} \left(X = d_{\varphi_I} \right) \\
+F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow d) \in f^* \\ 
+                                             f^* \in F_I}} ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} ) \\
+R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow true) \in p^* \\
+                                             p^* \in P_I}} p(\overline{d_{\varphi_I,i}}) \\
+                     &\bigwedge \bigwedge_{\substack{(\overline{d_i} \rightarrow false) \in p^* \\
+                                             p^* \in P_I}} \neg p(\overline{d_{\varphi_I,i}})
 \end{split}
 \end{equation*}
+\end{packed_itemize}
 % (Note that we don't need that the $\mathrm{rep}_d$ are pair-wise distinct so far, because our 
 % $I^\prime$ does this. For the backwards direction of the Theorem, we might need this.)
 
@@ -683,7 +678,6 @@ Let $I_{\varphi_I}$ be an interpretation for $\Sigma_{\varphi_I}$:
 \end{packed_itemize}
 
 \begin{lemma} 
-\label{lemma1}
 $I_{\varphi_I} \vdash \varphi_I$
 \end{lemma}
 \begin{proof}
@@ -692,43 +686,64 @@ $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$ and
 $I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$ and
 $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
 \begin{itemize}
-\item For all $d_i \in D_{I_{\varphi_I}}$, or equivalently $d_i \in D_I$,
+\item For all $d \in D_{I_{\varphi_I}}$, or equivalently $d \in D_I$:
       \begin{packed_itemize}
-      \item $d^I_i \in D_{\varphi_I}$, and \\
-            $X = d^I_i$ is an element of the disjunction in $D^\vee_{\varphi_I}$
-      \item With $X$ set to $d_i$ \\
-            $I_{\varphi_I} \vdash d_i = d^I_i$ iff \\
-            $F_{I_{\varphi_I}}(d_i) = F_{I_{\varphi_I}}(d^I_i)$ iff \\
-            $F_{I_{\varphi_I}}(d_i) = D_{\varphi_I \rightarrow I}(d^I_i)$ iff \\
-            $d_i = d_i$
-      \item Thus an element of of the disjunction in $D^\vee_{\varphi_I}$ is $true$
+      \item $d_{\varphi_I} \in D_{\varphi_I}$, and \\
+            $X = d_{\varphi_I}$ is an element of the disjunction in $D^\vee_{\varphi_I}$
+      \item With $X$ set to $d$ \\
+            $I_{\varphi_I} \vdash (d = d_{\varphi_I})$ iff \\
+            $d = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
+            $d = D_{\varphi_I \rightarrow I}(d_{\varphi_I})$ iff \\
+            $d = d$
+      \item For $X$ set to $d$ an equality of the disjunction in $D^\vee_{\varphi_I}$ is $true$
       \end{packed_itemize}
-      So for all $d_i \in D_{I_{\varphi_I}}$ an element of of the disjunction in 
+      For all $d \in D_{I_{\varphi_I}}$ an equality of the disjunction in 
       $D^\vee_{\varphi_I}$ is $true$, i.e.,
       $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$
+\item For each $(f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I})$ of the conjunction
+      $F^\wedge_{\varphi_I}$:
+      \begin{packed_itemize}
+      \item $I_{\varphi_I} \vdash ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} )$ iff \\
+            $F_{I_{\varphi_I}}(f(\overline{d_{\varphi_I,i}})) = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
+            $f^*(F_{I_{\varphi_I}}(\overline{d_{\varphi_I,i}})) = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
+            $f^*(D_{\varphi_I \rightarrow I}(\overline{d_{\varphi_I,i}})) = D_{\varphi_I \rightarrow I}(d_{\varphi_I})$ iff \\
+            $f^*(\overline{d_i})) = d$ iff \\
+            $d = d$
+      \item Each equality of the conjunction $F^\wedge_{\varphi_I}$ is $true$
+      \end{packed_itemize}
+      $F^\wedge_{\varphi_I}$ is $true$, i.e.,
+      $I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$
+\item For each (positive) $p(\overline{d_{\varphi_I,i}})$ of the conjunction 
+      $P^\wedge_{\varphi_I}$:
+      \begin{packed_itemize}
+      \item $I_{\varphi_I} \vdash p(\overline{d_{\varphi_I,i}})$ iff \\
+            $P_{I_{\varphi_I}}(p(\overline{d_{\varphi_I,i}}))$ iff \\
+            $p^*(P_{I_{\varphi_I}}(\overline{d_{\varphi_I,i}}))$ iff \\
+            $p^*((\overline{d_i})$ iff \\
+            $true$
+      \item Each positive atom of the conjunction $P^\wedge_{\varphi_I}$ is $true$
+      \end{packed_itemize}
+      Analogously, each (negative) $\neg p(\overline{d_{\varphi_I,i}})$ of the conjunction 
+      $P^\wedge_{\varphi_I}$ is $false$, and thus
+      $P^\wedge_{\varphi_I}$ is $true$, i.e., $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
 \end{itemize}
 \end{proof}
 
-\begin{lemma} \label{lemma2}
-$I \models \Phi$ iff $I^\prime \models \Phi$ for every formula $\Phi \in \mathcal{F}(\Sigma)$, i.e., any formula not containing symbols from $\Sigma^I \setminus \Sigma$.
-\end{lemma}
-\begin{proof}
-By definition of $I^\prime$.
-\end{proof}
-
 \begin{theorem}
-Let $\Phi \in \mathcal{F}(\Sigma)$ be a closed formula, and let $I$ be a $\Sigma$-interpretation. If $\varphi_I \models \Phi$ then $I \models \Phi$.
+Let $\Phi \in \mathcal{F}(\Sigma)$ be a closed formula, and let $I$ be an interpretation for
+$\Sigma$. 
+If $\varphi_I \models \Phi$ then $I \vdash \Phi$.
 \end{theorem}
 \begin{proof}
-Assume $\varphi_I \models \Phi$. 
-Note that $\Phi$ is also a well-formed $\Sigma^I$-formula.
-Then, by assumption, 
-if $J \models \varphi_I$ it follows that $J \models \Phi$ for every
-$\Sigma^I$-interpretation $J$.
-Let $I^\prime$ be the extended $\Sigma^I$-interpretation as defined above.
-By Lemma~\ref{lemma1} it holds that $I^\prime \models \varphi_I$, and hence
-$I^\prime \models \Phi$ by assumption.
-Since $\Phi$ does not contain any symbol from $\Sigma^I \setminus \Sigma$, it follows that $I \models \Phi$ by Lemma~\ref{lemma2}.
+\begin{itemize}
+\item If $\varphi_I \models \Phi$ then $I_{\varphi_I} \vdash \Phi$ \\
+      because every model of $\varphi_I$ is a model of $\Phi$, and $I_{\varphi_I}$ is a model
+      of $\varphi_I$ by the {\bf Lemma}.
+\item $I_{\varphi_I} \vdash \Phi$ iff $I \vdash \Phi$ \\
+      because $\Phi$ contains no symbols from $D_{\varphi_I}$, and $I_{\varphi_I}$ is the same
+      as $I$ with respect to all other symbols.
+\item Thus if $\varphi_I \models \Phi$ then $I \vdash \Phi$.
+\end{itemize}
 \end{proof}
 
 \begin{figure}[htbp]
