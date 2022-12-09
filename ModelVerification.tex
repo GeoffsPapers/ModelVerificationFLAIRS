@@ -105,29 +105,33 @@ Sections~\ref{TPTP}~and~\ref{Interpretations}.
 
 In addition to ATP systems that produce interpretations (typically models),
 % proofs, e.g., Vampire \cite{KV13}, Leo-III \cite{SB18},
-% % nanoCop-M \cite{Ott21}, 
+% nanoCop-M \cite{Ott21}, 
+% FM-Darwin \cite{BF+09}, 
 % and ATP systems that find 
-e.g., Paradox \cite{CS03}, FM-Darwin \cite{BF+09}, Nipick \cite{BN10-ITP},
+e.g., Paradox \cite{CS03}, Vampire \cite{KV13}, Nipick \cite{BN10-ITP},
 there is a need for tools that support examination and use of the interpretations.
 This paper examines the tasks of verifying models and visualizing interpretations, and describes 
 new tools for these tasks - Sections~\ref{Verification}~and~\ref{Visualization}.
-Visualization interpretations is useful in the above areas where models are instrumental, and obviously also in teaching logic or formal methods, or as debugging tools for solver developers, for humans to understand the essence of a model.
+Visualization of interpretations is useful in the above areas where models are instrumental, 
+and also in teaching logic or formal methods, as debugging tools for ATP system developers, 
+and for helping humans understand the essence of a model.
 
 \paragraph{Related Work:}
 In \cite{SS+06} a TPTP format for interpretations with finite domains was defined, and has been 
 adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
-The SMT-LIB format \cite{BFT17} provides facilities to inspect or output models.  
-SAT solvers generally output models as specified by the SAT competitions, in a simple format 
-similar to the DIMACS input format.
-Ad hoc formats are used by model finding systems, e.g., TO BE FILLED IN BY ALL.
-Nitpick \cite{BN10-ITP}.
-+++
-Nikolaj says ...
-Z3 It produces models that define functions by expressions. For example a model of succ is 
-Succ(x) =X+ 1
-Works when domain is integer. Currently z3 does not implement infinite models for uninterpreted sorts. I would probably support infinite sorts by creating injection into an algebraic datatype and then support models that can be expressed over ADT.
-See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
-+++
+The SMT-LIB standard \cite{BFT17} defines a format for model output, and commands to inspect 
+models.  
+SAT solvers generally output models as specified by the SAT competitions \cite{JL+12}, in a 
+simple format similar to the DIMACS input format \cite{Bab93}.
+Some individual model finding systems have defined their own formats for models, e.g., the formats
+output by Nitpick \cite{BN10-ITP} and Z3 \cite{dMB08}.
+% +++
+% Nikolaj says ...
+% Z3 It produces models that define functions by expressions. For example a model of succ is 
+% Succ(x) =X+ 1
+% Works when domain is integer. Currently z3 does not implement infinite models for uninterpreted sorts. I would probably support infinite sorts by creating injection into an algebraic datatype and then support models that can be expressed over ADT.
+% See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
+% +++
 
 Related work on verification and visualization of interpretations is sparse:
 Model verification related work by Giles? Other?
@@ -135,11 +139,15 @@ Model verification related work by Giles? Other?
 For visualization, the Mace4 model finder \cite{McC03-MACE4-TR} outputs textual information about 
 the models it finds, including the interpretations for constants as integer domain elements, and 
 tables for the function and predicate symbols' interpretations. 
-The tables are naturally restricted to symbols of arity no greater than two.
+The tables are naturally restricted to symbols of arity no greater than two (which is just fine
+for algebras, where Mace4 was often applied)..
 The only other graphical visualization that has been found is that described in \cite{Sch13-MS},
-which provides a visualization of finite first-order interpretations as produced by Paradox.
-The visualization is quite different from the one in this work.
-Alex - know any (other than your student)?
+which provided (past tense - it is no longer available) a visualization of finite first-order 
+interpretations as produced by Paradox.
+The visualization had some nice features, e.g., showing functions as constructor functions, and 
+reducing the visual clutter when displaying relations with properties such as
+symmetry, transitivity, etc.
+In other ways that work was quite different from the one described in this work.
 
 % This paper is organized as follows:
 % Section~\ref{TPTP} introduces the TPTP World which provides the framework and languages used
@@ -657,7 +665,8 @@ Let:
       \item $P_{\Sigma_{\varphi_I}} = P_\Sigma$
       \end{packed_itemize}
 \item $\varphi_I \in \mathcal{F}(\Sigma_{\varphi_I}) = 
-D^\vee_{\varphi_I} \land F^\wedge_{\varphi_I} \land R^\wedge_{\varphi_I}$ consists of:
+D^\vee_{\varphi_I} \land D^{\neq}_{\varphi_I} \land F^\wedge_{\varphi_I} \land 
+R^\wedge_{\varphi_I}$, where:
 \begin{equation*}
 \begin{split}
 D^\vee_{\varphi_I}   &= \forall X \bigvee_{d_{\varphi_I} \in D_{\varphi_I}} \left(X = d_{\varphi_I} \right) \\
