@@ -661,7 +661,8 @@ D^\vee_{\varphi_I} \land F^\wedge_{\varphi_I} \land R^\wedge_{\varphi_I}$ consis
 \begin{equation*}
 \begin{split}
 D^\vee_{\varphi_I}   &= \forall X \bigvee_{d_{\varphi_I} \in D_{\varphi_I}} \left(X = d_{\varphi_I} \right) \\
-D^{\neq}_{\varphi_I}   &= \bigwedge_{d_{\varphi_I},e_{\varphi_I} \in D_{\varphi_I}} \left(d_{\varphi_I} \neq e_{\varphi_I} \right) \\
+D^{\neq}_{\varphi_I} &= \bigwedge_{\substack{d_{\varphi_I},e_{\varphi_I} \in D_{\varphi_I} \\
+                                             d_{\varphi_I} not\;e_{\varphi_I}}} \left(d_{\varphi_I} \neq e_{\varphi_I} \right) \\
 F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow d) \in f^* \\ 
                                              f^* \in F_I}} ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} ) \\
 R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow \true) \in p^* \\
@@ -694,13 +695,17 @@ $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
 \begin{itemize}
 \item For all $d \in D_{I_{\varphi_I}}$, or equivalently $d \in D_I$:
       \begin{packed_itemize}
-      \item $d_{\varphi_I} \in D_{\varphi_I}$, and \\
-            $X = d_{\varphi_I}$ is an element of the disjunction in $D^\vee_{\varphi_I}$
+      \item \begin{tabular}{p{2.5cm}p{0.3cm}p{2.5cm}}
+            $d_{\varphi_I} \in D_{\varphi_I}$ & and &
+            $X = d_{\varphi_I} \in D^\vee_{\varphi_I}$ \\
+            \end{tabular}
       \item With $X$ set to $d$ \\
-            $I_{\varphi_I} \vdash (d = d_{\varphi_I})$ iff \\
-            $d = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
-            $d = D_{\varphi_I \rightarrow I}(d_{\varphi_I})$ iff \\
-            $d = d$
+            \begin{tabular}{p{2.5cm}p{0.3cm}p{2.5cm}p{0.3cm}}
+            $I_{\varphi_I} \vdash (d = d_{\varphi_I})$ & iff &
+            $d = F_{I_{\varphi_I}}(d_{\varphi_I})$ & iff \\
+            $d = D_{\varphi_I \rightarrow I}(d_{\varphi_I})$ & iff &
+            $d = d$ & \\
+            \end{tabular}
       \item For $X$ set to $d$ an equality of the disjunction in $D^\vee_{\varphi_I}$ is $\true$
       \end{packed_itemize}
       For all $d \in D_{I_{\varphi_I}}$ an equality of the disjunction in 
@@ -708,7 +713,11 @@ $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
       $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$
 \item For each $(d_{\varphi_I} \neq e_{\varphi_I})$ of the conjunction $D^{\neq}_{\varphi_I}$:
       \begin{packed_itemize}
-      \item fooo
+      \item $I_{\varphi_I} \vdash (d_{\varphi_I} \neq e_{\varphi_I})$ iff \\
+            $F_{I_{\varphi_I}}(d_{\varphi_I}) \neq F_{I_{\varphi_I}}(e_{\varphi_I})$ iff \\
+            $D_{\varphi_I \rightarrow I}(d_{\varphi_I}) \neq D_{\varphi_I \rightarrow I}(e_{\varphi_I})$ iff \\
+            $d \neq e$ iff \\
+            $\true$ (from the definition of $D_I$)
       \item Each inequality of the conjunction $D^{\neq}_{\varphi_I}$ is $\true$
       \end{packed_itemize}
       $D^{\neq}_{\varphi_I}$ is $\true$, i.e.,
@@ -748,6 +757,8 @@ $\Sigma$.
 If $\varphi_I \models \Phi$ then $I \vdash \Phi$.
 \end{theorem}
 \begin{proof}
+~\linebreak
+\vspace*{-1.5em}
 \begin{itemize}
 \item If $\varphi_I \models \Phi$ then $I_{\varphi_I} \vdash \Phi$ \\
       because every model of $\varphi_I$ is a model of $\Phi$, and $I_{\varphi_I}$ is a model
