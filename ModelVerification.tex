@@ -378,12 +378,13 @@ closed fields), and the infinite Herbrand Universe of a Herbrand interpretation.
 
 It is noted that in addition to Tarskian-style interpretations that provide an explicit
 interpretation of the symbols, a Herbrand model of clausal formulae can also be embodied in a 
-saturation \cite{BG+01}, i.e., a fixed point for a set of clauses at which further application 
-of a complete inference system does not generate any new clauses.
-Indeed, this approach is adopted in saturation-based ATP systems such as E \cite{SCV19}, 
+saturation \cite{BG+01}.
+%  i.e., a fixed point for a set of clauses at which further application 
+% of a complete inference system does not generate any new clauses.
+This approach is adopted in saturation-based ATP systems such as E \cite{SCV19}, 
 Prover9 \cite{McC-Prover9-URL}, Vampire, and Zipperposition \cite{VB+21}.
-Unfortunately, a saturation tells you only that models exist, and very little about what they 
-might look like. 
+% Unfortunately, a saturation tells you only that a model exists, and very little about what the 
+% model might look like. 
 Saturations are difficult to interpret explicitly in a way that can be used constructively by 
 users, and are thus a less useful form of interpretation.
 This work considers the representation, verification, and visualization of only Tarskian-style 
@@ -599,14 +600,13 @@ has at least the following aspects:
 \noindent
 These questions are answered as follows:
 \begin{enumerate}
-\item This can be confirmed using standard parsing and type checking tools, e.g., \cite{VS06},
-      \cite{HR15}.
+\item This can be confirmed using standard parsing and type checking tools, e.g., \cite{VS06,HR15}.
 \item This can be empirically confirmed using a trusted model finder (in the same way the GDV 
       derivation verifier \cite{Sut06} uses the Otter system \cite{McC03-Otter} as a trusted 
       theorem prover).
-      Note that confirming that the \small{interpretation} formula is satisfiable is almost
-      certainly much easier than finding the model itself, so the system used to check the
-      satisfiability can be weaker and more trusted than the ATP system that found the model.
+      Confirming that the \small{interpretation} formula is satisfiable is almost certainly much 
+      easier than finding the model itself, so the system used to check the satisfiability can 
+      be weaker and more trusted than the ATP system that found the model.
 \item This cannot be confirmed, as that representation is internal to the ATP system that found
       the model.
 \item In this work a ``semantic'' approach is taken, in which each given formula is proved from
