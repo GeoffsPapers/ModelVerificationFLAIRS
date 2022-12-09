@@ -618,6 +618,8 @@ of uninterpreted terms they are ``enumerated'' using existential quantification.
 domain is defined in the TPTP language, e.g., \smalltt{\$int}, it is unnecessary to enumerate
 them.
 
+\newcommand{\true}{{\mathit{true}}}
+\newcommand{\false}{{\mathit{false}}}
 \paragraph{Proof}
 ~\\
 ~\\
@@ -632,9 +634,9 @@ The set of formulae over $\Sigma$, denoted $\mathcal{F}(\Sigma)$, is defined as 
 \noindent
 Let $I$ be an interpretation for $\Sigma$:
 \begin{packed_itemize}
-\item $D_I$ - A finite set of domain elements
-\item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f^*: D_I^n \rightarrow D_I$
-\item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p^*: D_I^n \rightarrow \{true,false\}$
+\item $D_I$ - A finite set of domain elements.
+\item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f^*: D_I^n \rightarrow D_I$.
+\item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p^*: D_I^n \rightarrow \{\true,\false\}$.
 \end{packed_itemize}
 
 \noindent
@@ -658,9 +660,9 @@ D^\vee_{\varphi_I} \land F^\wedge_{\varphi_I} \land R^\wedge_{\varphi_I}$ consis
 D^\vee_{\varphi_I}   &= \forall X \bigvee_{d_{\varphi_I} \in D_{\varphi_I}} \left(X = d_{\varphi_I} \right) \\
 F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow d) \in f^* \\ 
                                              f^* \in F_I}} ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} ) \\
-R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow true) \in p^* \\
+R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow \true) \in p^* \\
                                              p^* \in P_I}} p(\overline{d_{\varphi_I,i}}) \\
-                     &\bigwedge \bigwedge_{\substack{(\overline{d_i} \rightarrow false) \in p^* \\
+                     &\bigwedge \bigwedge_{\substack{(\overline{d_i} \rightarrow \false) \in p^* \\
                                              p^* \in P_I}} \neg p(\overline{d_{\varphi_I,i}})
 \end{split}
 \end{equation*}
@@ -694,10 +696,10 @@ $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
             $d = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
             $d = D_{\varphi_I \rightarrow I}(d_{\varphi_I})$ iff \\
             $d = d$
-      \item For $X$ set to $d$ an equality of the disjunction in $D^\vee_{\varphi_I}$ is $true$
+      \item For $X$ set to $d$ an equality of the disjunction in $D^\vee_{\varphi_I}$ is $\true$
       \end{packed_itemize}
       For all $d \in D_{I_{\varphi_I}}$ an equality of the disjunction in 
-      $D^\vee_{\varphi_I}$ is $true$, i.e.,
+      $D^\vee_{\varphi_I}$ is $\true$, i.e.,
       $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$
 \item For each $(f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I})$ of the conjunction
       $F^\wedge_{\varphi_I}$:
@@ -708,9 +710,9 @@ $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
             $f^*(D_{\varphi_I \rightarrow I}(\overline{d_{\varphi_I,i}})) = D_{\varphi_I \rightarrow I}(d_{\varphi_I})$ iff \\
             $f^*(\overline{d_i})) = d$ iff \\
             $d = d$
-      \item Each equality of the conjunction $F^\wedge_{\varphi_I}$ is $true$
+      \item Each equality of the conjunction $F^\wedge_{\varphi_I}$ is $\true$
       \end{packed_itemize}
-      $F^\wedge_{\varphi_I}$ is $true$, i.e.,
+      $F^\wedge_{\varphi_I}$ is $\true$, i.e.,
       $I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$
 \item For each (positive) $p(\overline{d_{\varphi_I,i}})$ of the conjunction 
       $P^\wedge_{\varphi_I}$:
@@ -719,12 +721,12 @@ $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
             $P_{I_{\varphi_I}}(p(\overline{d_{\varphi_I,i}}))$ iff \\
             $p^*(P_{I_{\varphi_I}}(\overline{d_{\varphi_I,i}}))$ iff \\
             $p^*((\overline{d_i})$ iff \\
-            $true$
-      \item Each positive atom of the conjunction $P^\wedge_{\varphi_I}$ is $true$
+            $\true$
+      \item Each positive atom of the conjunction $P^\wedge_{\varphi_I}$ is $\true$
       \end{packed_itemize}
       Analogously, each (negative) $\neg p(\overline{d_{\varphi_I,i}})$ of the conjunction 
-      $P^\wedge_{\varphi_I}$ is $false$, and thus
-      $P^\wedge_{\varphi_I}$ is $true$, i.e., $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
+      $P^\wedge_{\varphi_I}$ is $\false$, and thus
+      $P^\wedge_{\varphi_I}$ is $\true$, i.e., $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
 \end{itemize}
 \end{proof}
 
