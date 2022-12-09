@@ -147,14 +147,15 @@ For visualization, the Mace4 model finder \cite{McC03-MACE4-TR} outputs textual 
 the models it finds, including the interpretations for constants as integer domain elements, and 
 tables for the function and predicate symbols' interpretations. 
 The tables are naturally restricted to symbols of arity no greater than two (which is just fine
-for algebras, where Mace4 was often applied)..
-The only other graphical visualization that has been found is that described in \cite{Sch13-MS},
+for algebras, where Mace4 was often applied).
+The only graphical visualization tool that has been found is that described in \cite{Sch13-MS},
 which provided (past tense - it is no longer available) a visualization of finite first-order 
 interpretations as produced by Paradox.
 The visualization had some nice features, e.g., showing functions as constructor functions, and 
-reducing the visual clutter when displaying relations with properties such as
-symmetry, transitivity, etc.
-In other ways that work was quite different from the one described in this work.
+reducing the visual clutter when displaying relations with properties such as symmetry, 
+transitivity, etc.
+In other ways that work was quite different from the visualization described in this work -
+see Section~\ref{Visualization}.
 
 % This paper is organized as follows:
 % Section~\ref{TPTP} introduces the TPTP World which provides the framework and languages used
@@ -827,23 +828,28 @@ If $\varphi_I \models \Phi$ then $I \vdash \Phi$.
 \section{Interpretation Visualization}
 \label{Visualization}
 
-%Proof visualization is well-established, with several tools available, e.g., 
-There exist several tools for visualizing proofs.
-Evonne\footnote{\smalltt{https://lat.inf.tu-dresden.de/research/papers/2022/ALBABODAKOME-IJCAR22.pdf}}
-is an interactive proof visualization software for description logics.
-ProofTree\footnote{\smalltt{https://askra.de/software/prooftree/}} is a proof visualization tool focused on interactive theorem proving within Coq. ProofTree currently only supports proofs from Coq.
-Treehehe\footnote{\smalltt{https://chelsea.lol/Resources/COMP5209\_BattellC\_report.pdf}} was designed generically to visualize
-any proof tree, but currently it only supports a handful of pre-existing proofs and does not allow users to visualize their own proofs.
-
-%Anything from Dedukti?,
-The Interactive Derivation Viewer (IDV)\cite{TPS07} is a tool which supports visualization of TPTP formatted proofs.
-Originally, it was a Java applet, but has since been ported to HTML/JavaScript and is available online through SystemOnTSTP.
-
+Proof visualization is well-established, with several tools available, e.g., 
+Evonne \cite{} is an interactive proof visualization software for description logics,
+% \footnote{\smalltt{https://lat.inf.tu-dresden.de/research/papers/2022/ALBABODAKOME-IJCAR22.pdf}}
+ProofTree \cite{} is a proof visualization tool focused on interactive theorem proving within Coq,
+% \footnote{\smalltt{https://askra.de/software/prooftree/}} 
+% ProofTree currently only supports proofs from Coq.
+Treehehe \cite{} was designed generically to visualize any proof tree,
+% \footnote{\smalltt{https://chelsea.lol/Resources/COMP5209\_BattellC\_report.pdf}} 
+% but currently it only supports a handful of pre-existing proofs and does not allow users 
+%to visualize their own proofs.
+and
+the Interactive Derivation Viewer \cite{TPS07} (IDV) is a tool that supports visualization of 
+TPTP formatted proofs.
 Interpretation visualization, however, has (to the knowledge of the authors) had minimal attention,
 as noted in Section~\ref{Introduction}. 
-A way of visualizing interpretations for TFO formulae has been designed in this work, and 
-a prototype implementation is available online as the IIV tool in the SystemOnTSTP 
-\cite{Sut07-CSR} web interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
+A visualization for TF0 interpretations has been designed in this work, and a prototype 
+implementation is available online as the IIV tool in the SystemOnTSTP \cite{Sut07-CSR} web 
+interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
+IIV is built on top of IDV.
+IDV was originally a Java applet, but has since been ported to HTML/JavaScript using GraphViz
+\cite{EG+02} for the layout and rendering.
+IIV has benefited from the mature state of IDV.
 
 Figure~\ref{TF0FiniteIIV} is the visualization of the finite countermodel in 
 Figure~\ref{TF0FiniteInterpretation}, with {\smalltt{john}} not created equal to the person
