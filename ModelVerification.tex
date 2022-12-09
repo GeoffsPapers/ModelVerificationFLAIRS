@@ -11,7 +11,10 @@
 \pdfinfo{
 /Title (Representation, Verification, and Visualization of Tarskian Interpretations for Typed First-order Logic)
 /Author (Geoff Sutcliffe, Alexander Steen, Pascal Fontaine, Jack McKeown)} 
+
 \setcounter{secnumdepth}{2}  
+
+%----Making things more compact
 \newcommand{\smalltt}[1]{\small \texttt{#1}}
 \newenvironment{packed_itemize}{
 \vspace*{-0.2em}
@@ -23,8 +26,12 @@
 }{\end{itemize}}
 \renewcommand{\textfraction}{0.07}
 \renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\floatpagefraction}{0.66}
+\setlength{\floatsep}{2.0pt plus 2.0pt minus 2.0pt}
+\setlength{\textfloatsep}{5.0pt plus 2.0pt minus 0.0pt}
 
-%----For Alex proof stuff
+%----For Alex's proof stuff
 \usepackage{amsmath,amssymb,amsthm}
 \newtheorem*{lemma}{Lemma}
 \newtheorem*{theorem}{Theorem}
@@ -105,29 +112,33 @@ Sections~\ref{TPTP}~and~\ref{Interpretations}.
 
 In addition to ATP systems that produce interpretations (typically models),
 % proofs, e.g., Vampire \cite{KV13}, Leo-III \cite{SB18},
-% % nanoCop-M \cite{Ott21}, 
+% nanoCop-M \cite{Ott21}, 
+% FM-Darwin \cite{BF+09}, 
 % and ATP systems that find 
-e.g., Paradox \cite{CS03}, FM-Darwin \cite{BF+09}, Nipick \cite{BN10-ITP},
+e.g., Paradox \cite{CS03}, Vampire \cite{KV13}, Nipick \cite{BN10-ITP},
 there is a need for tools that support examination and use of the interpretations.
 This paper examines the tasks of verifying models and visualizing interpretations, and describes 
 new tools for these tasks - Sections~\ref{Verification}~and~\ref{Visualization}.
-Visualization interpretations is useful in the above areas where models are instrumental, and obviously also in teaching logic or formal methods, or as debugging tools for solver developers, for humans to understand the essence of a model.
+Visualization of interpretations is useful in the above areas where models are instrumental, 
+and also in teaching logic or formal methods, as debugging tools for ATP system developers, 
+and for helping humans understand the essence of a model.
 
 \paragraph{Related Work:}
 In \cite{SS+06} a TPTP format for interpretations with finite domains was defined, and has been 
 adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
-The SMT-LIB format \cite{BFT17} provides facilities to inspect or output models.  
-SAT solvers generally output models as specified by the SAT competitions, in a simple format 
-similar to the DIMACS input format.
-Ad hoc formats are used by model finding systems, e.g., TO BE FILLED IN BY ALL.
-Nitpick \cite{BN10-ITP}.
-+++
-Nikolaj says ...
-Z3 It produces models that define functions by expressions. For example a model of succ is 
-Succ(x) =X+ 1
-Works when domain is integer. Currently z3 does not implement infinite models for uninterpreted sorts. I would probably support infinite sorts by creating injection into an algebraic datatype and then support models that can be expressed over ADT.
-See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
-+++
+The SMT-LIB standard \cite{BFT17} defines a format for model output, and commands to inspect 
+models.  
+SAT solvers generally output models as specified by the SAT competitions \cite{JL+12}, in a 
+simple format similar to the DIMACS input format \cite{Bab93}.
+Some individual model finding systems have defined their own formats for models, e.g., the formats
+output by Nitpick \cite{BN10-ITP} and Z3 \cite{dMB08}.
+% +++
+% Nikolaj says ...
+% Z3 It produces models that define functions by expressions. For example a model of succ is 
+% Succ(x) =X+ 1
+% Works when domain is integer. Currently z3 does not implement infinite models for uninterpreted sorts. I would probably support infinite sorts by creating injection into an algebraic datatype and then support models that can be expressed over ADT.
+% See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
+% +++
 
 Related work on verification and visualization of interpretations is sparse:
 Model verification related work by Giles? Other?
@@ -135,11 +146,15 @@ Model verification related work by Giles? Other?
 For visualization, the Mace4 model finder \cite{McC03-MACE4-TR} outputs textual information about 
 the models it finds, including the interpretations for constants as integer domain elements, and 
 tables for the function and predicate symbols' interpretations. 
-The tables are naturally restricted to symbols of arity no greater than two.
+The tables are naturally restricted to symbols of arity no greater than two (which is just fine
+for algebras, where Mace4 was often applied)..
 The only other graphical visualization that has been found is that described in \cite{Sch13-MS},
-which provides a visualization of finite first-order interpretations as produced by Paradox.
-The visualization is quite different from the one in this work.
-Alex - know any (other than your student)?
+which provided (past tense - it is no longer available) a visualization of finite first-order 
+interpretations as produced by Paradox.
+The visualization had some nice features, e.g., showing functions as constructor functions, and 
+reducing the visual clutter when displaying relations with properties such as
+symmetry, transitivity, etc.
+In other ways that work was quite different from the one described in this work.
 
 % This paper is organized as follows:
 % Section~\ref{TPTP} introduces the TPTP World which provides the framework and languages used
@@ -363,12 +378,13 @@ closed fields), and the infinite Herbrand Universe of a Herbrand interpretation.
 
 It is noted that in addition to Tarskian-style interpretations that provide an explicit
 interpretation of the symbols, a Herbrand model of clausal formulae can also be embodied in a 
-saturation \cite{BG+01}, i.e., a fixed point for a set of clauses at which further application 
-of a complete inference system does not generate any new clauses.
-Indeed, this approach is adopted in saturation-based ATP systems such as E \cite{SCV19}, 
+saturation \cite{BG+01}.
+%  i.e., a fixed point for a set of clauses at which further application 
+% of a complete inference system does not generate any new clauses.
+This approach is adopted in saturation-based ATP systems such as E \cite{SCV19}, 
 Prover9 \cite{McC-Prover9-URL}, Vampire, and Zipperposition \cite{VB+21}.
-Unfortunately, a saturation tells you only that models exist, and very little about what they 
-might look like. 
+% Unfortunately, a saturation tells you only that a model exists, and very little about what the 
+% model might look like. 
 Saturations are difficult to interpret explicitly in a way that can be used constructively by 
 users, and are thus a less useful form of interpretation.
 This work considers the representation, verification, and visualization of only Tarskian-style 
@@ -445,7 +461,7 @@ countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
 The comments show which parts of the formula specify what aspects of the interpretation, per
 the list above.
 
-\begin{figure}[htbp]
+\begin{figure}[t!]
 \scriptsize
 \setstretch{0.8}
 \begin{verbatim}
@@ -521,7 +537,7 @@ symbols for an infinite number of argument tuples;
 $\bullet$~the interpretations of function and predicate symbols is not specified for argument 
 tuples formed from negative integers - this is an example of a partial interpretation.
 
-\begin{figure}[htbp]
+\begin{figure}[tbhp]
 \scriptsize
 \setstretch{0.8}
 \begin{verbatim}
@@ -584,14 +600,13 @@ has at least the following aspects:
 \noindent
 These questions are answered as follows:
 \begin{enumerate}
-\item This can be confirmed using standard parsing and type checking tools, e.g., \cite{VS06},
-      \cite{HR15}.
+\item This can be confirmed using standard parsing and type checking tools, e.g., \cite{VS06,HR15}.
 \item This can be empirically confirmed using a trusted model finder (in the same way the GDV 
       derivation verifier \cite{Sut06} uses the Otter system \cite{McC03-Otter} as a trusted 
       theorem prover).
-      Note that confirming that the \small{interpretation} formula is satisfiable is almost
-      certainly much easier than finding the model itself, so the system used to check the
-      satisfiability can be weaker and more trusted than the ATP system that found the model.
+      Confirming that the \small{interpretation} formula is satisfiable is almost certainly much 
+      easier than finding the model itself, so the system used to check the satisfiability can 
+      be weaker and more trusted than the ATP system that found the model.
 \item This cannot be confirmed, as that representation is internal to the ATP system that found
       the model.
 \item In this work a ``semantic'' approach is taken, in which each given formula is proved from
@@ -613,6 +628,49 @@ These questions are answered as follows:
       with the type declarations and the interpretation formula.
       In the current implementation DO I CONJOIN OR DO MULTIPLE PROOFS?
 \end{enumerate}
+
+\begin{figure}[htbp]
+\scriptsize
+\setstretch{0.8}
+\begin{verbatim}
+%--------------------------------------------------------
+tff(person_type,type,        person: $tType ).
+tff(bob_decl,type,           bob: person ).
+tff(child_of_decl,type,      child_of: person > person ).
+tff(is_descendant_decl,type, 
+    is_descendant: ( person * person ) > $o ).
+
+tff(int2person_decl,type,    int2person: $int > person ).
+
+tff(people,axiom,
+    ( ( ! [P: person] : ? [I: $int] : int2person(I) = P
+      & ! [I1: $int,I2: $int] : 
+          ( int2person(I1) = int2person(I2) 
+         => I1 = I2 ) )
+    & bob = int2person(0)
+    & ! [I: $int] : 
+        child_of(int2person(I)) = int2person($sum(I,1))
+    & ! [A: $int,D: $int] : 
+        ( is_descendant(int2person(A),int2person(D)) 
+      <=> $less(A,D) ) ) ).
+
+tff(prove_formulae,conjecture,
+    ( ! [A: person,D: person] : 
+        ( is_descendant(A,D) => A != D )
+    & ! [A: person,C: person,G: person] :
+        ( ( is_descendant(A,C) & is_descendant(C,G) )
+       => is_descendant(A,G) )
+    & ! [P: person] : is_descendant(P,child_of(P))
+    & ! [P: person] : ? [C: person] : C = child_of(P) 
+    ) ).
+%--------------------------------------------------------
+\end{verbatim}
+\caption{The TF0 verification problem for 
+Figures~\ref{TF0InfiniteProblem}~and~\ref{TF0InfiniteInterpretation}\\
+{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/\\
+ModelVerification/main/TFF\_Infinite.s.p}}}
+\label{TF0InfiniteVerification}
+\end{figure}
 
 The proof of soundness is given here for a finite interpretation in untyped first-order logic, 
 where (as explained in Section~\ref{InterpretationsTF0}) there is no need for type considerations.
@@ -657,7 +715,8 @@ Let:
       \item $P_{\Sigma_{\varphi_I}} = P_\Sigma$
       \end{packed_itemize}
 \item $\varphi_I \in \mathcal{F}(\Sigma_{\varphi_I}) = 
-D^\vee_{\varphi_I} \land F^\wedge_{\varphi_I} \land R^\wedge_{\varphi_I}$ consists of:
+D^\vee_{\varphi_I} \land D^{\neq}_{\varphi_I} \land F^\wedge_{\varphi_I} \land 
+R^\wedge_{\varphi_I}$, where:
 \begin{equation*}
 \begin{split}
 D^\vee_{\varphi_I}   &= \forall X \bigvee_{d_{\varphi_I} \in D_{\varphi_I}} \left(X = d_{\varphi_I} \right) \\
@@ -763,49 +822,6 @@ If $\varphi_I \models \Phi$ then $I \vdash \Phi$.
 \item Thus if $\varphi_I \models \Phi$ then $I \vdash \Phi$.
 \end{itemize}
 \end{proof}
-
-\begin{figure}[htbp]
-\scriptsize
-\setstretch{0.8}
-\begin{verbatim}
-%--------------------------------------------------------
-tff(person_type,type,        person: $tType ).
-tff(bob_decl,type,           bob: person ).
-tff(child_of_decl,type,      child_of: person > person ).
-tff(is_descendant_decl,type, 
-    is_descendant: ( person * person ) > $o ).
-
-tff(int2person_decl,type,    int2person: $int > person ).
-
-tff(people,axiom,
-    ( ( ! [P: person] : ? [I: $int] : int2person(I) = P
-      & ! [I1: $int,I2: $int] : 
-          ( int2person(I1) = int2person(I2) 
-         => I1 = I2 ) )
-    & bob = int2person(0)
-    & ! [I: $int] : 
-        child_of(int2person(I)) = int2person($sum(I,1))
-    & ! [A: $int,D: $int] : 
-        ( is_descendant(int2person(A),int2person(D)) 
-      <=> $less(A,D) ) ) ).
-
-tff(prove_formulae,conjecture,
-    ( ! [A: person,D: person] : 
-        ( is_descendant(A,D) => A != D )
-    & ! [A: person,C: person,G: person] :
-        ( ( is_descendant(A,C) & is_descendant(C,G) )
-       => is_descendant(A,G) )
-    & ! [P: person] : is_descendant(P,child_of(P))
-    & ! [P: person] : ? [C: person] : C = child_of(P) 
-    ) ).
-%--------------------------------------------------------
-\end{verbatim}
-\caption{The TF0 verification problem for 
-Figures~\ref{TF0InfiniteProblem}~and~\ref{TF0InfiniteInterpretation}\\
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/\\
-ModelVerification/main/TFF\_Infinite.s.p}}}
-\label{TF0InfiniteVerification}
-\end{figure}
 
 %--------------------------------------------------------------------------------------------------
 \section{Interpretation Visualization}
