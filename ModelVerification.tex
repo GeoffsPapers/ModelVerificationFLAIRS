@@ -344,9 +344,9 @@ ModelVerification/main/TFF\_Infinite.p}}}
 \label{Interpretations}
 
 A Tarskian-style \cite{TV56} interpretation of formulae in classical typed first order logic 
-consists of non-empty domains (one for each type - just one domain in the case of untyped logic), 
-and interpretations of the function and predicate symbols (of the language induced by the 
-formulae) with respect to the domains \cite{Hun96}.
+consists of a non-empty domain of unequal elements for each type of the language of the formulae 
+(just one domain in the case of untyped logic), and interpretations of the function and predicate 
+symbols of the language with respect to the domains \cite{Hun96}.
 An interpretation of given formulae can normally interpret all terms and formulae that can be 
 written in the language induced by the given formulae, but in some circumstances an interpretation 
 can interpret only (at least) the given formulae; such an interpretation is a {\em partial
@@ -418,14 +418,15 @@ The \smalltt{interpretation} formula is a conjunction specifying:
             this is omitted if the type of the domain is the same as the type in the formula
             (e.g., when the formula type is \smalltt{\$int} and the domain type is naturally 
             also \smalltt{\$int});
-      \item the domain elements as terms (unless implicit from their type), as a universally 
-            quantified disjunction of equalities whose right-hand sides are the domain element
-            terms;
+      \item the domain elements as terms (unless implicit from their type), as either a 
+            universally quantified disjunction of equalities whose right-hand sides are the
+            finite domain terms, or a universally quantified formula containing an existentially
+            quantified formula over the infinite domain terms;
       \item specification of the distinctness of the domain elements (unless implicit from their
             type);
-      \item a formula making the type-promotion function a bijection (unless the type of the 
+      \item a formula making the type-promotion function an injection (unless the type of the 
             domain is the same as the type in the formula), which together with the surjectivity 
-            makes it a bijection;
+            makes it a bijection.
       \end{packed_itemize}
 \item interpretation of the formulae constant and function symbols, using equalities whose 
       left-hand sides are terms formed from symbols applied to type-promoted domain elements, 
@@ -434,8 +435,12 @@ The \smalltt{interpretation} formula is a conjunction specifying:
       to type-promoted domain elements; positive literals are {\em true} and negative literals 
       are {\em false}.
 \end{packed_itemize}
+This representation is also used for untyped first-order (FOF) logic, where all terms in the given 
+and interpretation formulae are of the same type – ``individuals''. 
+This obviates the need for type considerations, in particular type-promotion function are not 
+needed.
 
-Figure~\ref{TF0FiniteInterpretation} is an interpretation with a finite domain - it is a 
+Figure~\ref{TF0FiniteInterpretation} is a TF0 interpretation with a finite domain - it is a 
 countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
 The comments show which parts of the formula specify what aspects of the interpretation, per
 the list above.
@@ -506,8 +511,8 @@ ModelVerification/main/TFF\_Finite.s}}}
 \label{TF0FiniteInterpretation}
 \end{figure}
 
-Figure~\ref{TF0InfiniteInterpretation} is an interpretation with an infinite domain - it is a model 
-for the problem in Figure~\ref{TF0InfiniteProblem}.
+Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain - it 
+is a model for the problem in Figure~\ref{TF0InfiniteProblem}.
 Note how:
 $\bullet$~the defined type \smalltt{\$int} is the domain type for the formula type \smalltt{person},
 so that there is no specification of the domain elements and their distinctness;
@@ -610,16 +615,13 @@ These questions are answered as follows:
 \end{enumerate}
 
 The proof of soundness is given here for a finite interpretation in untyped first-order logic, 
-where all terms in the given and interpretation formulae are of the same type -- ``individuals'', 
-thus obviating the need for type considerations.
+where (as explained in Section~\ref{InterpretationsTF0}) there is no need for type considerations.
 The proof for typed first-order logic follows exactly the same pattern, but is technically
-complicated due to the introduction of types, and also {\em type promotion functions} that are 
+complicated due to the introduction of types, in particular the type promotion functions that are 
 needed to maintain the well-typedness of the interpretation formula where functions and 
 predicates of the given formula language are applied to terms from the interpretation domain.
-The extension to infinite domains is quite simple after that: if the domain is an infinite set
-of uninterpreted terms they are ``enumerated'' using existential quantification. and if the
-domain is defined in the TPTP language, e.g., \smalltt{\$int}, it is unnecessary to enumerate
-them.
+The extension to infinite domains is quite simple after that, following 
+Section~\ref{InterpretationsTF0}.
 
 \paragraph{Proof}
 ~\\
@@ -635,7 +637,7 @@ The set of formulae over $\Sigma$, denoted $\mathcal{F}(\Sigma)$, is defined as 
 \noindent
 Let $I$ be an interpretation for $\Sigma$:
 \begin{packed_itemize}
-\item $D_I$ - A finite set of domain elements.
+\item $D_I$ - A finite set of unequal domain elements.
 \item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f^*: D_I^n \rightarrow D_I$.
 \item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p^*: D_I^n \rightarrow \{\true,\false\}$.
 \end{packed_itemize}
@@ -659,6 +661,7 @@ D^\vee_{\varphi_I} \land F^\wedge_{\varphi_I} \land R^\wedge_{\varphi_I}$ consis
 \begin{equation*}
 \begin{split}
 D^\vee_{\varphi_I}   &= \forall X \bigvee_{d_{\varphi_I} \in D_{\varphi_I}} \left(X = d_{\varphi_I} \right) \\
+D^{\neq}_{\varphi_I}   &= \bigwedge_{d_{\varphi_I},e_{\varphi_I} \in D_{\varphi_I}} \left(d_{\varphi_I} \neq e_{\varphi_I} \right) \\
 F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow d) \in f^* \\ 
                                              f^* \in F_I}} ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} ) \\
 R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow \true) \in p^* \\
