@@ -140,8 +140,16 @@ output by Nitpick \cite{BN10-ITP} and Z3 \cite{dMB08}.
 % See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
 % +++
 
-Related work on verification and visualization of interpretations is sparse:
-Model verification related work by Giles? Other?
+Related work on verification and visualization of interpretations is sparse.
+For verification, full details of our approach are given in Section~\ref{Verification}, but
+the basic idea is to use the formulae that represent the model as axioms, and prove the 
+input formulae that have been modelled from those axioms.
+Personal communication with members of the Vampire team revealed code in the Vampire sources 
+that takes the same approach, but is not backed up by a proof of soundness as provided in 
+Section~\ref{Verification}.
+In a personal communication the developer of Paradox explained his approach, which is to show
+that the input formulae and the formulae representing the model are together satisfiable.
+This is a weaker form of the approach taken here (and by Vampire).
 % Pascal - know any from SMT? PF: no, to my best knowledge, and after a quick check on Google.
 For visualization, the Mace4 model finder \cite{McC03-MACE4-TR} outputs textual information about 
 the models it finds, including the interpretations for constants as integer domain elements, and 
@@ -435,10 +443,14 @@ The \smalltt{interpretation} formula is a conjunction specifying:
             this is omitted if the type of the domain is the same as the type in the formula
             (e.g., when the formula type is \smalltt{\$int} and the domain type is naturally 
             also \smalltt{\$int});
-      \item the domain elements as terms (unless implicit from their type), as either a 
-            universally quantified disjunction of equalities whose right-hand sides are the
-            finite domain terms, or a universally quantified formula containing an existentially
-            quantified formula over the infinite domain terms;
+      \item the domain elements as terms (unless implicit from their type); if the domain is
+            finite this done by a universally quantified disjunction of equalities whose 
+            right-hand sides are the finite domain terms; if the domain is infinite this is
+            done by a universally quantified formula containing an existentially quantified 
+            formula that captures an infinite disjunction of equalities e.g., for closed terms 
+            representing Peano numbers as the domain elements:\\
+            \hspace*{0.5cm}$\forall I{:}peano\;((I = zero) \vee \exists P{:}peano\;(I = s(P)))$;
+%            \smalltt{! [I: peano] : ( I = zero | ? [P: peano] : I = s(P) )};
       \item specification of the distinctness of the domain elements (unless implicit from their
             type);
       \item a formula making the type-promotion function an injection (unless the type of the 
