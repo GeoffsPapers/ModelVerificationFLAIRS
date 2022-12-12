@@ -69,7 +69,7 @@ Some country}
 \begin{abstract}
 \begin{quote}
 This paper describes the new TPTP format for representing Tarskian-style interpretations for
-formula in classical typed first order logic, using the TPTP TF0 language.
+formula in typed first-order logic, using the TPTP TF0 language.
 It goes on to describe a technique and implemented tool for verifying models using this
 representation, and a tool for visualizing interpretations.
 The paper thus contributes to the advancement of ATP technology for model finding, which has
@@ -192,7 +192,8 @@ tools and services for processing ATP problems and solutions,
 % \cite{Sut10}, 
 and it supports the CADE ATP System Competition (CASC).
 % \cite{Sut16}.
-Various parts of the TPTP World have been deployed in a range of applications,
+Various parts of the TPTP World have been deployed 
+% in a range of applications,
 in both academia and industry.
 % Since the first release of the TPTP problem library in 1993, many researchers have used the 
 % TPTP World as an appropriate and convenient basis for ATP system research and development. 
@@ -241,8 +242,8 @@ An annotated formula has the form:\\
 The {\em language}s supported are clause normal form (\smalltt{cnf}), first-order form 
 (\smalltt{fof}), typed first-order form (\smalltt{tff}), and typed higher-order form 
 (\smalltt{thf}).
-These are used by the corresponding languages, with TXF inheriting {\tt tff} and the non-classical 
-languages their corresponding underlying languages.
+% These are used by the corresponding languages, with TXF inheriting {\tt tff} and the 
+% non-classical languages their corresponding underlying languages.
 The {\em role}, e.g., \smalltt{axiom}, \smalltt{lemma}, \smalltt{conjecture},
 defines the use of the formula in an ATP system.
 In the {\em formula}, terms and atoms follow Prolog conventions.
@@ -367,7 +368,7 @@ ModelVerification/main/TFF\_Infinite.p}}}
 \section{Interpretations}
 \label{Interpretations}
 
-A Tarskian-style \cite{TV56} interpretation of formulae in classical typed first order logic 
+A Tarskian-style \cite{TV56} interpretation of formulae in typed first-order logic 
 consists of a non-empty domain of unequal elements for each type of the language of the formulae 
 (just one domain in the case of untyped logic), and interpretations of the function and predicate 
 symbols of the language with respect to the domains \cite{Hun96}.
@@ -413,7 +414,7 @@ updated at \smalltt{https://www.tptp.org/cgi-bin/SeeTPTP? Category=Documents\&Fi
 \label{InterpretationsTF0}
 
 As noted in Section~\ref{Introduction}, a TPTP format for interpretations with finite domains 
-has previously been defined \cite{SS+06}, and has been adopted by some ATP systems.
+has previously been defined, and has been adopted by some ATP systems.
 Recently the need for a format for interpretations with infinite domains, and for a format for 
 Kripke interpretations \cite{Kri63} of formulae written in the NTF language \cite{SF+22}, has 
 led to the development of a new format for interpretations using the TPTP languages.
@@ -430,8 +431,7 @@ The type declarations are those of the formulae being interpreted, and declarati
 \item the types of the domains (unless already defined in the language, e.g., the type
       \smalltt{\$int});
 \item the types of type-promotion functions that promote the types of the domains to the types 
-      of the formulae; type-promotion is required to make the terms and formulae of the
-      interpretation formula well-typed;
+      of the formulae; these are used to make the interpretation formula well-typed;
 \item the types of the domain elements.
 \end{packed_itemize}
 % \vspace*{-0.4em}
@@ -453,9 +453,9 @@ The \smalltt{interpretation} formula is a conjunction specifying:
 %            \smalltt{! [I: peano] : ( I = zero | ? [P: peano] : I = s(P) )};
       \item specification of the distinctness of the domain elements (unless implicit from their
             type);
-      \item a formula making the type-promotion function an injection (unless the type of the 
-            domain is the same as the type in the formula), which together with the surjectivity 
-            makes it a bijection.
+      \item a formula making the type-promotion function an injection,
+            % (unless the type of the domain is the same as the type in the formula), 
+            which together with the surjectivity makes it a bijection.
       \end{packed_itemize}
 \item interpretation of the formulae constant and function symbols, using equalities whose 
       left-hand sides are terms formed from symbols applied to type-promoted domain elements, 
@@ -633,13 +633,12 @@ These questions are answered as follows:
       The soundness of this approach relies on the fact that if a given formula is a logical 
       consequence of the interpretation formula, then the given formula is interpreted as 
       {\em true} by the model represented by the interpretation formula.
-      A proof of this is given below.
+      A proof is given below.
 
       An implementation of this approach is available online as the GMV tool in the SystemOnTSTP
       \cite{Sut07-CSR} web interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
       The tool input is the concatenation of the type declarations and formulae being modelled, 
       with the type declarations and the interpretation formula.
-      In the current implementation DO I CONJOIN OR DO MULTIPLE PROOFS?
 \end{enumerate}
 
 \begin{figure}[htbp]
@@ -688,9 +687,9 @@ ModelVerification/main/TFF\_Infinite.s.p}}}
 The proof of soundness is given here for a finite interpretation in untyped first-order logic, 
 where (as explained in Section~\ref{InterpretationsTF0}) there is no need for type considerations.
 The proof for typed first-order logic follows exactly the same pattern, but is technically
-complicated due to the introduction of types, in particular the type promotion functions that are 
-needed to maintain the well-typedness of the interpretation formula where functions and 
-predicates of the given formula language are applied to terms from the interpretation domain.
+complicated due to the introduction of types, in particular the type promotion functions that have 
+to be used when functions and predicates of the given formula language are applied to terms from 
+the interpretation domain.
 The extension to infinite domains is quite simple after that, following 
 Section~\ref{InterpretationsTF0}.
 
@@ -931,14 +930,14 @@ complex infinite interpretations.
 \label{Conclusion}
 
 This paper describes the new TPTP format for representing Tarskian-style interpretations for
-formula in classical typed first order logic, using the TPTP TF0 language.
+formula in typed first-order logic, using the TPTP TF0 language.
 It goes on to describe a technique and implemented tool for verifying models using this 
 representation, and a tool for visualizing interpretations.
 The paper thus contributes to the advancement of ATP technology for model finding, which has
 several applications, including verification.
 
 Currently this work is being extended to Kripke interpretations for formula in non-classical 
-typed first order logic \cite{SF+22}, using the TPTP TX0 language \cite{Sut22-IGPL}.
+typed first-order logic \cite{SF+22}, using the TPTP TX0 language \cite{Sut22-IGPL}.
 A tool to translate \smalltt{interpretation} formulae to the format required for input to the 
 IIV tool is being implemented.
 
