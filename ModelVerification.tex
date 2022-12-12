@@ -402,7 +402,8 @@ interpretations with explicit symbol interpretation.
 
 The notions of interpretations, models, partial interpretations, finite interpretations,
 Herbrand interpretations, etc., are captured in the SZS ontologies \cite{Sut08-KEAPPA}, as
-updated at \smalltt{https://www.tptp.org/cgi-bin/SeeTPTP? Category=Documents\&File=SZSOntology}
+updated at 
+\smalltt{https://www.tptp.org/cgi-bin/SeeTPTP?\allowbreak Category=Documents\&File=SZSOntology}
 
 % A Kripke interpretation of a formulae in a non-classical logic consists of a set or worlds,
 % an accessibility relation between those worlds, and a classical logic interpretation within each
@@ -636,10 +637,14 @@ These questions are answered as follows:
       {\em true} by the model represented by the interpretation formula.
       A proof is given below.
 
-      An implementation of this approach is available online as the GMV tool in the SystemOnTSTP
-      \cite{Sut07-CSR} web interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
-      The tool input is the concatenation of the type declarations and formulae being modelled, 
-      with the type declarations and the interpretation formula.
+      An implementation is available online as the GMV tool in the SystemOnTSTP \cite{Sut07-CSR} 
+      web interface \smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}.
+      The tool input is the concatenation of the interpretation and modelled formula,
+      delimited by \smalltt{\% SZS output start} and \smalltt{\% SZS output end} lines.
+      An example that can be used as the ``URL to fetch from'' in the SystemOnTSTP web 
+      interface is available at
+      {\scriptsize {\tt https://raw.githubusercontent.com/\allowbreak GeoffsPapers/\allowbreak ModelVerification/\allowbreak main/FOF\_Finite.sp.GMV.p}}
+
 \end{enumerate}
 
 \begin{figure}[htbp]
@@ -854,11 +859,11 @@ Treehehe \cite{Bat18} was designed generically to visualize any proof tree,
 and
 the Interactive Derivation Viewer \cite{TPS07} (IDV) is a tool that supports visualization of 
 TPTP formatted proofs.
-Interpretation visualization, however, has (to the knowledge of the authors) had minimal attention,
-as noted in Section~\ref{Introduction}. 
+Interpretation visualization, however, has 
+% (to the knowledge of the authors) 
+had minimal attention, as noted in Section~\ref{Introduction}. 
 A visualization for TF0 interpretations has been designed in this work, and a prototype 
-implementation is available online as the IIV tool in the SystemOnTSTP \cite{Sut07-CSR} web 
-interface {\smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
+implementation is available online as the IIV tool in the SystemOnTSTP web interface.
 IIV is built on top of IDV.
 IDV was originally a Java applet, but has since been ported to HTML/JavaScript using GraphViz
 \cite{EG+02} for the layout and rendering.
@@ -922,7 +927,9 @@ as the ``URL to fetch from''.
 \end{figure}
 
 At this stage the implementation is prototype in the sense that an interpretation formula
-has to be manually translated into the input format for IIV.
+has to be manually translated into IIV's input format, which is still in the TPTP language
+but requires different components of the interpretation formula to be extracted into
+separate annotated formulae to mimic a derivation that IDV can render.
 Further inspiration might lead to improvements to these visualizations, especially for more
 complex infinite interpretations.
 
