@@ -711,8 +711,8 @@ The set of formulae over $\Sigma$, denoted $\mathcal{F}(\Sigma)$, is defined as 
 Let $I$ be an interpretation for $\Sigma$:
 \begin{packed_itemize}
 \item $D_I$ - A finite set of unequal domain elements.
-\item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f^*: D_I^n \rightarrow D_I$.
-\item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p^*: D_I^n \rightarrow \{\true,\false\}$.
+\item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f^*: D_I^n \mapsto D_I$.
+\item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p^*: D_I^n \mapsto \{\true,\false\}$.
 \end{packed_itemize}
 
 \noindent
@@ -721,8 +721,8 @@ Recalling Section~\ref{InterpretationsTF0}, an interpretation is represented by 
 Let:
 \begin{packed_itemize}
 \item $D_{\varphi_I}$ be a set of fresh terms $d_{\varphi_I}/0$, one for each $d \in D_I$
-% \item $D_{I \rightarrow \varphi_I}$ be the corresponding mapping from $D_I$ to $D_{\varphi_I}$
-\item $D_{\varphi_I \rightarrow I}$ be the corresponding mapping from $D_{\varphi_I}$ to $D_I$
+% \item $D_{I \mapsto \varphi_I}$ be the corresponding mapping from $D_I$ to $D_{\varphi_I}$
+\item $D_{\varphi_I \mapsto I}$ be the corresponding mapping from $D_{\varphi_I}$ to $D_I$
 \item $\Sigma_{\varphi_I}$ be an untyped first-order language:
       \begin{packed_itemize}
       \item $V_{\Sigma_{\varphi_I}} = V_\Sigma$
@@ -754,7 +754,7 @@ R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \mapsto \true) \in 
 Let $I_{\varphi_I}$ be an interpretation for $\Sigma_{\varphi_I}$:
 \begin{packed_itemize}
 \item $D_{I_{\varphi_I}} = D_I$
-\item $F_{I_{\varphi_I}} = F_I \cup D_{\varphi_I \rightarrow I}$
+\item $F_{I_{\varphi_I}} = F_I \cup D_{\varphi_I \mapsto I}$
 \item $R_{I_{\varphi_I}} = R_I$
 \end{packed_itemize}
 
@@ -767,7 +767,7 @@ $I_{\varphi_I} \vdash \varphi_I$ iff
 $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$ and
 $I_{\varphi_I} \vdash D^{\neq}_{\varphi_I}$ and
 $I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$ and
-$I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$. Each conjunct can be checked separately:
+$I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$. Each part can be checked separately:
 \begin{itemize}
 \item For all $d \in D_{I_{\varphi_I}}$, or equivalently $d \in D_I$:
       \begin{packed_itemize}
@@ -776,8 +776,8 @@ $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$. Each conjunct can be checked separa
       \item With $X$ set to $d$,
             $I_{\varphi_I} \vdash (d = d_{\varphi_I})$ iff \\
             $d = F_{I_{\varphi_I}}(d_{\varphi_I})$, iff 
-            $d = D_{\varphi_I \rightarrow I}(d_{\varphi_I})$ \\
-            which is $\true$ from the definition of $D_{\varphi_I \rightarrow I}$
+            $d = D_{\varphi_I \mapsto I}(d_{\varphi_I})$ \\
+            which is $\true$ from the definition of $D_{\varphi_I \mapsto I}$
       \end{packed_itemize}
       For all $d \in D_{I_{\varphi_I}}$, with $X$ set to $d$, a disjunct in $D^\vee_{\varphi_I}$ 
       is $\true$, i.e., $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$
@@ -785,7 +785,7 @@ $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$. Each conjunct can be checked separa
       \begin{packed_itemize}
       \item $I_{\varphi_I} \vdash (d_{\varphi_I} \neq e_{\varphi_I})$ iff \\
             $F_{I_{\varphi_I}}(d_{\varphi_I}) \neq F_{I_{\varphi_I}}(e_{\varphi_I})$ iff \\
-            $D_{\varphi_I \rightarrow I}(d_{\varphi_I}) \neq D_{\varphi_I \rightarrow I}(e_{\varphi_I})$ iff
+            $D_{\varphi_I \mapsto I}(d_{\varphi_I}) \neq D_{\varphi_I \mapsto I}(e_{\varphi_I})$ iff
             $d \neq e$ \\
             which is $\true$ from the definition of $D_I$
       \item Each inequality in $D^{\neq}_{\varphi_I}$ is $\true$
@@ -797,7 +797,7 @@ $I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$. Each conjunct can be checked separa
       \item $I_{\varphi_I} \vdash ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} )$ iff \\
             $F_{I_{\varphi_I}}(f(\overline{d_{\varphi_I,i}})) = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
             $f^*(F_{I_{\varphi_I}}(\overline{d_{\varphi_I,i}})) = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
-            $f^*(D_{\varphi_I \rightarrow I}(\overline{d_{\varphi_I,i}})) = D_{\varphi_I \rightarrow I}(d_{\varphi_I})$ iff \\
+            $f^*(D_{\varphi_I \mapsto I}(\overline{d_{\varphi_I,i}})) = D_{\varphi_I \mapsto I}(d_{\varphi_I})$ iff \\
             $f^*(\overline{d_i})) = d$ \\
             which is $\true$ from the definition of $F_I$
       \item Each equality in $F^\wedge_{\varphi_I}$ is $\true$
@@ -929,9 +929,9 @@ as the ``URL to fetch from''.
 \label{TF0InfiniteIIV}
 \end{figure}
 
-At this stage the implementation is prototype in the sense that an interpretation formula
-has to be manually translated to extract different components of the interpretation formula
-into separate annotated formulae, to mimic a derivation that IDV can render.
+At this stage the implementation is prototype in the sense that different components of the 
+interpretation formula have to be manually extracted into separate annotated formulae, to 
+mimic a derivation that IDV can render.
 Further inspiration might lead to improvements to these visualizations, especially for more
 complex infinite interpretations.
 
