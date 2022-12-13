@@ -25,6 +25,14 @@
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
 }{\end{itemize}}
+\newenvironment{packed_enumerate}{
+\vspace*{-0.2em}
+\begin{enumerate}
+\setlength{\partopsep}{0pt}
+\setlength{\itemsep}{1pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+}{\end{enumerate}}
 \renewcommand{\textfraction}{0.07}
 \renewcommand{\topfraction}{0.9}
 \renewcommand{\bottomfraction}{0.9}
@@ -84,24 +92,25 @@ several applications, including verification.
 Automated Reasoning (AR), and Automated Theorem Proving (ATP) in particular, has largely focused
 on the task of proving theorems from axioms -- the derivation of conclusions that follow inevitably 
 from known facts \cite{RV01-HAR}.
-The axioms and conjecture to be proved (and hence become a theorem) are written in an 
-appropriately expressive logic, and the proofs that are found are often similarly written in
-logic \cite{SS+06}.
-In this work we consider typed first-order logic in the form of \cite{Wal83,Sch85,Coh87},
+The axioms and conjecture to be proved (and hence become a theorems) are written in an 
+appropriately expressive logic, and the proofs are often similarly written in logic \cite{SS+06}.
+In this work typed first-order logic in the form of \cite{Wal83,Sch85,Coh87},
 %  higher-order \cite{And86}, and some 
 % on-classical \cite{Pri08} logics, 
-whose expressive power is sufficient for a wide range of topics \cite{Sut17}.
-(This work is also applicable to untyped first-order logic where terms have the type $\iota$ 
-and formulae have the type $o$, and can also be generalized to higher-order logics.)
+whose expressive power is sufficient for a wide range of topics \cite{Sut17}, is used.
+(This work is also applicable to untyped first-order logic,
+% where terms have the type $\iota$ and formulae have the type $o$, 
+and can also be generalized to higher-order logics.)
 
-In the last two decades the converse task of disproving conjectures, i.e., proving that a 
-conjecture is not a theorem of the axioms, has become increasingly important.
-This process depends on finding an {\em interpretation} of the formulae, i.e., a structure that
-maps expressions written in the language of the formulae to domain elements and truth values.
-In most cases the interpretation is a {\em model} of certain formulae, i.e., it maps those
-formulae to {\em true}.
-A disproof of a conjecture is a countermodel that provides an interpretation of the formulae 
-that is a model of the axioms, but maps the conjecture to {\em false}.
+In the last two decades the converse task of disproving conjectures
+% , i.e., proving that a 
+% conjecture is not a theorem of the axioms, 
+has become increasingly important.
+This process depends on finding an {\em interpretation}, i.e., a structure that maps expressions 
+to domain elements and truth values.
+If an interpretation maps formulae to {\em true} then it is a {\em model} of the formulae.
+A conjecture is disproved by finding an interpretation that is a model of the axioms, but 
+maps the conjecture to {\em false}.
 A salient application area that harnesses this form of ATP is verification \cite{DKW08},
 where a countermodel is used to pinpoint the reason why a proof obligation fails, and
 correspondingly points to the location of the fault in the system being verified.
@@ -116,7 +125,7 @@ In addition to ATP systems that produce interpretations (typically models),
 % nanoCop-M \cite{Ott21}, 
 % FM-Darwin \cite{BF+09}, 
 % and ATP systems that find 
-e.g., Paradox \cite{CS03}, Vampire \cite{KV13}, Nipick \cite{BN10-ITP},
+e.g., Paradox \cite{CS03}, Vampire \cite{KV13}, Nitpick \cite{BN10-ITP},
 there is a need for tools that support examination and use of the interpretations.
 This paper examines the tasks of verifying models and visualizing interpretations, and describes 
 new tools for these tasks - Sections~\ref{Verification}~and~\ref{Visualization}.
@@ -126,13 +135,13 @@ and for helping humans understand the essence of a model.
 
 \paragraph{Related Work:}
 In \cite{SS+06} a TPTP format for interpretations with finite domains was defined, and has been 
-adopted by some ATP systems that find finite models, e.g., Paradox and Vampire.
+adopted by some ATP systems, e.g., Paradox and Vampire.
 The SMT-LIB standard \cite{BFT17} defines a format for model output, and commands to inspect 
 models.  
 SAT solvers generally output models as specified by the SAT competitions \cite{JL+12}, in a 
 simple format similar to the DIMACS input format \cite{Bab93}.
 Some individual model finding systems have defined their own formats for models, e.g., the formats
-output by Nitpick \cite{BN10-ITP} and Z3 \cite{dMB08}.
+output by Nitpick and Z3 \cite{dMB08}.
 % +++
 % Nikolaj says ...
 % Z3 It produces models that define functions by expressions. For example a model of succ is 
@@ -141,20 +150,23 @@ output by Nitpick \cite{BN10-ITP} and Z3 \cite{dMB08}.
 % See also https://microsoft.github.io/z3guide/docs/logic/Quantifiers
 % +++
 
-Related work on verification and visualization of interpretations is sparse.
-For verification, full details of our approach are given in Section~\ref{Verification}, but
-the basic idea is to use the formulae that represent the model as axioms, and prove the 
-input formulae that have been modelled from those axioms.
-Personal communication with members of the Vampire team revealed code in the Vampire sources 
-that takes the same approach, but is not backed up by a proof of soundness as provided in 
-Section~\ref{Verification}.
+Related work on model verification and interpretation visualization is sparse.
+For model verification, full details of our approach are given in Section~\ref{Verification}, but
+the basic idea is to use the formulae that represent the (finite or infinite) model as axioms, 
+and use a trusted ATP system to prove the input formulae that have been modelled from those 
+axioms.
+Personal communication with members of the Vampire team revealed that Vampire can internally 
+verify finite models using a direct approach, which uses the model formulae to evaluate (rather 
+than prove) the input formulae.
+This approach removes the need for theorem proving as part of the verification process, but
+is limited to finite models.
 In a personal communication the developer of Paradox explained his approach, which is to show
 that the input formulae and the formulae representing the model are together satisfiable.
-This is a weaker form of the approach taken here (and by Vampire).
+This is weaker than the approach taken here and that taken by Vampire.
 % Pascal - know any from SMT? PF: no, to my best knowledge, and after a quick check on Google.
-For visualization, the Mace4 model finder \cite{McC03-MACE4-TR} outputs textual information about 
-the models it finds, including the interpretations for constants as integer domain elements, and 
-tables for the function and predicate symbols' interpretations. 
+For interpretation visualization, the Mace4 model finder \cite{McC03-MACE4-TR} outputs textual 
+information about the models it finds, including the interpretations for constants as integer 
+domain elements, and tables for the function and predicate symbols' interpretations. 
 The tables are naturally restricted to symbols of arity no greater than two (which is just fine
 for algebras, where Mace4 was often applied).
 The only graphical visualization tool that has been found is that described in \cite{Sch13-MS},
@@ -202,8 +214,8 @@ in both academia and industry.
 % needs to ATP system developers, who have then adapted their ATP systems to the users’ needs.
 The web page {\smalltt{\url{https://www.tptp.org}}} provides access to all components.
 
-The TPTP languages \cite{Sut22-IGPL} are one of the keys to the success of the TPTP World.
-The languages are used for writing both TPTP problems and TSTP solutions, which enables convenient 
+The TPTP language \cite{Sut22-IGPL} is one of the keys to the success of the TPTP World.
+The language is used for writing both problems and solutions, which enables convenient 
 communication between systems. 
 % It also enables tool exchange, tool integration, and comparable experimental results.
 Originally the TPTP World supported only first-order clause normal form (CNF).
@@ -227,10 +239,10 @@ have been added.
 % A general principle of the TPTP language is ``we provide the syntax, you provide the semantics''.
 % As such, there is no a priori commitment to any semantics for the languages, although in almost 
 % all cases the intended logic and semantics are well known.
-All the typed languages include constructs for arithmetic.
-This work applies to all the languages; TF0 (the monomorphic form of TFF) \cite{SS+12} 
+All the typed forms include constructs for arithmetic.
+TF0 \cite{SS+12}, the monomorphic form of TFF, described in Section~\ref{TF0}, 
 % and NX0 \cite{SF+22} forms are 
-is used as the example.
+is used in this work.
 
 The top level building blocks of the TPTP language are {\em annotated
 formulae}.
@@ -264,7 +276,7 @@ $\Leftrightarrow$, and $\oplus$ respectively.
 Equality and inequality are expressed as the infix operators {\tt =} and
 {\tt !=}.
 The {\em source} and {\em useful\_info} are optional.
-Annotated formulae (using TF0, as described in Section~\ref{TF0}) can be seen in 
+Annotated formulae using TF0 can be seen in 
 Figures~\ref{TF0FiniteProblem}-\ref{TF0InfiniteVerification}.
 
 %--------------------------------------------------------------------------------------------------
@@ -273,18 +285,16 @@ Figures~\ref{TF0FiniteProblem}-\ref{TF0InfiniteVerification}.
 
 % is a typed first-order language extended with FOOL logic constructs.
 TF0 is a typed first-order language.
-Every function and predicate symbol is declared before its use, with a type signature that 
-specifies the types of the symbol’s arguments and result.
 The TF0 types are
 (i)~the predefined types {\smalltt{\$i}} for individuals and {\smalltt{\$o}} for booleans; 
 (ii)~the predefined arithmetic types {\smalltt{\$int}}, {\smalltt{\$rat}}, and {\smalltt{\$real}}; 
-(iii)~user-defined types that have been declared to be of the kind {\smalltt{\$tType}}.
-TF0 type signatures are 
-(i)~individual types;
+(iii)~user-defined types of the kind {\smalltt{\$tType}}.
+Every symbol is declared with a type signature:
+(i)~individual types for variables;
 (ii)~function types from non-boolean argument types to result types;
 (iii)~predicate types from non-boolean argument types to boolean.
-The equality predicates {\tt =} and {\tt !=} are ad hoc polymorphic over all types, and the types 
-of arithmetic predicates and functions are ad hoc polymorphic over the arithmetic types.
+The equality predicates {\tt =} and {\tt !=} are ad hoc polymorphic over all types. 
+Arithmetic predicates and functions are ad hoc polymorphic over the arithmetic types.
 % TX0 formulae are those of first-order logic, extended to allow boolean variables and terms.
 % TX0 additionally supports tuples, conditional expressions, and let expressions, but they are
 % not used in this paper (see \cite{SK18} for the details).
@@ -318,8 +328,7 @@ tff(distinct_grades,axiom,
 
 tff(equality_lost,conjecture,
     ! [H1: man,H2: man] :
-      ( created_equal(H1,H2)
-    <=> ( H1 = H2 ) ) ).
+      ( created_equal(H1,H2) <=> ( H1 = H2 ) ) ).
 %--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 problem (with a finite countermodel)\\
@@ -369,12 +378,12 @@ tff(all_have_child,axiom,
 
 A Tarskian-style \cite{TV56} interpretation of formulae in typed first-order logic 
 consists of a non-empty domain of unequal elements for each type of the language of the formulae 
-(just one domain in the case of untyped logic), and interpretations of the function and predicate 
+(just one domain for untyped logic), and interpretations of the 
+% function and predicate 
 symbols of the language with respect to the domains \cite{Hun96}.
-An interpretation of given formulae can normally interpret all terms and formulae that can be 
-written in the language induced by the given formulae, but in some circumstances an interpretation 
-can interpret only (at least) the given formulae; such an interpretation is a {\em partial
-interpretation}.
+An interpretation can normally interpret all expressions that can be written in the language of 
+the formulae, but in some circumstances an interpretation can interpret only (at least) the given 
+formulae; such an interpretation is a {\em partial interpretation}.
 
 The domains of an interpretation may be finite or infinite.
 Interpretations with only finite domains are called {\em finite interpretations}, and
@@ -385,24 +394,29 @@ Infinite domains can take several forms, including explicitly specified, e.g., t
 explicitly generated, e.g., closed terms representing Peano numbers, algebraic numbers (real
 closed fields), and the infinite Herbrand Universe of a Herbrand interpretation.
 
-It is noted that in addition to Tarskian-style interpretations that provide an explicit
-interpretation of the symbols, a Herbrand model of clausal formulae can also be embodied in a 
-saturation \cite{BG+01}.
+In addition to Tarskian-style interpretations,
+% that provide an explicit interpretation of the symbols, 
+a Herbrand model 
+% of clausal formulae 
+can also be embodied in a saturation \cite{BG+01}.
 %  i.e., a fixed point for a set of clauses at which further application 
 % of a complete inference system does not generate any new clauses.
-This approach is adopted in saturation-based ATP systems such as E \cite{SCV19}, 
-Prover9 \cite{McC-Prover9-URL}, Vampire, and Zipperposition \cite{VB+21}.
+% This approach is adopted in saturation-based ATP systems such as E \cite{SCV19}
+% Prover9 \cite{McC-Prover9-URL}, 
+% and Vampire.
+%  and Zipperposition \cite{VB+21}.
 % Unfortunately, a saturation tells you only that a model exists, and very little about what the 
 % model might look like. 
-Saturations are difficult to interpret explicitly in a way that can be used constructively by 
+Saturations are difficult to interpret in a way that can be used constructively by 
 users, and are thus a less useful form of interpretation.
-This work considers the representation, verification, and visualization of only Tarskian-style 
-interpretations with explicit symbol interpretation.
+This work considers 
+% the representation, verification, and visualization of 
+only Tarskian-style interpretations with explicit symbol interpretation.
 
 The notions of interpretations, models, partial interpretations, finite interpretations,
 Herbrand interpretations, etc., are captured in the SZS ontologies \cite{Sut08-KEAPPA}, as
 updated at 
-{\smalltt{\url{https://www.tptp.org/cgi-bin/SeeTPTP?Category=Documents\&File=SZSOntology}}}
+{\smalltt{\url{https://www.tptp.org/cgi-bin/SeeTPTP?Category=Documents&File=SZSOntology}}}
 
 % A Kripke interpretation of a formulae in a non-classical logic consists of a set or worlds,
 % an accessibility relation between those worlds, and a classical logic interpretation within each
@@ -414,24 +428,25 @@ updated at
 \label{InterpretationsTF0}
 
 As noted in Section~\ref{Introduction}, a TPTP format for interpretations with finite domains 
-has previously been defined, and has been adopted by some ATP systems.
+has previously been defined.
+% and has been adopted by some ATP systems.
 Recently the need for a format for interpretations with infinite domains, and for a format for 
-Kripke interpretations \cite{Kri63} of formulae written in the NTF language \cite{SF+22}, has 
-led to the development of a new format for interpretations using the TPTP languages.
-The changes allow for multiple interpretations to be given in a single file, which, in the case
-of typed logics, share type declarations.
-The underlying principle in unchanged: interpretations are represented using the same logic
-as used by the formulae that are interpreted.
-This provides the basis for verification of models, as explained in Section~\ref{Verification}.
+Kripke interpretations \cite{Kri63},
+% of formulae written in the NTF language \cite{SF+22}, 
+led to the development of a new TPTP format for interpretations.
+% The changes allow for multiple interpretations to be given in a single file.
+% , which, in the case of typed logics, share type declarations.
+The underlying principle is unchanged: interpretations are represented as formulae.
+% This provides the basis for verification of models, as explained in Section~\ref{Verification}.
 
-The new format for an interpretation uses a single annotated formula with the role 
-{\smalltt{interpretation}}, preceded by any necessary type declarations for typed logics.
-The type declarations are those of the formulae being interpreted, and declarations for:
+The new format uses an {\em interpretation formula}, preceded by the necessary type 
+declarations:
 \begin{packed_itemize}
+\item the type declarations for the formulae being interpretted;
 \item the types of the domains (unless already defined in the language, e.g., the type
       {\smalltt{\$int}});
-\item the types of type-promotion functions that promote the types of the domains to the types 
-      of the formulae; these are used to make the interpretation formula well-typed;
+\item the types of type-promotion functions from the types of the domains to the types 
+      of the formulae, used to make the interpretation formula well-typed;
 \item the types of the domain elements.
 \end{packed_itemize}
 % \vspace*{-0.4em}
@@ -440,14 +455,12 @@ The interpretation formula is a conjunction specifying:
 \item for each type in the formulae:
       \begin{packed_itemize}
       \item the domain type, by a formula that makes the type-promotion function a surjection; 
-            this is omitted if the type of the domain is the same as the type in the formula
-            (e.g., when the formula type is {\smalltt{\$int}} and the domain type is naturally 
-            also {\smalltt{\$int}});
-      \item the domain elements as terms (unless implicit from their type); if the domain is
+            this is omitted if the type of the domain is the same as the type in the formula,
+            e.g., when both are {\smalltt{\$int}};
+      \item the domain elements as terms (unless implicit from their type): if the domain is
             finite this done by a universally quantified disjunction of equalities whose 
-            right-hand sides are the finite domain terms; if the domain is infinite this is
-            done by a universally quantified formula containing an existentially quantified 
-            formula that captures an infinite disjunction of equalities e.g., for closed terms 
+            right-hand sides are the terms; if the domain is infinite an existentially quantified 
+            formula that captures an infinite disjunction of equalities is used, e.g., for terms 
             representing Peano numbers as the domain elements:\\
             \hspace*{0.5cm}$\forall I{:}peano\;((I = zero) \vee \exists P{:}peano\;(I = s(P)))$;
 %            \smalltt{! [I: peano] : ( I = zero | ? [P: peano] : I = s(P) )};
@@ -455,12 +468,12 @@ The interpretation formula is a conjunction specifying:
             type);
       \item a formula making the type-promotion function an injection,
             % (unless the type of the domain is the same as the type in the formula), 
-            which together with the surjectivity makes it a bijection.
+            which with surjectivity makes it a bijection.
       \end{packed_itemize}
-\item interpretation of the formulae constant and function symbols, using equalities whose 
-      left-hand sides are terms formed from symbols applied to type-promoted domain elements, 
-      and whose right-hand sides are type-promoted domain elements;
-\item interpretation of the formulae predicate symbols, using literals formed from symbols applied
+\item interpretation of the function symbols, using equalities whose left-hand sides are 
+      formed from symbols applied to type-promoted domain elements, and whose right-hand sides 
+      are type-promoted domain elements;
+\item interpretation of the predicate symbols, as literals formed from symbols applied
       to type-promoted domain elements; positive literals are {\em true} and negative literals 
       are {\em false}.
 \end{packed_itemize}
@@ -473,6 +486,16 @@ Figure~\ref{TF0FiniteInterpretation} is a TF0 interpretation with a finite domai
 countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
 The comments show which parts of the formula specify what aspects of the interpretation, per
 the list above.
+Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain -- it 
+is a model for the problem in Figure~\ref{TF0InfiniteProblem}.
+Note:
+$\bullet$~the defined type {\smalltt{\$int}} is the domain type for the formula type 
+{\smalltt{person}}, so that there is no specification of the domain elements and their 
+distinctness;
+$\bullet$~universal quantification is used for the interpretation of function and predicate
+symbols for an infinite number of argument tuples;
+$\bullet$~the interpretations of function and predicate symbols is not given for argument 
+tuples with negative integers - this is an example of a partial interpretation.
 
 \begin{figure}[t!]
 \scriptsize
@@ -529,26 +552,12 @@ tff(equality_lost,interpretation,
       & created_equal(d2man(d_gotA),d2man(d_john))
       & created_equal(d2man(d_gotA),d2man(d_gotA)) ) 
     ) ).
-%----If John was not equal to the person who got an A:
-%---- & ~ created_equal(d2man(d_john),d2man(d_gotA))
-%---- & ~ created_equal(d2man(d_gotA),d2man(d_john))
 %--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 interpretation with a finite domain \\
 {\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Finite.s}}}
 \label{TF0FiniteInterpretation}
 \end{figure}
-
-Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain -- it 
-is a model for the problem in Figure~\ref{TF0InfiniteProblem}.
-Note how:
-$\bullet$~the defined type {\smalltt{\$int}} is the domain type for the formula type 
-{\smalltt{person}}, so that there is no specification of the domain elements and their 
-distinctness;
-$\bullet$~universal quantification is used to specify the interpretation of function and predicate
-symbols for an infinite number of argument tuples;
-$\bullet$~the interpretations of function and predicate symbols is not specified for argument 
-tuples formed from negative integers - this is an example of a partial interpretation.
 
 \begin{figure}[tbhp]
 \scriptsize
@@ -602,14 +611,14 @@ and for model finding this means verifying the model output.
 In the context of this work the model verification applies to the type declarations and 
 the interpretation formula that represent the model found by the ATP system, and
 has at least the following aspects:
-\begin{enumerate}
+\begin{packed_enumerate}
 \item Are the type declarations and interpretation formula syntactically well-formed 
       and semantically well-typed?
 \item Is the interpretation formula satisfiable?
 \item Does the interpretation formula correctly represent the model found by the ATP system?
 \item Does the interpretation represented by the interpretation formula interpret the given 
       formulae as $\true$?
-\end{enumerate}
+\end{packed_enumerate}
 \noindent
 These questions are answered as follows:
 \begin{enumerate}
@@ -622,26 +631,20 @@ These questions are answered as follows:
       be weaker and more trusted than the ATP system that found the model.
 \item This cannot be confirmed, as that representation is internal to the ATP system that found
       the model.
-\item In this work a ``semantic'' approach is taken, in which each given formula is proved from
+\item In this work a ``semantic'' approach is taken, in which th given formulae are proved from
       the interpretation formula using a trusted theorem prover; the interpretation formula is 
-      supplied as an axiom, and each of the given formulae (or their conjunction) is given as a 
-      conjecture to be proved.
-      Figure~\ref{TF0InfiniteVerification} shows the verification problem for the problem in 
-      Figure~\ref{TF0InfiniteProblem} and its model in Figure~\ref{TF0InfiniteInterpretation}.
-
-      The soundness of this approach relies on the fact that if a given formula is a logical 
+      supplied as an axiom, and the given formulae are the conjecture to be proved.
+      This approach relies on the proof below, which shows that if a given formula is a logical 
       consequence of the interpretation formula, then the given formula is interpreted as 
       {\em true} by the model represented by the interpretation formula.
-      A proof is given below.
-
+      Figure~\ref{TF0InfiniteVerification} shows the verification problem for the problem in 
+      Figure~\ref{TF0InfiniteProblem} and its model in Figure~\ref{TF0InfiniteInterpretation}.
       An implementation is available online as the GMV tool in the SystemOnTSTP \cite{Sut07-CSR} 
       web interface {\smalltt{\url{https://www.tptp.org/cgi-bin/SystemOnTSTP}}}.
       The tool input is the concatenation of the interpretation and modelled formula,
-      delimited by {\smalltt{\% SZS output start}} and {\smalltt{\% SZS output end}} lines.
-      An example that can be used as the ``URL to fetch from'' in the SystemOnTSTP web 
-      interface is available at
+      delimited by {\smalltt{\% SZS output}} start and end lines.
+      An example that can be used as the ``URL to fetch from'' in the web interface is 
       {\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/FOF_Finite.sp.GMV.p}}
-
 \end{enumerate}
 
 \begin{figure}[htbp]
@@ -689,9 +692,7 @@ Figures~\ref{TF0InfiniteProblem}~and~\ref{TF0InfiniteInterpretation}\\
 The proof of soundness is given here for a finite interpretation in untyped first-order logic, 
 where (as explained in Section~\ref{InterpretationsTF0}) there is no need for type considerations.
 The proof for typed first-order logic follows exactly the same pattern, but is technically
-complicated due to the introduction of types, in particular the type promotion functions that have 
-to be used when functions and predicates of the given formula language are applied to terms from 
-the interpretation domain.
+complicated due to the introduction of types and the type promotion functions.
 The extension to infinite domains is quite simple after that, following 
 Section~\ref{InterpretationsTF0}.
 
@@ -843,28 +844,30 @@ If $\varphi_I \models \Phi$ then $I \vdash \Phi$.
 \label{Visualization}
 
 Proof visualization is well-established, with several tools available, e.g., 
-Evonne \cite{AB+22} is an interactive proof visualization software for description logics,
+Evonne \cite{AB+22},
+%  is an interactive proof visualization software for description logics,
 % \footnote{\smalltt{https://lat.inf.tu-dresden.de/research/papers/2022/ALBABODAKOME-IJCAR22.pdf}}
-ProofTree \cite{Tew17} is a proof visualization tool focused on interactive theorem proving within 
-Coq,
+ProofTree \cite{Tew17},
+% is a proof visualization tool focused on interactive theorem proving within Coq,
 % \footnote{\smalltt{https://askra.de/software/prooftree/}} 
 % ProofTree currently only supports proofs from Coq.
-Treehehe \cite{Bat18} was designed generically to visualize any proof tree,
+Treehehe \cite{Bat18},
+%  was designed generically to visualize any proof tree,
 % \footnote{\smalltt{https://chelsea.lol/Resources/COMP5209\_BattellC\_report.pdf}} 
 % but currently it only supports a handful of pre-existing proofs and does not allow users 
 %to visualize their own proofs.
 and
-the Interactive Derivation Viewer \cite{TPS07} (IDV) is a tool that supports visualization of 
-TPTP formatted proofs.
+the Interactive Derivation Viewer \cite{TPS07} (IDV) -- a tool for visualization of 
+TPTP format proofs.
 Interpretation visualization, however, has 
 % (to the knowledge of the authors) 
 had minimal attention, as noted in Section~\ref{Introduction}. 
 A visualization for TF0 interpretations has been designed in this work, and a prototype 
 implementation is available online as the IIV tool in the SystemOnTSTP web interface.
-IIV is built on top of IDV.
-IDV was originally a Java applet, but has since been ported to HTML/JavaScript using GraphViz
-\cite{EG+02} for the layout and rendering.
-IIV has benefited from the mature state of IDV.
+IIV is built on top of IDV, and has benefited from the mature state of IDV.
+% IDV was originally a Java applet, but has since been ported to HTML/JavaScript using GraphViz
+% \cite{EG+02} for the layout and rendering.
+% IIV has benefited from the mature state of IDV.
 
 Figure~\ref{TF0FiniteIIV} is the visualization of the finite countermodel in 
 Figure~\ref{TF0FiniteInterpretation}, with {\smalltt{john}} not created equal to the person
@@ -888,20 +891,22 @@ The nodes above are increasingly darker red (grey if printed) up to the type nod
 that is the result type of {\smalltt{created\_equal}}, and of increasingly darker blue down to 
 the type node {\smalltt{\$o}} that is the type of {\smalltt{\$true}}.
 This interactive highlighting allows a user to quickly identify the interpretations for symbols
-of the language by hovering over the inverted house nodes, to quickly find what symbols applied to
-what domain elements are interpreted as which domain elements and boolean values by hovering over
-the house and box nodes, and to quickly see how different domain elements affect the interpretation
-of difference symbols by hovering over the oval nodes.
+by hovering over the nodes.
+% inverted house nodes, to quickly find what symbols applied to
+% what domain elements are interpreted as which domain elements and boolean values by hovering over
+% the house and box nodes, and to quickly see how different domain elements affect the interpretation
+% of difference symbols by hovering over the oval nodes.
 Here the cursor is hovering over a {\smalltt{d\_john}} node, showing how
 {\smalltt{created\_equal(d\_john,d\_john)}} is interpreted as {\smalltt{\$true}}.
-Details of the annotated formulae used to represent each node in the input to IIV are available 
-in the ``Node Information'' box (which is to the left in reality, placed below here).
-This interactive visualization is available in the IIV tool in SystemOnTSTP, using 
-{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Finite.s.IDV}}
-as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and clicking the
-``Process Solution'' button.
+% Details of the annotated formulae used to represent each node in the input to IIV are available 
+% in the ``Node Information'' box (which is to the left in reality, placed below here).
+This visualization is available in the IIV tool in SystemOnTSTP, using 
+{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Finite.s.IIV}}
+as the ``URL to fetch from''.
+% selecting {\tt IIV 0.0} as the ``System'', and clicking the ``Process Solution'' button.
 
 \begin{figure}[htbp]
+\centering
 \includegraphics[width=\columnwidth]{TFF_Finite.s.IIV.pdf}
 \caption{Visualization of the interpretation in Figure~\ref{TF0FiniteInterpretation}}
 \label{TF0FiniteIIV}
@@ -909,24 +914,24 @@ as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and cli
 
 Figure~\ref{TF0InfiniteIIV} is the visualization of the infinite model in 
 Figure~\ref{TF0InfiniteInterpretation}. 
-Here (universally quantified) variables are used to represent the infinite number of
-domain elements, and builtin arithmetic predicates used to compute the symbols' mappings.
-Here the cursor is hovering over the {\smalltt{X:\$int}} node, showing how 
+Here (universally quantified) variables are used to represent an infinite number of
+domain elements, and builtin arithmetic predicates are used to compute symbols' mappings.
+The cursor is hovering over the {\smalltt{X:\$int}} node, showing how 
 {\smalltt{child\_of(X)}} is interpreted as {\smalltt{\$sum(X,1)}}.
-This interactive visualization is available in the IIV tool using 
+This visualization is available in the IIV tool using 
 {\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Integer.s.IIV}}
 as the ``URL to fetch from''.
 
 \begin{figure}[htbp]
-\includegraphics[width=\columnwidth]{TFF_Integer.s.IIV.pdf}
+\centering
+\includegraphics[width=0.45\columnwidth]{TFF_Integer.s.IIV.pdf}
 \caption{Visualization of the interpretation in Figure~\ref{TF0InfiniteInterpretation}}
 \label{TF0InfiniteIIV}
 \end{figure}
 
 At this stage the implementation is prototype in the sense that an interpretation formula
-has to be manually translated into IIV's input format, which is still in the TPTP language
-but requires different components of the interpretation formula to be extracted into
-separate annotated formulae to mimic a derivation that IDV can render.
+has to be manually translated to extract different components of the interpretation formula
+into separate annotated formulae, to mimic a derivation that IDV can render.
 Further inspiration might lead to improvements to these visualizations, especially for more
 complex infinite interpretations.
 
