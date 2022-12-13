@@ -39,7 +39,6 @@
 \newcommand{\true}{{\mathit{true}}}
 \newcommand{\false}{{\mathit{false}}}
 
-
 \begin{document}
 % This file is an adoption of the style file for AAAI Press 
 % proceedings, working notes, and technical reports.  This file is made 
@@ -83,7 +82,7 @@ several applications, including verification.
 \label{Introduction}
 
 Automated Reasoning (AR), and Automated Theorem Proving (ATP) in particular, has largely focused
-on the task of proving theorems from axioms --- the derivation of conclusions that follow inevitably 
+on the task of proving theorems from axioms -- the derivation of conclusions that follow inevitably 
 from known facts \cite{RV01-HAR}.
 The axioms and conjecture to be proved (and hence become a theorem) are written in an 
 appropriately expressive logic, and the proofs that are found are often similarly written in
@@ -159,12 +158,12 @@ tables for the function and predicate symbols' interpretations.
 The tables are naturally restricted to symbols of arity no greater than two (which is just fine
 for algebras, where Mace4 was often applied).
 The only graphical visualization tool that has been found is that described in \cite{Sch13-MS},
-which provided (past tense --- it is no longer available) a visualization of finite first-order 
+which provided (past tense -- it is no longer available) a visualization of finite first-order 
 interpretations as produced by Paradox.
 The visualization had some nice features, e.g., showing functions as constructor functions, and 
 reducing the visual clutter when displaying relations with properties such as symmetry, 
 transitivity, etc.
-In other ways that work was quite different from the visualization described in this work,
+In other ways that work was quite different from the visualization described in this work -
 see Section~\ref{Visualization}.
 
 % This paper is organized as follows:
@@ -205,13 +204,13 @@ The web page {\smalltt{\url{https://www.tptp.org}}} provides access to all compo
 
 The TPTP languages \cite{Sut22-IGPL} are one of the keys to the success of the TPTP World.
 The languages are used for writing both TPTP problems and TSTP solutions, which enables convenient 
-communication between different systems and researchers. 
-It also enables tool exchange, tool integration, and comparable experimental results.
+communication between systems. 
+% It also enables tool exchange, tool integration, and comparable experimental results.
 Originally the TPTP World supported only first-order clause normal form (CNF).
 % \cite{SS98-JAR}.
 Over the years full first-order form (FOF),
 % \cite{Sut09}, 
-typed first-order form (TFF).
+typed first-order form (TFF),
 % \cite{SS+12,BP13-TFF1}, 
 typed extended first-order form (TXF),
 % \cite{SK18}, 
@@ -436,7 +435,7 @@ The type declarations are those of the formulae being interpreted, and declarati
 \item the types of the domain elements.
 \end{packed_itemize}
 % \vspace*{-0.4em}
-The {\smalltt{interpretation}} formula is a conjunction specifying: 
+The interpretation formula is a conjunction specifying: 
 \begin{packed_itemize}
 \item for each type in the formulae:
       \begin{packed_itemize}
@@ -470,7 +469,7 @@ and interpretation formulae are of the same type – ``individuals''.
 This obviates the need for type considerations, in particular type-promotion function are not 
 needed.
 
-Figure~\ref{TF0FiniteInterpretation} is a TF0 interpretation with a finite domain, it is a 
+Figure~\ref{TF0FiniteInterpretation} is a TF0 interpretation with a finite domain -- it is a 
 countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
 The comments show which parts of the formula specify what aspects of the interpretation, per
 the list above.
@@ -540,11 +539,12 @@ tff(equality_lost,interpretation,
 \label{TF0FiniteInterpretation}
 \end{figure}
 
-Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain, it 
+Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain -- it 
 is a model for the problem in Figure~\ref{TF0InfiniteProblem}.
 Note how:
-$\bullet$~the defined type {\smalltt{\$int}} is the domain type for the formula type {\smalltt{person}},
-so that there is no specification of the domain elements and their distinctness;
+$\bullet$~the defined type {\smalltt{\$int}} is the domain type for the formula type 
+{\smalltt{person}}, so that there is no specification of the domain elements and their 
+distinctness;
 $\bullet$~universal quantification is used to specify the interpretation of function and predicate
 symbols for an infinite number of argument tuples;
 $\bullet$~the interpretations of function and predicate symbols is not specified for argument 
@@ -600,7 +600,7 @@ The reality is that the complexity leads to incorrectness, and as such verificat
 outputs is necessary; for theorem proving this means verifying the proof output \cite{Sut06},
 and for model finding this means verifying the model output.
 In the context of this work the model verification applies to the type declarations and 
-the {\smalltt{interpretation}} formula that represent the model found by the ATP system, and
+the interpretation formula that represent the model found by the ATP system, and
 has at least the following aspects:
 \begin{enumerate}
 \item Are the type declarations and interpretation formula syntactically well-formed 
@@ -617,7 +617,7 @@ These questions are answered as follows:
 \item This can be empirically confirmed using a trusted model finder (in the same way the GDV 
       derivation verifier \cite{Sut06} uses the Otter system \cite{McC03-Otter} as a trusted 
       theorem prover).
-      Confirming that the {\smalltt{interpretation}} formula is satisfiable is almost certainly much 
+      Confirming that the interpretation formula is satisfiable is almost certainly much 
       easier than finding the model itself, so the system used to check the satisfiability can 
       be weaker and more trusted than the ATP system that found the model.
 \item This cannot be confirmed, as that representation is internal to the ATP system that found
@@ -626,9 +626,8 @@ These questions are answered as follows:
       the interpretation formula using a trusted theorem prover; the interpretation formula is 
       supplied as an axiom, and each of the given formulae (or their conjunction) is given as a 
       conjecture to be proved.
-      Figure~\ref{TF0InfiniteVerification} illustrates this, showing the verification 
-      problem for the problem in Figure~\ref{TF0InfiniteProblem} and its model in 
-      Figure~\ref{TF0InfiniteInterpretation}.
+      Figure~\ref{TF0InfiniteVerification} shows the verification problem for the problem in 
+      Figure~\ref{TF0InfiniteProblem} and its model in Figure~\ref{TF0InfiniteInterpretation}.
 
       The soundness of this approach relies on the fact that if a given formula is a logical 
       consequence of the interpretation formula, then the given formula is interpreted as 
@@ -720,7 +719,7 @@ Recalling Section~\ref{InterpretationsTF0}, an interpretation is represented by 
 {\em interpretation formula}, $\varphi_I$.
 Let:
 \begin{packed_itemize}
-\item $D_{\varphi_I}$ be a set of fresh symbols $d_{\varphi_I}/0$, one for each $d \in D_I$
+\item $D_{\varphi_I}$ be a set of fresh terms $d_{\varphi_I}/0$, one for each $d \in D_I$
 % \item $D_{I \rightarrow \varphi_I}$ be the corresponding mapping from $D_I$ to $D_{\varphi_I}$
 \item $D_{\varphi_I \rightarrow I}$ be the corresponding mapping from $D_{\varphi_I}$ to $D_I$
 \item $\Sigma_{\varphi_I}$ be an untyped first-order language:
@@ -944,8 +943,8 @@ several applications, including verification.
 
 Currently this work is being extended to Kripke interpretations for formula in non-classical 
 typed first-order logic \cite{SF+22}, using the TPTP TX0 language \cite{Sut22-IGPL}.
-A tool to translate {\smalltt{interpretation}} formulae to the format required for input to the 
-IIV tool is being implemented.
+A tool to translate interpretation formulae to the format required for input to the IIV tool is 
+being implemented.
 
 %--------------------------------------------------------------------------------------------------
 \bibliographystyle{flairs}
