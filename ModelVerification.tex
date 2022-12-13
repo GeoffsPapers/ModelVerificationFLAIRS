@@ -201,7 +201,7 @@ in both academia and industry.
 % TPTP World as an appropriate and convenient basis for ATP system research and development. 
 % Over the years the TPTP World has provided a platform upon which ATP users have presented their 
 % needs to ATP system developers, who have then adapted their ATP systems to the users’ needs.
-The web page \smalltt{\url{https://www.tptp.org}} provides access to all components.
+The web page {\smalltt{\url{https://www.tptp.org}}} provides access to all components.
 
 The TPTP languages \cite{Sut22-IGPL} are one of the keys to the success of the TPTP World.
 The languages are used for writing both TPTP problems and TSTP solutions, which enables convenient 
@@ -241,12 +241,12 @@ An annotated formula has the form:\\
 {\em formula}{\tt ,}
 {\em source}{\tt ,}
 {\em useful\_info}{\tt ).}\\
-The {\em language}s supported are clause normal form (\smalltt{cnf}), first-order form 
-(\smalltt{fof}), typed first-order form (\smalltt{tff}), and typed higher-order form 
-(\smalltt{thf}).
+The {\em language}s supported are clause normal form ({\smalltt{cnf}}), first-order form 
+({\smalltt{fof}}), typed first-order form ({\smalltt{tff}}), and typed higher-order form 
+({\smalltt{thf}}).
 % These are used by the corresponding languages, with TXF inheriting {\tt tff} and the 
 % non-classical languages their corresponding underlying languages.
-The {\em role}, e.g., \smalltt{axiom}, \smalltt{lemma}, \smalltt{conjecture},
+The {\em role}, e.g., {\smalltt{axiom}}, {\smalltt{lemma}}, {\smalltt{conjecture}},
 defines the use of the formula in an ATP system.
 In the {\em formula}, terms and atoms follow Prolog conventions.
 %  --
@@ -254,7 +254,7 @@ In the {\em formula}, terms and atoms follow Prolog conventions.
 % variables start with an uppercase letter.
 The TPTP language also supports interpreted symbols, which either start with a
 {\tt \$}, or are composed of non-alphanumeric characters, e.g., the truth
-constants \smalltt{\$true} and \smalltt{\$false}, and integer/rational/real
+constants {\smalltt{\$true}} and {\smalltt{\$false}}, and integer/rational/real
 numbers such as 27, 43/92, -99.66.
 The basic logical connectives are
 {\tt !}, {\tt ?}, {\tt \verb|~|}, {\tt |}, {\tt \&}, {\tt =>}, {\tt <=},
@@ -277,9 +277,9 @@ TF0 is a typed first-order language.
 Every function and predicate symbol is declared before its use, with a type signature that 
 specifies the types of the symbol’s arguments and result.
 The TF0 types are
-(i)~the predefined types \smalltt{\$i} for individuals and \smalltt{\$o} for booleans; 
-(ii)~the predefined arithmetic types \smalltt{\$int}, \smalltt{\$rat}, and \smalltt{\$real}; 
-(iii)~user-defined types that have been declared to be of the kind \smalltt{\$tType}.
+(i)~the predefined types {\smalltt{\$i}} for individuals and {\smalltt{\$o}} for booleans; 
+(ii)~the predefined arithmetic types {\smalltt{\$int}}, {\smalltt{\$rat}}, and {\smalltt{\$real}}; 
+(iii)~user-defined types that have been declared to be of the kind {\smalltt{\$tType}}.
 TF0 type signatures are 
 (i)~individual types;
 (ii)~function types from non-boolean argument types to result types;
@@ -403,7 +403,7 @@ interpretations with explicit symbol interpretation.
 The notions of interpretations, models, partial interpretations, finite interpretations,
 Herbrand interpretations, etc., are captured in the SZS ontologies \cite{Sut08-KEAPPA}, as
 updated at 
-\smalltt{\url{https://www.tptp.org/cgi-bin/SeeTPTP?Category=Documents\&File=SZSOntology}}
+{\smalltt{\url{https://www.tptp.org/cgi-bin/SeeTPTP?Category=Documents\&File=SZSOntology}}}
 
 % A Kripke interpretation of a formulae in a non-classical logic consists of a set or worlds,
 % an accessibility relation between those worlds, and a classical logic interpretation within each
@@ -426,24 +426,24 @@ as used by the formulae that are interpreted.
 This provides the basis for verification of models, as explained in Section~\ref{Verification}.
 
 The new format for an interpretation uses a single annotated formula with the role 
-\smalltt{interpretation}, preceded by any necessary type declarations for typed logics.
+{\smalltt{interpretation}}, preceded by any necessary type declarations for typed logics.
 The type declarations are those of the formulae being interpreted, and declarations for:
 \begin{packed_itemize}
 \item the types of the domains (unless already defined in the language, e.g., the type
-      \smalltt{\$int});
+      {\smalltt{\$int}});
 \item the types of type-promotion functions that promote the types of the domains to the types 
       of the formulae; these are used to make the interpretation formula well-typed;
 \item the types of the domain elements.
 \end{packed_itemize}
 % \vspace*{-0.4em}
-The \smalltt{interpretation} formula is a conjunction specifying: 
+The {\smalltt{interpretation}} formula is a conjunction specifying: 
 \begin{packed_itemize}
 \item for each type in the formulae:
       \begin{packed_itemize}
       \item the domain type, by a formula that makes the type-promotion function a surjection; 
             this is omitted if the type of the domain is the same as the type in the formula
-            (e.g., when the formula type is \smalltt{\$int} and the domain type is naturally 
-            also \smalltt{\$int});
+            (e.g., when the formula type is {\smalltt{\$int}} and the domain type is naturally 
+            also {\smalltt{\$int}});
       \item the domain elements as terms (unless implicit from their type); if the domain is
             finite this done by a universally quantified disjunction of equalities whose 
             right-hand sides are the finite domain terms; if the domain is infinite this is
@@ -543,7 +543,7 @@ tff(equality_lost,interpretation,
 Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain, it 
 is a model for the problem in Figure~\ref{TF0InfiniteProblem}.
 Note how:
-$\bullet$~the defined type \smalltt{\$int} is the domain type for the formula type \smalltt{person},
+$\bullet$~the defined type {\smalltt{\$int}} is the domain type for the formula type {\smalltt{person}},
 so that there is no specification of the domain elements and their distinctness;
 $\bullet$~universal quantification is used to specify the interpretation of function and predicate
 symbols for an infinite number of argument tuples;
@@ -600,7 +600,7 @@ The reality is that the complexity leads to incorrectness, and as such verificat
 outputs is necessary; for theorem proving this means verifying the proof output \cite{Sut06},
 and for model finding this means verifying the model output.
 In the context of this work the model verification applies to the type declarations and 
-the \small{interpretation} formula that represent the model found by the ATP system, and
+the {\smalltt{interpretation}} formula that represent the model found by the ATP system, and
 has at least the following aspects:
 \begin{enumerate}
 \item Are the type declarations and interpretation formula syntactically well-formed 
@@ -617,7 +617,7 @@ These questions are answered as follows:
 \item This can be empirically confirmed using a trusted model finder (in the same way the GDV 
       derivation verifier \cite{Sut06} uses the Otter system \cite{McC03-Otter} as a trusted 
       theorem prover).
-      Confirming that the \small{interpretation} formula is satisfiable is almost certainly much 
+      Confirming that the {\smalltt{interpretation}} formula is satisfiable is almost certainly much 
       easier than finding the model itself, so the system used to check the satisfiability can 
       be weaker and more trusted than the ATP system that found the model.
 \item This cannot be confirmed, as that representation is internal to the ATP system that found
@@ -636,9 +636,9 @@ These questions are answered as follows:
       A proof is given below.
 
       An implementation is available online as the GMV tool in the SystemOnTSTP \cite{Sut07-CSR} 
-      web interface \smalltt{\url{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
+      web interface {\smalltt{\url{https://www.tptp.org/cgi-bin/SystemOnTSTP}}}.
       The tool input is the concatenation of the interpretation and modelled formula,
-      delimited by \smalltt{\% SZS output start} and \smalltt{\% SZS output end} lines.
+      delimited by {\smalltt{\% SZS output start}} and {\smalltt{\% SZS output end}} lines.
       An example that can be used as the ``URL to fetch from'' in the SystemOnTSTP web 
       interface is available at
       {\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/FOF_Finite.sp.GMV.p}}
@@ -944,7 +944,7 @@ several applications, including verification.
 
 Currently this work is being extended to Kripke interpretations for formula in non-classical 
 typed first-order logic \cite{SF+22}, using the TPTP TX0 language \cite{Sut22-IGPL}.
-A tool to translate \smalltt{interpretation} formulae to the format required for input to the 
+A tool to translate {\smalltt{interpretation}} formulae to the format required for input to the 
 IIV tool is being implemented.
 
 %--------------------------------------------------------------------------------------------------
