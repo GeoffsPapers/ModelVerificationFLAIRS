@@ -38,6 +38,7 @@
 \newcommand{\true}{{\mathit{true}}}
 \newcommand{\false}{{\mathit{false}}}
 
+
 \begin{document}
 % This file is an adoption of the style file for AAAI Press 
 % proceedings, working notes, and technical reports.  This file is made 
@@ -81,7 +82,7 @@ several applications, including verification.
 \label{Introduction}
 
 Automated Reasoning (AR), and Automated Theorem Proving (ATP) in particular, has largely focused
-on the task of proving theorems from axioms - the derivation of conclusions that follow inevitably 
+on the task of proving theorems from axioms --- the derivation of conclusions that follow inevitably 
 from known facts \cite{RV01-HAR}.
 The axioms and conjecture to be proved (and hence become a theorem) are written in an 
 appropriately expressive logic, and the proofs that are found are often similarly written in
@@ -157,12 +158,12 @@ tables for the function and predicate symbols' interpretations.
 The tables are naturally restricted to symbols of arity no greater than two (which is just fine
 for algebras, where Mace4 was often applied).
 The only graphical visualization tool that has been found is that described in \cite{Sch13-MS},
-which provided (past tense - it is no longer available) a visualization of finite first-order 
+which provided (past tense --- it is no longer available) a visualization of finite first-order 
 interpretations as produced by Paradox.
 The visualization had some nice features, e.g., showing functions as constructor functions, and 
 reducing the visual clutter when displaying relations with properties such as symmetry, 
 transitivity, etc.
-In other ways that work was quite different from the visualization described in this work -
+In other ways that work was quite different from the visualization described in this work,
 see Section~\ref{Visualization}.
 
 % This paper is organized as follows:
@@ -470,7 +471,7 @@ and interpretation formulae are of the same type – ``individuals''.
 This obviates the need for type considerations, in particular type-promotion function are not 
 needed.
 
-Figure~\ref{TF0FiniteInterpretation} is a TF0 interpretation with a finite domain - it is a 
+Figure~\ref{TF0FiniteInterpretation} is a TF0 interpretation with a finite domain, it is a 
 countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
 The comments show which parts of the formula specify what aspects of the interpretation, per
 the list above.
@@ -541,7 +542,7 @@ ModelVerification/main/TFF\_Finite.s}}}
 \label{TF0FiniteInterpretation}
 \end{figure}
 
-Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain - it 
+Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain, it 
 is a model for the problem in Figure~\ref{TF0InfiniteProblem}.
 Note how:
 $\bullet$~the defined type \smalltt{\$int} is the domain type for the formula type \smalltt{person},
@@ -723,7 +724,7 @@ Recalling Section~\ref{InterpretationsTF0}, an interpretation is represented by 
 {\em interpretation formula}, $\varphi_I$.
 Let:
 \begin{packed_itemize}
-\item $D_{\varphi_I}$ be a set of fresh terms $d_{\varphi_I}$, one for each $d \in D_I$
+\item $D_{\varphi_I}$ be a set of fresh symbols $d_{\varphi_I}/0$, one for each $d \in D_I$
 % \item $D_{I \rightarrow \varphi_I}$ be the corresponding mapping from $D_I$ to $D_{\varphi_I}$
 \item $D_{\varphi_I \rightarrow I}$ be the corresponding mapping from $D_{\varphi_I}$ to $D_I$
 \item $\Sigma_{\varphi_I}$ be an untyped first-order language:
@@ -738,13 +739,14 @@ R^\wedge_{\varphi_I}$, where:
 \begin{equation*}
 \begin{split}
 D^\vee_{\varphi_I}   &= \forall X \bigvee_{d_{\varphi_I} \in D_{\varphi_I}} \left(X = d_{\varphi_I} \right) \\
-D^{\neq}_{\varphi_I} &= \bigwedge_{\substack{d_{\varphi_I},e_{\varphi_I} \in D_{\varphi_I} \\
-                                             d_{\varphi_I} not\;e_{\varphi_I}}} \left(d_{\varphi_I} \neq e_{\varphi_I} \right) \\
-F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow d) \in f^* \\ 
+%D^{\neq}_{\varphi_I} &= \bigwedge_{\substack{d_{\varphi_I},e_{\varphi_I} \in D_{\varphi_I} \\
+%                                             d_{\varphi_I} \neq\; e_{\varphi_I}}} \left(d_{\varphi_I} \neq e_{\varphi_I} \right) \\
+D^{\neq}_{\varphi_I} &= \bigwedge_{\{d_{\varphi_I},e_{\varphi_I}\} \subseteq D_{\varphi_I}} \left(d_{\varphi_I} \neq e_{\varphi_I} \right) \\
+F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \mapsto d) \in f^* \\ 
                                              f^* \in F_I}} ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} ) \\
-R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \rightarrow \true) \in p^* \\
+R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \mapsto \true) \in p^* \\
                                              p^* \in R_I}} p(\overline{d_{\varphi_I,i}}) \\
-                     &\bigwedge \bigwedge_{\substack{(\overline{d_i} \rightarrow \false) \in p^* \\
+                     &\wedge \bigwedge_{\substack{(\overline{d_i} \mapsto \false) \in p^* \\
                                              p^* \in R_I}} \neg p(\overline{d_{\varphi_I,i}})
 \end{split}
 \end{equation*}
@@ -769,7 +771,7 @@ $I_{\varphi_I} \vdash \varphi_I$ iff
 $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$ and
 $I_{\varphi_I} \vdash D^{\neq}_{\varphi_I}$ and
 $I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$ and
-$I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$
+$I_{\varphi_I} \vdash P^\wedge_{\varphi_I}$. Each conjunct can be checked separately:
 \begin{itemize}
 \item For all $d \in D_{I_{\varphi_I}}$, or equivalently $d \in D_I$:
       \begin{packed_itemize}
