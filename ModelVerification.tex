@@ -5,6 +5,7 @@
 \usepackage{courier}
 \usepackage{graphicx}
 \usepackage{setspace}
+\usepackage{url}
 \frenchspacing
 \setlength{\pdfpagewidth}{8.5in}
 \setlength{\pdfpageheight}{11in}
@@ -199,7 +200,7 @@ in both academia and industry.
 % TPTP World as an appropriate and convenient basis for ATP system research and development. 
 % Over the years the TPTP World has provided a platform upon which ATP users have presented their 
 % needs to ATP system developers, who have then adapted their ATP systems to the users’ needs.
-The web page {\smalltt{https://www.tptp.org}} provides access to all components.
+The web page \smalltt{\url{https://www.tptp.org}} provides access to all components.
 
 The TPTP languages \cite{Sut22-IGPL} are one of the keys to the success of the TPTP World.
 The languages are used for writing both TPTP problems and TSTP solutions, which enables convenient 
@@ -322,8 +323,7 @@ tff(equality_lost,conjecture,
 %--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 problem (with a finite countermodel)\\
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/\\
-ModelVerification/main/TFF\_Finite.p}}}
+{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Finite.p}}}
 \label{TF0FiniteProblem}
 \end{figure}
 
@@ -355,8 +355,7 @@ tff(all_have_child,axiom,
 %--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 problem (with an infinite model)\\
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/\\
-ModelVerification/main/TFF\_Infinite.p}}}
+{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Infinite.p}}}
 \label{TF0InfiniteProblem}
 \end{figure}
 
@@ -403,7 +402,7 @@ interpretations with explicit symbol interpretation.
 The notions of interpretations, models, partial interpretations, finite interpretations,
 Herbrand interpretations, etc., are captured in the SZS ontologies \cite{Sut08-KEAPPA}, as
 updated at 
-\smalltt{https://www.tptp.org/cgi-bin/SeeTPTP?\allowbreak Category=Documents\&File=SZSOntology}
+\smalltt{\url{https://www.tptp.org/cgi-bin/SeeTPTP?Category=Documents\&File=SZSOntology}}
 
 % A Kripke interpretation of a formulae in a non-classical logic consists of a set or worlds,
 % an accessibility relation between those worlds, and a classical logic interpretation within each
@@ -536,8 +535,7 @@ tff(equality_lost,interpretation,
 %--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 interpretation with a finite domain \\
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/\\
-ModelVerification/main/TFF\_Finite.s}}}
+{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Finite.s}}}
 \label{TF0FiniteInterpretation}
 \end{figure}
 
@@ -582,8 +580,7 @@ tff(people,interpretation,
 %--------------------------------------------------------
 \end{verbatim}
 \caption{A TF0 interpretation with an infinite domain\\
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/\\
-ModelVerification/main/TFF\_Infinite.s}}}
+{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Infinite.s}}}
 \label{TF0InfiniteInterpretation}
 \end{figure}
 
@@ -638,12 +635,12 @@ These questions are answered as follows:
       A proof is given below.
 
       An implementation is available online as the GMV tool in the SystemOnTSTP \cite{Sut07-CSR} 
-      web interface \smalltt{https://www.tptp.org/cgi-bin/SystemOnTSTP}.
+      web interface \smalltt{\url{https://www.tptp.org/cgi-bin/SystemOnTSTP}}.
       The tool input is the concatenation of the interpretation and modelled formula,
       delimited by \smalltt{\% SZS output start} and \smalltt{\% SZS output end} lines.
       An example that can be used as the ``URL to fetch from'' in the SystemOnTSTP web 
       interface is available at
-      {\scriptsize {\tt https://raw.githubusercontent.com/\allowbreak GeoffsPapers/\allowbreak ModelVerification/\allowbreak main/FOF\_Finite.sp.GMV.p}}
+      {\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/FOF_Finite.sp.GMV.p}}
 
 \end{enumerate}
 
@@ -685,8 +682,7 @@ tff(prove_formulae,conjecture,
 \end{verbatim}
 \caption{The TF0 verification problem for 
 Figures~\ref{TF0InfiniteProblem}~and~\ref{TF0InfiniteInterpretation}\\
-{\scriptsize {\tt https://raw.githubusercontent.com/GeoffsPapers/\\
-ModelVerification/main/TFF\_Infinite.s.p}}}
+{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Infinite.s.p}}}
 \label{TF0InfiniteVerification}
 \end{figure}
 
@@ -900,7 +896,7 @@ Here the cursor is hovering over a {\smalltt{d\_john}} node, showing how
 Details of the annotated formulae used to represent each node in the input to IIV are available 
 in the ``Node Information'' box (which is to the left in reality, placed below here).
 This interactive visualization is available in the IIV tool in SystemOnTSTP, using 
-{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Finite.s.IDV}}
+{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Finite.s.IDV}}
 as the ``URL to fetch from'', selecting {\tt IIV 0.0} as the ``System'', and clicking the
 ``Process Solution'' button.
 
@@ -917,7 +913,7 @@ domain elements, and builtin arithmetic predicates used to compute the symbols' 
 Here the cursor is hovering over the {\smalltt{X:\$int}} node, showing how 
 {\smalltt{child\_of(X)}} is interpreted as {\smalltt{\$sum(X,1)}}.
 This interactive visualization is available in the IIV tool using 
-{\scriptsize {\tt https://raw.githubusercontent.com/ GeoffsPapers/ModelVerification/main/TFF\_Integer.s.IIV}}
+{\scriptsize \url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Integer.s.IIV}}
 as the ``URL to fetch from''.
 
 \begin{figure}[htbp]
