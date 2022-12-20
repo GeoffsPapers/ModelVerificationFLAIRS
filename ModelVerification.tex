@@ -843,16 +843,19 @@ the Interactive Derivation Viewer \cite{TPS07} (IDV) -- a tool for visualization
 TPTP format proofs.
 Interpretation visualization, however, has (to the knowledge of the authors) had minimal 
 attention, as noted in Section~\ref{Introduction}. 
-Visualization of interpretations is useful in the areas where models are instrumental, and also 
-in teaching logic or formal methods, as debugging tools for ATP system developers, and for 
-helping humans understand the essence of a model.
+Visualization of interpretations is useful in areas such as teaching logic, debugging ATP 
+systems, and understanding of a model.
 
-A visualization for TF0 interpretations has been designed in this work, and a prototype 
-implementation is available online as the IIV tool in the SystemOnTSTP web interface.
+A visualization for TF0 interpretations has been designed in this work, and an initial
+implementation is available as the IIV tool in the SystemOnTSTP web interface.
 IIV is built on top of IDV, and has benefited from the mature state of IDV.
 % IDV was originally a Java applet, but has since been ported to HTML/JavaScript using GraphViz
 % \cite{EG+02} for the layout and rendering.
 % IIV has benefited from the mature state of IDV.
+The implementation is ``initial'' because it is fully automated for only finite TF0
+interpretations; for infinite interpretations different components of the interpretation formula 
+have to be manually extracted into separate annotated formulae, to mimic a derivation that IDV 
+can render.
 
 Figure~\ref{TF0FiniteIIV} is the visualization of the finite countermodel in 
 Figure~\ref{TF0FiniteInterpretation}, modified so that {\smalltt{john}} is not created equal 
@@ -873,20 +876,30 @@ the cursor hovering over the lower {\smalltt{d\_john}} node on the path from
 {\smalltt{created\_equal}} to {\smalltt{\$true}}, showing that
 {\smalltt{created\_equal(d\_john,d\_john)}} is interpreted as {\smalltt{\$true}}.
 The nodes above are increasingly darker red (grey if printed) up to the type node {\smalltt{\$o}} 
-that is the result type of {\smalltt{created\_equal}}, and of increasingly darker blue down to 
+that is the result type of {\smalltt{created\_equal}}, and increasingly darker blue down to 
 the type node {\smalltt{\$o}} that is the type of {\smalltt{\$true}}.
-This interactive highlighting allows a user to quickly identify the interpretations for symbols
-by hovering over the nodes.
+This highlighting provides easy focus on the interpretations of chosen symbols.
 % inverted house nodes, to quickly find what symbols applied to
 % what domain elements are interpreted as which domain elements and boolean values by hovering over
 % the house and box nodes, and to quickly see how different domain elements affect the interpretation
 % of difference symbols by hovering over the oval nodes.
 % Details of the annotated formulae used to represent each node in the input to IIV are available 
 % in the ``Node Information'' box (which is to the left in reality, placed below here).
-This visualization is available in the IIV tool using 
-{\smalltt{\url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Finite.s.IIV}}}
+This visualization is available in IIV using 
+{\smalltt{\url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Finite.s}}}
 as the ``URL to fetch from''.
 % selecting {\tt IIV 0.0} as the ``System'', and clicking the ``Process Solution'' button.
+
+Figure~\ref{TF0InfiniteIIV} is the visualization of the infinite model in 
+Figure~\ref{TF0InfiniteInterpretation}. 
+Here (universally quantified) variables are used to represent an infinite number of
+domain elements, and builtin arithmetic predicates are used to compute symbols' mappings.
+The cursor is hovering over the {\smalltt{X:\$int}} node, showing how 
+{\smalltt{child\_of(X)}} is interpreted as {\smalltt{\$sum(X,1)}}.
+This visualization is available in IIV using the IIV format file
+{\smalltt{\url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Integer.s.IIV}}}
+as the ``URL to fetch from'' - this file was manually extracted from the infinite model in 
+Figure~\ref{TF0InfiniteInterpretation}.
 
 \begin{figure}[htbp]
 \centering
@@ -895,16 +908,6 @@ as the ``URL to fetch from''.
 \label{TF0FiniteIIV}
 \end{figure}
 
-Figure~\ref{TF0InfiniteIIV} is the visualization of the infinite model in 
-Figure~\ref{TF0InfiniteInterpretation}. 
-Here (universally quantified) variables are used to represent an infinite number of
-domain elements, and builtin arithmetic predicates are used to compute symbols' mappings.
-The cursor is hovering over the {\smalltt{X:\$int}} node, showing how 
-{\smalltt{child\_of(X)}} is interpreted as {\smalltt{\$sum(X,1)}}.
-This visualization is available in the IIV tool using 
-{\smalltt{\url{https://raw.githubusercontent.com/GeoffsPapers/ModelVerification/main/TFF_Integer.s.IIV}}}
-as the ``URL to fetch from''.
-
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.45\columnwidth]{TFF_Integer.s.IIV.pdf}
@@ -912,9 +915,6 @@ as the ``URL to fetch from''.
 \label{TF0InfiniteIIV}
 \end{figure}
 
-At this stage the implementation is prototype in the sense that different components of the 
-interpretation formula have to be manually extracted into separate annotated formulae, to 
-mimic a derivation that IDV can render.
 Further inspiration might lead to improvements to these visualizations, especially for more
 complex infinite interpretations.
 
@@ -931,8 +931,8 @@ which has several applications, including verification.
 
 Currently this work is being extended to Kripke interpretations for formula in non-classical 
 typed first-order logic \cite{SF+22}, using the TPTP TX0 language \cite{Sut22-IGPL}.
-A tool to translate interpretation formulae to the format required for input to the IIV tool is 
-being implemented.
+The tool to translate interpretation formulae to the format required for input to the IIV tool is 
+being extended to infinite interpretations and untyped first-order interpretations.
 
 %--------------------------------------------------------------------------------------------------
 \bibliographystyle{flairs}
