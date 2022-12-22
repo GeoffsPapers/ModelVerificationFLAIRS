@@ -847,38 +847,39 @@ Visualization of interpretations is useful in areas such as teaching logic, debu
 systems, and understanding of a model.
 
 A visualization for TF0 interpretations has been designed in this work, and an initial
-implementation is available as the IIV tool in the SystemOnTSTP web interface.
+implementation is available as the IIV tool in SystemOnTSTP.
 IIV is built on top of IDV, and has benefited from the mature state of IDV.
 % IDV was originally a Java applet, but has since been ported to HTML/JavaScript using GraphViz
 % \cite{EG+02} for the layout and rendering.
 % IIV has benefited from the mature state of IDV.
-The implementation is ``initial'' because it is fully automated for only finite TF0
+The implementation is ``initial'' because it is fully automated for only finite TF0 and FOF
 interpretations; for infinite interpretations different components of the interpretation formula 
-have to be manually extracted into separate annotated formulae, to mimic a derivation that IDV 
-can render.
+currently have to be manually extracted into separate annotated formulae, to mimic a derivation 
+that IDV can render.
 
 Figure~\ref{TF0FiniteIIV} is the visualization of the finite countermodel in 
 Figure~\ref{TF0FiniteInterpretation}, modified so that {\smalltt{john}} is not created equal 
 to the person who got an {\smalltt{A}}.
 The top row of inverted triangles are the types in the given formulae,
-while the bottom row of inverted triangles are the types of the domains in the interpretation
-formula.
+while the bottom row of inverted triangles are the types of the domains.
 The inverted houses are the function and predicate symbols, and the successive rows of ovals are 
 the successive domain element arguments used to specify the symbols' interpretation.
 Finally, the row of houses and boxes are the interpretations of the symbols applied to those
-arguments; houses for functions and boxes for predicates.
+arguments; houses for domain elements and boxes for truth values.
 For example, in the given formulae the type of {\smalltt{grade\_of}} is {\smalltt{grade}},
 and {\smalltt{grade\_of(d\_john)}} is interpreted as {\smalltt{d\_f}}, which is of type
 {\smalltt{d\_grade}} in the interpretation formula.
 
-IIV provides some interactive features: Figure~\ref{TF0FiniteIIV} shows the situation with 
-the cursor hovering over the lower {\smalltt{d\_john}} node on the path from 
-{\smalltt{created\_equal}} to {\smalltt{\$true}}, showing that
-{\smalltt{created\_equal(d\_john,d\_john)}} is interpreted as {\smalltt{\$true}}.
-The nodes above are increasingly darker red (grey if printed) up to the type node {\smalltt{\$o}} 
+IIV has interactive features: In Figure~\ref{TF0FiniteIIV} the cursor is hovering over 
+the lower {\smalltt{d\_john}} node on the path from {\smalltt{created\_equal}} to 
+{\smalltt{\$true}}, showing that {\smalltt{created\_equal(d\_john,d\_john)}} is interpreted as 
+{\smalltt{\$true}}.
+The nodes above are increasingly darker red 
+% (grey if printed) 
+up to the {\smalltt{\$o}} node
 that is the result type of {\smalltt{created\_equal}}, and increasingly darker blue down to 
-the type node {\smalltt{\$o}} that is the type of {\smalltt{\$true}}.
-This highlighting provides easy focus on the interpretations of chosen symbols.
+the {\smalltt{\$o}} node that is the type of {\smalltt{\$true}}.
+This highlighting provides easy focus on the interpretation of chosen symbols.
 % inverted house nodes, to quickly find what symbols applied to
 % what domain elements are interpreted as which domain elements and boolean values by hovering over
 % the house and box nodes, and to quickly see how different domain elements affect the interpretation
