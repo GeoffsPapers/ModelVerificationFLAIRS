@@ -89,9 +89,9 @@ which has several applications, including verification.
 \section{Introduction}
 \label{Introduction}
 
-Automated Reasoning (AR), and Automated Theorem Proving (ATP) in particular, has focused largely 
-on the task of proving theorems from axioms -- the derivation of conclusions that follow inevitably 
-from known facts \cite{RV01-HAR}.
+Historically, Automated Reasoning (AR), and Automated Theorem Proving (ATP) in particular, has 
+focused largely on the task of proving theorems from axioms -- the derivation of conclusions that 
+follow inevitably from known facts \cite{RV01-HAR}.
 The axioms and conjecture to be proved (and hence become a theorem) are written in an 
 appropriately expressive logic, and the proofs are often similarly written in logic \cite{SS+06}.
 In this work typed first-order logic in the form of \cite{Wal83,Sch85,Coh87},
@@ -101,7 +101,6 @@ whose expressive power is sufficient for a wide range of topics \cite{Sut17}, is
 (This work is also applicable to untyped first-order logic,
 % where terms have the type $\iota$ and formulae have the type $o$, 
 and can also be generalized to higher-order logics.)
-
 In the last two decades the converse task of disproving conjectures
 % , i.e., proving that a 
 % conjecture is not a theorem of the axioms, 
@@ -193,7 +192,7 @@ In other ways that work was quite different from the visualization described in 
 \label{TPTP}
 
 The TPTP World \cite{Sut17} is a well established infrastructure that supports research, 
-development, and deployment of Automated Theorem Proving (ATP) systems.
+development, and deployment of ATP systems.
 The TPTP World includes the TPTP problem library,
 % \cite{Sut09}, 
 the TSTP solution library,
@@ -258,7 +257,7 @@ In a {\em formula}, terms and atoms follow Prolog conventions
 variables start with an uppercase letter.
 The language also supports interpreted symbols, which either start with a {\tt \$}, e.g., 
 the truth constants {\smalltt{\$true}} and {\smalltt{\$false}}, or are composed of 
-non-alphanumeric characters, e.g., integer/rational/real numbers such as 27, 43/92, -99.66.
+non-alphabetic characters, e.g., integer/rational/real numbers such as 27, 43/92, -99.66.
 The basic logical connectives are
 {\tt !}, {\tt ?}, {\tt \verb|~|}, {\tt |}, {\tt \&}, {\tt =>}, {\tt <=}, {\tt <=>}, and 
 {\tt <{\raisebox{0.4ex}{\texttildelow}}>},
@@ -863,10 +862,12 @@ to the person who got an {\smalltt{A}}.
 The top row of inverted triangles are the types in the given formulae,
 while the bottom row of inverted triangles are the types of the domains.
 The inverted houses are the function and predicate symbols, and the successive rows of ovals are 
-the successive domain element arguments used to specify the symbols' interpretation.
+the successive domain element arguments used to specify the symbols' interpretations.
 Finally, the row of houses and boxes are the interpretations of the symbols applied to those
 arguments; houses for domain elements and boxes for truth values.
-For example, in the given formulae the type of {\smalltt{grade\_of}} is {\smalltt{grade}},
+Paths from leaf type nodes to root type nodes show the interpretation of symbols and the domain
+elements.
+For example, in Figure~\ref{TF0FiniteIIV} the type of {\smalltt{grade\_of}} is {\smalltt{grade}},
 and {\smalltt{grade\_of(d\_john)}} is interpreted as {\smalltt{d\_f}}, which is of type
 {\smalltt{d\_grade}} in the interpretation formula.
 
