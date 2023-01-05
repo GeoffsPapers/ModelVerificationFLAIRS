@@ -428,7 +428,7 @@ An interpretation formula is a conjunction of:
       function to convert domain elements to terms, to make the interpretation formula well-typed):
       \begin{packed_itemize}
       \item the domain type, by a formula that makes the type-promotion function a surjection 
-            (even if it is unnecessary because the type is defined and is the same as the type in 
+            (unless it is unnecessary because the type is defined and is the same as the type in 
             the given formulae, e.g., both are {\smalltt{\$int}});
       \item the domain elements (unless implicit from their defined type): if the domain is
             finite this is a universally quantified disjunction of equalities whose right-hand 
