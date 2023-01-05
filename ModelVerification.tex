@@ -326,7 +326,7 @@ tff(equality_lost,conjecture,
 \label{TF0FiniteProblem}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[t!]
 \scriptsize
 \setstretch{0.8}
 \begin{verbatim}
@@ -418,25 +418,19 @@ led to the development of a new TPTP format for interpretations.
 The underlying principle is unchanged: interpretations are represented as formulae.
 % This provides the basis for verification of models, as explained in Section~\ref{Verification}.
 
-The new format uses an {\em interpretation formula}, preceded by the necessary type 
-declarations:
+The new format uses an {\em interpretation formula}. 
+Examples of interpretation formulae can be seen in Figures~\ref{TF0FiniteInterpretation}
+and~\ref{TF0InfiniteInterpretation}, illustrating the components described next. 
+An interpretation formula is a conjunction of:
 \begin{packed_itemize}
-\item the type declarations for the formulae being interpreted;
-\item the types of the domains (unless already defined in the language, e.g., the type
-      {\smalltt{\$int}});
-\item the types of type-promotion functions from the types of the domains to the types 
-      of the formulae, used to make the interpretation formula well-typed;
-\item the types of the domain elements.
-\end{packed_itemize}
-% \vspace*{-0.4em}
-The interpretation formula is a conjunction specifying: 
-\begin{packed_itemize}
-\item for each type in the formulae:
+\item a conjunction of domain specifications for the types in the given formulae;
+      each specification is a conjunction of (each specification includes a {\em type-promotion} 
+      function to convert domain elements to terms, to make the interpretation formula well-typed):
       \begin{packed_itemize}
       \item the domain type, by a formula that makes the type-promotion function a surjection 
-            (unless the type of the domain is the same as the type in the formula, e.g., both 
-            are {\smalltt{\$int}});
-      \item the domain elements as terms (unless implicit from their type): if the domain is
+            (even if it is unnecessary because the type is defined and is the same as the type in 
+            the given formulae, e.g., both are {\smalltt{\$int}});
+      \item the domain elements (unless implicit from their defined type): if the domain is
             finite this is a universally quantified disjunction of equalities whose right-hand 
             sides are the terms; if the domain is infinite an existentially quantified formula 
             that captures an infinite disjunction of equalities is used, e.g., for terms 
@@ -444,7 +438,7 @@ The interpretation formula is a conjunction specifying:
             \hspace*{0.5cm}$\forall I{:}peano\;((I = zero) \vee \exists P{:}peano\;(I = s(P)))$;
 %            \smalltt{! [I: peano] : ( I = zero | ? [P: peano] : I = s(P) )};
       \item specification of the distinctness of the domain elements (unless implicit from their
-            type);
+            defined type);
       \item a formula making the type-promotion function an injection,
             % (unless the type of the domain is the same as the type in the formula), 
             which with the surjectivity makes it a bijection.
@@ -456,6 +450,14 @@ The interpretation formula is a conjunction specifying:
       to type-promoted domain elements; positive literals are {\em true} and negative literals 
       are {\em false}.
 \end{packed_itemize}
+The interpretation formula is preceded by the necessary type declarations:
+\begin{packed_itemize}
+\item the types in the given formulae (except defined types, e.g., {\smalltt{\$int}});
+\item the types of the domains (except defined types);
+\item the types of type-promotion functions;
+\item the types of the domain elements.
+\end{packed_itemize}
+% \vspace*{-0.4em}
 This representation is also directly usable for untyped first-order logic, where all terms in 
 the given and interpretation formulae are of the same type – ``individuals''. 
 This obviates the need for type considerations, in particular type-promotion functions are not 
@@ -463,8 +465,7 @@ needed.
 
 Figure~\ref{TF0FiniteInterpretation} is a TF0 interpretation with finite domains -- it is a 
 countermodel for the problem in Figure~\ref{TF0FiniteProblem}.
-The comments show which parts of the formula specify what aspects of the interpretation, per
-the list above.
+The comments show which parts of the formula specify what aspects of the interpretation.
 Figure~\ref{TF0InfiniteInterpretation} is a TF0 interpretation with an infinite domain -- it 
 is a model for the problem in Figure~\ref{TF0InfiniteProblem}.
 Note:
