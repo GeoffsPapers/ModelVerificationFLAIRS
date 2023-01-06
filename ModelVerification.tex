@@ -77,9 +77,9 @@ Some country}
 \maketitle
 \begin{abstract}
 \begin{quote}
-This paper describes a new format for representing Tarskian-style interpretations for formula in 
+This paper describes a new format for representing Tarskian-style interpretations for formulae in 
 typed first-order logic, using the TPTP TF0 language.
-It goes on to describe a technique and implemented tool for verifying models using this
+It further describes a technique and an implemented tool for verifying models using this
 representation, and a tool for visualizing interpretations.
 The research contributes to the advancement of automated reasoning technology for model finding, 
 which has several applications, including verification.
@@ -124,7 +124,7 @@ In addition to ATP systems that produce interpretations (typically models),
 % nanoCop-M \cite{Ott21}, 
 % FM-Darwin \cite{BF+09}, 
 % and ATP systems that find 
-e.g., Paradox \cite{CS03}, Vampire \cite{KV13}, Nitpick \cite{BN10-ITP},
+e.g., Paradox \cite{CS03}, Vampire \cite{KV13}, or Nitpick \cite{BN10-ITP},
 there is a need for tools that support examination and use of interpretations.
 This paper considers the tasks of verifying models and visualizing interpretations, and describes 
 new tools for these tasks - Sections~\ref{Verification}~and~\ref{Visualization}.
@@ -168,7 +168,7 @@ information about the models it finds, including the interpretation of constants
 and tables for the function and predicate symbols' interpretations. 
 The tables are naturally limited to symbols of arity up to two (which is just fine for algebras, 
 where Mace4 is often applied).
-The only graphical visualization tool that has been found is that described in \cite{Sch13-MS},
+The only graphical visualization tool that has been found is described in \cite{Sch13-MS},
 which provided (past tense -- it is no longer available) a visualization of finite first-order 
 interpretations as produced by Paradox.
 The visualization had some nice features, e.g., showing functions as constructor functions, and 
@@ -459,7 +459,7 @@ The interpretation formula is preceded by the necessary type declarations:
 \end{packed_itemize}
 % \vspace*{-0.4em}
 This representation is also directly usable for untyped first-order logic, where all terms in 
-the given and interpretation formulae are of the same type – ``individuals''. 
+the given interpretation formulae are of the same type – ``individuals''. 
 This obviates the need for type considerations, in particular type-promotion functions are not 
 needed.
 
@@ -612,7 +612,7 @@ These questions are answered as follows:
       be weaker and more trusted than the system that found the model.
 \item This cannot be confirmed, as that representation is internal to the ATP system that found
       the model.
-\item In this work a ``semantic'' approach is taken, in which th given formulae are proved from
+\item In this work a ``semantic'' approach is taken, in which the given formulae are proved from
       the interpretation formula using a trusted theorem prover; the interpretation formula is 
       supplied as an axiom, and the given formulae as the conjecture to be proved.
       This approach relies on the proof below, which shows that if a given formula is a logical 
@@ -923,8 +923,8 @@ Figure~\ref{TF0InfiniteInterpretation}.
 \label{Conclusion}
 
 This paper describes the new TPTP format for representing Tarskian-style interpretations for
-formula in typed first-order logic, using the TPTP TF0 language.
-It goes on to describe a technique and implemented tool for verifying models using this 
+formulae in typed first-order logic, using the TPTP TF0 language.
+It also describes a technique and a implemented tool for verifying models using this 
 representation, and a tool for visualizing interpretations.
 The research contributes to the advancement of automated reasoning technology for model finding, 
 which has several applications, including verification.
