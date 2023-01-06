@@ -744,19 +744,12 @@ Let $I_{\varphi_I}$ be an interpretation for $\Sigma_{\varphi_I}$:
 $I_{\varphi_I} \vdash \varphi_I$
 \end{lemma}
 \begin{proof}
-  % PF I'd rewrite to this:
-%To prove $I_{\varphi_I} \vdash \varphi_I$, we must prove
-%$I_{\varphi_I} \vdash D^\vee_{\varphi_I}$,
-%$I_{\varphi_I} \vdash D^{\neq}_{\varphi_I}$, \\
-%$I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$ and
-%$I_{\varphi_I} \vdash R^\wedge_{\varphi_I}$. 
-%Each can be checked separately: 
-$I_{\varphi_I} \vdash \varphi_I$ iff 
-$I_{\varphi_I} \vdash D^\vee_{\varphi_I}$ and
-$I_{\varphi_I} \vdash D^{\neq}_{\varphi_I}$ and \\
+To prove $I_{\varphi_I} \vdash \varphi_I$, prove
+$I_{\varphi_I} \vdash D^\vee_{\varphi_I}$,
+$I_{\varphi_I} \vdash D^{\neq}_{\varphi_I}$, \\
 $I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$ and
-$I_{\varphi_I} \vdash R^\wedge_{\varphi_I}$. 
-Each can be checked separately:
+$I_{\varphi_I} \vdash R^\wedge_{\varphi_I}$:
+% Each can be proved separately: 
 \begin{itemize}
 \item For all $d \in D_{I_{\varphi_I}}$, or equivalently $d \in D_I$:
       \begin{packed_itemize}
