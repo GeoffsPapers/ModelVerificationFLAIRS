@@ -693,39 +693,45 @@ The formulae over $\Sigma$, $\mathcal{F}(\Sigma)$, are defined as usual.
 Let $I$ be an interpretation for $\Sigma$:
 \begin{packed_itemize}
 \item $D_I$ - A finite set of unequal domain elements.
-\item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f^*: D_I^n \mapsto D_I$.
-\item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p^*: D_I^n \mapsto \{\true,\false\}$.
+\item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f_I: D_I^n \mapsto D_I$.
+\item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p_I: D_I^n \mapsto \{\true,\false\}$.
 \end{packed_itemize}
 
 \noindent
 Recalling Section~\ref{InterpretationsTF0}, an interpretation is represented by an 
-{\em interpretation formula}, $\varphi_I$.
+{\em interpretation formula}, $\varphi$.
 Let:
 \begin{packed_itemize}
-\item $D_{\varphi_I}$ be a set of fresh terms $d_{\varphi_I}/0$, one for each $d \in D_I$
+%----Note they do not have to be constants, so I removed "/0"
+\item $D_{\varphi}$ be a set of fresh terms $d_{\varphi}$, one for each $d_I \in D_I$
 % \item $D_{I \mapsto \varphi_I}$ be the corresponding mapping from $D_I$ to $D_{\varphi_I}$
-\item $D_{\varphi_I \mapsto I}$ be the corresponding mapping from $D_{\varphi_I}$ to $D_I$
-\item $\Sigma_{\varphi_I}$ be an untyped first-order language:
+\item $D_{\varphi \mapsto I}$ be the corresponding mapping from $D_{\varphi}$ to $D_I$
+\item $\Sigma_{\varphi}$ be the untyped first-order language:
       \begin{packed_itemize}
-      \item $V_{\Sigma_{\varphi_I}} = V_\Sigma$
-      \item $F_{\Sigma_{\varphi_I}} = F_\Sigma \cup D_{\varphi_I}$
-      \item $P_{\Sigma_{\varphi_I}} = P_\Sigma$
+      \item $V_{\Sigma_{\varphi}} = V_\Sigma$
+      \item $F_{\Sigma_{\varphi}} = F_\Sigma \cup D_{\varphi}$
+      \item $P_{\Sigma_{\varphi}} = P_\Sigma$
       \end{packed_itemize}
-\item $\varphi_I \in \mathcal{F}(\Sigma_{\varphi_I}) = 
-D^\vee_{\varphi_I} \land D^{\neq}_{\varphi_I} \land F^\wedge_{\varphi_I} \land 
-R^\wedge_{\varphi_I}$, where:
+\item $\varphi \in \mathcal{F}(\Sigma_{\varphi}) = 
+D^\vee_{\varphi} \land D^{\neq}_{\varphi} \land F^\wedge_{\varphi} \land 
+R^\wedge_{\varphi}$, where:
 \begin{equation*}
 \begin{split}
-D^\vee_{\varphi_I}   &= \forall X \bigvee_{d_{\varphi_I} \in D_{\varphi_I}} \left(X = d_{\varphi_I} \right) \\
-%D^{\neq}_{\varphi_I} &= \bigwedge_{\substack{d_{\varphi_I},e_{\varphi_I} \in D_{\varphi_I} \\
-%                                             d_{\varphi_I} \neq\; e_{\varphi_I}}} \left(d_{\varphi_I} \neq e_{\varphi_I} \right) \\
-D^{\neq}_{\varphi_I} &= \bigwedge_{\{d_{\varphi_I},e_{\varphi_I}\} \subseteq D_{\varphi_I}} \left(d_{\varphi_I} \neq e_{\varphi_I} \right) \\
-F^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \mapsto d) \in f^* \\ 
-                                             f^* \in F_I}} ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} ) \\
-R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \mapsto \true) \in p^* \\
-                                             p^* \in R_I}} p(\overline{d_{\varphi_I,i}}) \\
-                     &\wedge \bigwedge_{\substack{(\overline{d_i} \mapsto \false) \in p^* \\
-                                             p^* \in R_I}} \neg p(\overline{d_{\varphi_I,i}})
+D^\vee_{\varphi}   &= \forall X \bigvee_{d_{\varphi} \in D_{\varphi}} \left(X = d_{\varphi} \right) \\
+%D^{\neq}_{\varphi} &= \bigwedge_{\substack{d_{\varphi},e_{\varphi} \in D_{\varphi} \\
+%                                             d_{\varphi} \neq\; e_{\varphi}}} \left(d_{\varphi} \neq e_{\varphi} \right) \\
+D^{\neq}_{\varphi} &= \bigwedge_{\substack{\{d_{\varphi},e_{\varphi}\} \subseteq D_{\varphi} \\
+                                           d_{\varphi} \not\equiv e_{\varphi}}} \left(d_{\varphi} \neq e_{\varphi} \right) \\
+F^\wedge_{\varphi} &= \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto d_I) \in f_I,\;f_I \in F_I \\
+                                           D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i} \\
+                                           D_{\varphi \mapsto I}(d_{\varphi}) = d_I}} 
+                                 ( f(\overline{d_{\varphi,i}}) = d_{\varphi} ) \\
+R^\wedge_{\varphi} &= \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto \true) \in p_I\;p_I \in R_I \\
+                                           D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i}}}
+                                 p(\overline{d_{\varphi,i}}) \\
+              &\wedge \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto \false) \in p_I\;p_I \in R_I \\
+                                           D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i}}}
+                                 \neg p(\overline{d_{\varphi,i}})
 \end{split}
 \end{equation*}
 \end{packed_itemize}
@@ -733,91 +739,92 @@ R^\wedge_{\varphi_I} &= \bigwedge_{\substack{(\overline{d_i} \mapsto \true) \in 
 % $I^\prime$ does this. For the backwards direction of the Theorem, we might need this.)
 
 \noindent
-Let $I_{\varphi_I}$ be an interpretation for $\Sigma_{\varphi_I}$:
+Let $I_{\varphi}$ be an interpretation for $\Sigma_{\varphi}$:
 \begin{packed_itemize}
-\item $D_{I_{\varphi_I}} = D_I$
-\item $F_{I_{\varphi_I}} = F_I \cup D_{\varphi_I \mapsto I}$
-\item $R_{I_{\varphi_I}} = R_I$
+\item $D_{I_{\varphi}} = D_I$
+\item $F_{I_{\varphi}} = F_I \cup D_{\varphi \mapsto I}$
+\item $R_{I_{\varphi}} = R_I \circ D_{\varphi \mapsto I}$
 \end{packed_itemize}
 
 \begin{lemma} 
-$I_{\varphi_I} \vdash \varphi_I$
+$I_{\varphi} \vdash \varphi$
 \end{lemma}
 \begin{proof}
-To prove $I_{\varphi_I} \vdash \varphi_I$, prove
-$I_{\varphi_I} \vdash D^\vee_{\varphi_I}$,
-$I_{\varphi_I} \vdash D^{\neq}_{\varphi_I}$, \\
-$I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$ and
-$I_{\varphi_I} \vdash R^\wedge_{\varphi_I}$:
+To prove $I_{\varphi} \vdash \varphi$, prove
+$I_{\varphi} \vdash D^\vee_{\varphi}$,
+$I_{\varphi} \vdash D^{\neq}_{\varphi}$, \\
+$I_{\varphi} \vdash F^\wedge_{\varphi}$ and
+$I_{\varphi} \vdash R^\wedge_{\varphi}$:
 % Each can be proved separately: 
 \begin{itemize}
-\item For all $d \in D_{I_{\varphi_I}}$, or equivalently $d \in D_I$:
+\item For every $d_{I_{\varphi}} \in D_{I_{\varphi}}$, or equivalently $d_I \in D_I$:
       \begin{packed_itemize}
-      \item $d_{\varphi_I} \in D_{\varphi_I}$,
-            $X = d_{\varphi_I} \in D^\vee_{\varphi_I}$
-      \item With $X$ set to $d$ \\
-            $I_{\varphi_I} \vdash (d = d_{\varphi_I})$ iff \\
-            $d = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
-            $d = D_{\varphi_I \mapsto I}(d_{\varphi_I})$ \\
-            which is $\true$ from the definition of $D_{\varphi_I \mapsto I}$
+      \item There is a $d_{\varphi} \in D_{\varphi}$ such that 
+            $D_{\varphi \mapsto I}(d_{\varphi}) = d_I$
+      \item $(X = d_{\varphi}) \in D^\vee_{\varphi}$
+      \item With $X$ set to $d_I$ \\
+            $I_{\varphi} \vdash (d_I = d_{\varphi})$ iff \\
+            $d_I = F_{I_{\varphi}}(d_{\varphi})$ iff \\
+            $d_I = D_{\varphi \mapsto I}(d_{\varphi})$ \\
+            which is $\true$ from the selection of $d_{\varphi}$
       \end{packed_itemize}
-      For all $d \in D_{I_{\varphi_I}}$, with $X$ set to $d$, a disjunct in $D^\vee_{\varphi_I}$ 
-      is $\true$, i.e., $I_{\varphi_I} \vdash D^\vee_{\varphi_I}$
-\item For each $(d_{\varphi_I} \neq e_{\varphi_I})$ in $D^{\neq}_{\varphi_I}$:
+      For every $d_{I_{\varphi}} \in D_{I_{\varphi}}$, with $X$ set to $d_{I_{\varphi}}$, a 
+      disjunct in $D^\vee_{\varphi}$ is $\true$, i.e., $I_{\varphi} \vdash D^\vee_{\varphi}$
+\item For every $(d_{\varphi} \neq e_{\varphi})$ in $D^{\neq}_{\varphi}$:
       \begin{packed_itemize}
-      \item $I_{\varphi_I} \vdash (d_{\varphi_I} \neq e_{\varphi_I})$ iff \\
-            $F_{I_{\varphi_I}}(d_{\varphi_I}) \neq F_{I_{\varphi_I}}(e_{\varphi_I})$ iff \\
-            $D_{\varphi_I \mapsto I}(d_{\varphi_I}) \neq D_{\varphi_I \mapsto I}(e_{\varphi_I})$ iff
-            $d \neq e$ \\
+      \item $I_{\varphi} \vdash (d_{\varphi} \neq e_{\varphi})$ iff \\
+            $F_{I_{\varphi}}(d_{\varphi}) \neq F_{I_{\varphi}}(e_{\varphi})$ iff \\
+            $D_{\varphi \mapsto I}(d_{\varphi}) \neq D_{\varphi \mapsto I}(e_{\varphi})$ iff \\
+            $d_I \neq e_I$ \\
             which is $\true$ from the definition of $D_I$
-      \item Each inequality in $D^{\neq}_{\varphi_I}$ is $\true$
+      \item Every inequality in $D^{\neq}_{\varphi_I}$ is $\true$
       \end{packed_itemize}
-      $D^{\neq}_{\varphi_I}$ is $\true$, i.e.,
-      $I_{\varphi_I} \vdash D^{\neq}_{\varphi_I}$
-\item For each $(f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I})$ in $F^\wedge_{\varphi_I}$:
+      $D^{\neq}_{\varphi}$ is $\true$, i.e.,
+      $I_{\varphi} \vdash D^{\neq}_{\varphi}$
+\item For every $(f(\overline{d_{\varphi,i}}) = d_{\varphi})$ in $F^\wedge_{\varphi}$:
       \begin{packed_itemize}
-      \item $I_{\varphi_I} \vdash ( f(\overline{d_{\varphi_I,i}}) = d_{\varphi_I} )$ iff \\
-            $F_{I_{\varphi_I}}(f(\overline{d_{\varphi_I,i}})) = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
-            $f^*(F_{I_{\varphi_I}}(\overline{d_{\varphi_I,i}})) = F_{I_{\varphi_I}}(d_{\varphi_I})$ iff \\
-            $f^*(D_{\varphi_I \mapsto I}(\overline{d_{\varphi_I,i}})) = D_{\varphi_I \mapsto I}(d_{\varphi_I})$ iff \\
-            $f^*(\overline{d_i})) = d$ \\
-            which is $\true$ from the definition of $F_I$
-      \item Each equality in $F^\wedge_{\varphi_I}$ is $\true$
+      \item $I_{\varphi} \vdash ( f(\overline{d_{\varphi,i}}) = d_{\varphi} )$ iff \\
+            $F_{I_{\varphi}}(f(\overline{d_{\varphi,i}})) = F_{I_{\varphi}}(d_{\varphi})$ iff \\
+%            $f_I(F_{I_{\varphi}}(\overline{d_{\varphi,i}})) = F_{I_{\varphi}}(d_{\varphi})$ iff \\
+            $f_I(D_{\varphi \mapsto I}(\overline{d_{\varphi,i}})) = D_{\varphi \mapsto I}(d_{\varphi})$ iff \\
+            $f_I(\overline{d_{I,i}}) = d_I$ \\
+            which is $\true$ from the use of $F_I$ in $F^\wedge_{\varphi}$
+      \item Every equality in $F^\wedge_{\varphi}$ is $\true$
       \end{packed_itemize}
-      $F^\wedge_{\varphi_I}$ is $\true$, i.e.,
-      $I_{\varphi_I} \vdash F^\wedge_{\varphi_I}$
-\item For each (positive) $p(\overline{d_{\varphi_I,i}})$ in $R^\wedge_{\varphi_I}$:
+      $F^\wedge_{\varphi}$ is $\true$, i.e.,
+      $I_{\varphi} \vdash F^\wedge_{\varphi}$
+\item For every (positive) $p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$:
       \begin{packed_itemize}
-      \item $I_{\varphi_I} \vdash p(\overline{d_{\varphi_I,i}})$ iff \\
-            $R_{I_{\varphi_I}}(p(\overline{d_{\varphi_I,i}}))$ iff
-            $p^*(R_{I_{\varphi_I}}(\overline{d_{\varphi_I,i}}))$ iff
-            $p^*((\overline{d_i})$ \\
-            which is $\true$ from the definition of $R_I$
-      \item Each positive atom of the conjunction $R^\wedge_{\varphi_I}$ is $\true$
+      \item $I_{\varphi} \vdash p(\overline{d_{\varphi,i}})$ iff \\
+            $R_{I_{\varphi}}(p(\overline{d_{\varphi,i}}))$ iff \\
+            $R_{I}(D_{\varphi \mapsto I}(\overline{d_{\varphi,i}}))$ iff \\
+            $p_I(\overline{d_{I,i}})$ \\
+            which is $\true$ from the use of $R_I$ in $R^\wedge_{\varphi}$
+      \item Every (positive) $p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$ is $\true$
+      \item Analogously, every (negative) $\neg p(\overline{d_{\varphi,i}})$ in
+            $R^\wedge_{\varphi}$ is $\false$ \\
       \end{packed_itemize}
-      Analogously, each (negative) $\neg p(\overline{d_{\varphi_I,i}})$ in
-      $R^\wedge_{\varphi_I}$ is $\false$ \\
-      $R^\wedge_{\varphi_I}$ is $\true$, i.e., $I_{\varphi_I} \vdash R^\wedge_{\varphi_I}$
+      $R^\wedge_{\varphi}$ is $\true$, i.e., $I_{\varphi} \vdash R^\wedge_{\varphi}$
 \end{itemize}
 \end{proof}
 
 \begin{theorem}
 Let $\Phi \in \mathcal{F}(\Sigma)$ be a closed formula, and let $I$ be an interpretation for
 $\Sigma$. 
-If $\varphi_I \models \Phi$ then $I \vdash \Phi$.
+If $\varphi \models \Phi$ then $I \vdash \Phi$.
 \end{theorem}
 \vspace*{-1em}
 \begin{proof}
 ~\linebreak
 \vspace*{-1.5em}
 \begin{itemize}
-\item If $\varphi_I \models \Phi$ then $I_{\varphi_I} \vdash \Phi$ \\
-      because every model of $\varphi_I$ is a model of $\Phi$, and $I_{\varphi_I}$ is a model
-      of $\varphi_I$ by the {\bf Lemma}.
-\item $I_{\varphi_I} \vdash \Phi$ iff $I \vdash \Phi$ \\
-      because $\Phi$ contains no symbols from $D_{\varphi_I}$, and $I_{\varphi_I}$ is the same
+\item If $\varphi \models \Phi$ then $I_{\varphi} \vdash \Phi$ \\
+      because every model of $\varphi$ is a model of $\Phi$, and $I_{\varphi}$ is a model
+      of $\varphi$ by the {\bf Lemma}.
+\item $I_{\varphi} \vdash \Phi$ iff $I \vdash \Phi$ \\
+      because $\Phi$ contains no symbols from $D_{\varphi}$, and $I_{\varphi}$ is the same
       as $I$ with respect to all other symbols.
-\item Thus if $\varphi_I \models \Phi$ then $I \vdash \Phi$.
+\item Thus if $\varphi \models \Phi$ then $I \vdash \Phi$.
 \end{itemize}
 \end{proof}
 
