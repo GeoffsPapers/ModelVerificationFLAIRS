@@ -694,7 +694,7 @@ Let $I$ be an interpretation for $\Sigma$:
 \begin{packed_itemize}
 \item $D_I$ - A finite set of unequal domain elements.
 \item $F_I$ - For each $f/n \in F_\Sigma$, a mapping $f_I: D_I^n \mapsto D_I$.
-\item $R_I$ - For each $p/n \in P_\Sigma$, a mapping $p_I: D_I^n \mapsto \{\true,\false\}$.
+\item $P_I$ - For each $p/n \in P_\Sigma$, a mapping $p_I: D_I^n \mapsto \{\true,\false\}$.
 \end{packed_itemize}
 
 \noindent
@@ -726,10 +726,10 @@ F^\wedge_{\varphi} &= \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto d_I) \in 
                                            D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i} \\
                                            D_{\varphi \mapsto I}(d_{\varphi}) = d_I}} 
                                  ( f(\overline{d_{\varphi,i}}) = d_{\varphi} ) \\
-R^\wedge_{\varphi} &= \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto \true) \in p_I\;p_I \in R_I \\
+R^\wedge_{\varphi} &= \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto \true) \in p_I\;p_I \in P_I \\
                                            D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i}}}
                                  p(\overline{d_{\varphi,i}}) \\
-              &\wedge \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto \false) \in p_I\;p_I \in R_I \\
+              &\wedge \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto \false) \in p_I\;p_I \in P_I \\
                                            D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i}}}
                                  \neg p(\overline{d_{\varphi,i}})
 \end{split}
@@ -743,7 +743,7 @@ Let $I_{\varphi}$ be an interpretation for $\Sigma_{\varphi}$:
 \begin{packed_itemize}
 \item $D_{I_{\varphi}} = D_I$
 \item $F_{I_{\varphi}} = F_I \cup D_{\varphi \mapsto I}$
-\item $R_{I_{\varphi}} = R_I \circ D_{\varphi \mapsto I}$
+\item $P_{I_{\varphi}} = P_I \circ D_{\varphi \mapsto I}$
 \end{packed_itemize}
 
 \begin{lemma} 
@@ -777,8 +777,8 @@ $I_{\varphi} \vdash R^\wedge_{\varphi}$:
             $D_{\varphi \mapsto I}(d_{\varphi}) \neq D_{\varphi \mapsto I}(e_{\varphi})$ iff \\
             $d_I \neq e_I$ \\
             which is $\true$ from the definition of $D_I$
-      \item Every inequality in $D^{\neq}_{\varphi_I}$ is $\true$
       \end{packed_itemize}
+      Thus every inequality in $D^{\neq}_{\varphi_I}$ is $\true$, therefore
       $D^{\neq}_{\varphi}$ is $\true$, i.e.,
       $I_{\varphi} \vdash D^{\neq}_{\varphi}$
 \item For every $(f(\overline{d_{\varphi,i}}) = d_{\varphi})$ in $F^\wedge_{\varphi}$:
@@ -789,22 +789,22 @@ $I_{\varphi} \vdash R^\wedge_{\varphi}$:
             $f_I(D_{\varphi \mapsto I}(\overline{d_{\varphi,i}})) = D_{\varphi \mapsto I}(d_{\varphi})$ iff \\
             $f_I(\overline{d_{I,i}}) = d_I$ \\
             which is $\true$ from the use of $F_I$ in $F^\wedge_{\varphi}$
-      \item Every equality in $F^\wedge_{\varphi}$ is $\true$
       \end{packed_itemize}
+      Thus every equality in $F^\wedge_{\varphi}$ is $\true$, therefore
       $F^\wedge_{\varphi}$ is $\true$, i.e.,
       $I_{\varphi} \vdash F^\wedge_{\varphi}$
 \item For every (positive) $p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$:
       \begin{packed_itemize}
       \item $I_{\varphi} \vdash p(\overline{d_{\varphi,i}})$ iff \\
-            $R_{I_{\varphi}}(p(\overline{d_{\varphi,i}}))$ iff \\
-            $R_{I}(D_{\varphi \mapsto I}(\overline{d_{\varphi,i}}))$ iff \\
+            $P_{I_{\varphi}}(p(\overline{d_{\varphi,i}}))$ iff \\
+            $P_{I}(D_{\varphi \mapsto I}(\overline{d_{\varphi,i}}))$ iff \\
             $p_I(\overline{d_{I,i}})$ \\
-            which is $\true$ from the use of $R_I$ in $R^\wedge_{\varphi}$
-      \item Every (positive) $p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$ is $\true$
-      \item Analogously, every (negative) $\neg p(\overline{d_{\varphi,i}})$ in
-            $R^\wedge_{\varphi}$ is $\false$ \\
+            which is $\true$ from the use of $P_I$ in $R^\wedge_{\varphi}$
       \end{packed_itemize}
-      $R^\wedge_{\varphi}$ is $\true$, i.e., $I_{\varphi} \vdash R^\wedge_{\varphi}$
+      Thus every (positive) $p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$ is $\true$.
+      Analogously, every (negative) $\neg p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$ is 
+      $\false$.
+     Therefore  $R^\wedge_{\varphi}$ is $\true$, i.e., $I_{\varphi} \vdash R^\wedge_{\varphi}$
 \end{itemize}
 \end{proof}
 
