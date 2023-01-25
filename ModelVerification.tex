@@ -722,14 +722,17 @@ D^\vee_{\varphi}   &= \forall X \bigvee_{d_{\varphi} \in D_{\varphi}} \left(X = 
 %                                             d_{\varphi} \neq\; e_{\varphi}}} \left(d_{\varphi} \neq e_{\varphi} \right) \\
 D^{\neq}_{\varphi} &= \bigwedge_{\substack{\{d_{\varphi},e_{\varphi}\} \subseteq D_{\varphi} \\
                                            d_{\varphi} \not\equiv e_{\varphi}}} \left(d_{\varphi} \neq e_{\varphi} \right) \\
-F^\wedge_{\varphi} &= \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto d_I) \in f_I,\;f_I \in F_I \\
+F^\wedge_{\varphi} &= \bigwedge_{\substack{f \in F_\Sigma,\;f_I \in F_I \\
+                                           (\overline{d_{I,i}} \mapsto d_I) \in f_I \\
                                            D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i} \\
                                            D_{\varphi \mapsto I}(d_{\varphi}) = d_I}} 
                                  ( f(\overline{d_{\varphi,i}}) = d_{\varphi} ) \\
-R^\wedge_{\varphi} &= \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto \true) \in p_I\;p_I \in P_I \\
+R^\wedge_{\varphi} &= \bigwedge_{\substack{p \in P_\Sigma,\;p_I \in P_I \\
+                                           (\overline{d_{I,i}} \mapsto \true) \in p_I \\
                                            D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i}}}
                                  p(\overline{d_{\varphi,i}}) \\
-              &\wedge \bigwedge_{\substack{(\overline{d_{I,i}} \mapsto \false) \in p_I\;p_I \in P_I \\
+              &\wedge \bigwedge_{\substack{p \in P_\Sigma,\;p_I \in P_I \\
+                                           (\overline{d_{I,i}} \mapsto \false) \in p_I \\
                                            D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i}}}
                                  \neg p(\overline{d_{\varphi,i}})
 \end{split}
@@ -743,7 +746,7 @@ Let $I_{\varphi}$ be an interpretation for $\Sigma_{\varphi}$:
 \begin{packed_itemize}
 \item $D_{I_{\varphi}} = D_I$
 \item $F_{I_{\varphi}} = F_I \cup D_{\varphi \mapsto I}$
-\item $P_{I_{\varphi}} = P_I \circ D_{\varphi \mapsto I}$
+\item $P_{I_{\varphi}} = P_I$
 \end{packed_itemize}
 
 \begin{lemma} 
@@ -796,8 +799,8 @@ $I_{\varphi} \vdash R^\wedge_{\varphi}$:
 \item For every (positive) $p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$:
       \begin{packed_itemize}
       \item $I_{\varphi} \vdash p(\overline{d_{\varphi,i}})$ iff \\
-            $P_{I_{\varphi}}(p(\overline{d_{\varphi,i}}))$ iff \\
-            $P_{I}(D_{\varphi \mapsto I}(\overline{d_{\varphi,i}}))$ iff \\
+            $P_{I_{\varphi}}(p(F_{I_{\varphi}}(\overline{d_{\varphi,i}})))$ iff \\
+            $p_I(D_{\varphi \mapsto I}(\overline{d_{\varphi,i}}))$ iff \\
             $p_I(\overline{d_{I,i}})$ \\
             which is $\true$ from the use of $P_I$ in $R^\wedge_{\varphi}$
       \end{packed_itemize}
