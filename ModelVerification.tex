@@ -714,7 +714,7 @@ Let:
       \end{packed_itemize}
 \item $\varphi \in \mathcal{F}(\Sigma_{\varphi}) = 
 D^\vee_{\varphi} \land D^{\neq}_{\varphi} \land F^\wedge_{\varphi} \land 
-R^\wedge_{\varphi}$, where:
+P^\wedge_{\varphi}$, where:
 \begin{equation*}
 \begin{split}
 D^\vee_{\varphi}   &= \forall X \bigvee_{d_{\varphi} \in D_{\varphi}} \left(X = d_{\varphi} \right) \\
@@ -727,7 +727,7 @@ F^\wedge_{\varphi} &= \bigwedge_{\substack{f \in F_\Sigma,\;f_I \in F_I \\
                                            D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i} \\
                                            D_{\varphi \mapsto I}(d_{\varphi}) = d_I}} 
                                  ( f(\overline{d_{\varphi,i}}) = d_{\varphi} ) \\
-R^\wedge_{\varphi} &= \bigwedge_{\substack{p \in P_\Sigma,\;p_I \in P_I \\
+P^\wedge_{\varphi} &= \bigwedge_{\substack{p \in P_\Sigma,\;p_I \in P_I \\
                                            (\overline{d_{I,i}} \mapsto \true) \in p_I \\
                                            D_{\varphi \mapsto I}(d_{\varphi,i}) = d_{I,i}}}
                                  p(\overline{d_{\varphi,i}}) \\
@@ -749,6 +749,7 @@ Let $I_{\varphi}$ be an interpretation for $\Sigma_{\varphi}$:
 \item $P_{I_{\varphi}} = P_I$
 \end{packed_itemize}
 
+\newpage
 \begin{lemma} 
 $I_{\varphi} \vdash \varphi$
 \end{lemma}
@@ -757,7 +758,7 @@ To prove $I_{\varphi} \vdash \varphi$, prove
 $I_{\varphi} \vdash D^\vee_{\varphi}$,
 $I_{\varphi} \vdash D^{\neq}_{\varphi}$, \\
 $I_{\varphi} \vdash F^\wedge_{\varphi}$ and
-$I_{\varphi} \vdash R^\wedge_{\varphi}$:
+$I_{\varphi} \vdash P^\wedge_{\varphi}$:
 % Each can be proved separately: 
 \begin{itemize}
 \item For every $d_{I_{\varphi}} \in D_{I_{\varphi}}$, or equivalently $d_I \in D_I$:
@@ -796,18 +797,18 @@ $I_{\varphi} \vdash R^\wedge_{\varphi}$:
       Thus every equality in $F^\wedge_{\varphi}$ is $\true$, therefore
       $F^\wedge_{\varphi}$ is $\true$, i.e.,
       $I_{\varphi} \vdash F^\wedge_{\varphi}$
-\item For every (positive) $p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$:
+\item For every (positive) $p(\overline{d_{\varphi,i}})$ in $P^\wedge_{\varphi}$:
       \begin{packed_itemize}
       \item $I_{\varphi} \vdash p(\overline{d_{\varphi,i}})$ iff \\
             $P_{I_{\varphi}}(p(F_{I_{\varphi}}(\overline{d_{\varphi,i}})))$ iff \\
             $p_I(D_{\varphi \mapsto I}(\overline{d_{\varphi,i}}))$ iff \\
             $p_I(\overline{d_{I,i}})$ \\
-            which is $\true$ from the use of $P_I$ in $R^\wedge_{\varphi}$
+            which is $\true$ from the use of $P_I$ in $P^\wedge_{\varphi}$
       \end{packed_itemize}
-      Thus every (positive) $p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$ is $\true$.
-      Analogously, every (negative) $\neg p(\overline{d_{\varphi,i}})$ in $R^\wedge_{\varphi}$ is 
+      Thus every (positive) $p(\overline{d_{\varphi,i}})$ in $P^\wedge_{\varphi}$ is $\true$.
+      Analogously, every (negative) $\neg p(\overline{d_{\varphi,i}})$ in $P^\wedge_{\varphi}$ is 
       $\false$.
-     Therefore  $R^\wedge_{\varphi}$ is $\true$, i.e., $I_{\varphi} \vdash R^\wedge_{\varphi}$
+     Therefore  $P^\wedge_{\varphi}$ is $\true$, i.e., $I_{\varphi} \vdash P^\wedge_{\varphi}$
 \end{itemize}
 \end{proof}
 
@@ -816,7 +817,6 @@ Let $\Phi \in \mathcal{F}(\Sigma)$ be a closed formula, and let $I$ be an interp
 $\Sigma$. 
 If $\varphi \models \Phi$ then $I \vdash \Phi$.
 \end{theorem}
-\vspace*{-1em}
 \begin{proof}
 ~\linebreak
 \vspace*{-1.5em}
