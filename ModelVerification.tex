@@ -366,6 +366,7 @@ A Tarskian-style interpretation \cite{TV56} of formulae in typed first-order log
 non-empty domain of unequal elements for each type used in the formulae (just one domain for 
 untyped logic), and interpretations of the function and predicate symbols with respect to the 
 domains \cite{Hun96}.
+$I \vdash \Phi$ means the interpretation $I$ is a model of the formula $\Phi$.
 An interpretation can normally interpret all expressions that can be written in the language of 
 the formulae, but in some circumstances an interpretation can interpret only (at least) the given 
 formulae; such an interpretation is a {\em partial interpretation}.
@@ -612,12 +613,12 @@ These questions are answered as follows:
       be weaker and more trusted than the system that found the model.
 \item This cannot be confirmed, as that representation is internal to the ATP system that found
       the model.
-\item In this work a ``semantic'' approach is taken, in which the given formulae are proved from
-      the interpretation formula using a trusted theorem prover; the interpretation formula is 
-      supplied as an axiom, and the given formulae as the conjecture to be proved.
-      This approach relies on the proof below, which shows that if a given formula is a logical 
-      consequence of the interpretation formula, then the interpretation represented by the
-      interpretation formula is a model of the given formula.
+\item In this work a ``semantic'' approach is taken, in which the given formulae $\Phi$ are proved 
+      from the interpretation formula $\varphi$ using a trusted theorem prover; $\varphi$ is 
+      supplied as an axiom, and $\Phi$ as the conjecture to be proved.
+      This approach relies on the proof of soundness below, which shows that if $\Phi$ can be 
+      proved from $\varphi$ (written $\varphi \models \Phi$), then the interpretation $I$ 
+      represented by $\varphi$ is a model of $\Phi$.
 
       Figure~\ref{TF0InfiniteVerification} shows the verification problem for the problem in 
       Figure~\ref{TF0InfiniteProblem} and its model in Figure~\ref{TF0InfiniteInterpretation}.
@@ -813,8 +814,8 @@ $I_{\varphi} \vdash P^\wedge_{\varphi}$:
 \end{proof}
 
 \begin{theorem}
-Let $\Phi \in \mathcal{F}(\Sigma)$ be closed, $I$ an interpretation for
-$\Sigma$, and $\varphi$ its interpretation formula.
+Let $\Phi \in \mathcal{F}(\Sigma)$, $I$ an interpretation for $\Sigma$, and $\varphi$ the
+interpretation formula for $I$.
 If $\varphi \models \Phi$ then $I \vdash \Phi$.
 \end{theorem}
 \begin{proof}
